@@ -39,9 +39,10 @@ public class ItemSet {
 	public String toString() {
 		// TODO Auto-generated method stub
 		String str = "{";
-		for (int i = 0; i < this.items.size();i++){
+		for (int i = 0; i < this.items.size()-1;i++){
 			str+= ""+items.get(i)+",";
 		}
+		str += items.get(items.size()-1);
 		
 		return str +"}-" + support;
 	}

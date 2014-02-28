@@ -2,11 +2,26 @@ package group13.fisherr;
 
 
 
+import java.io.File;
+import java.io.IOException;
+import java.security.AllPermission;
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class APriori {
 	
- public static void main(String[] args) {
+ public static void main(String[] args) throws IOException{
+	 
+	 String fileName = "src/transactionSet_01.txt";
+	 String fileName1 = "src/transactionSet_02.txt";
+	 String fileName2= "src/transactionSet_02.txt";
+	 //String fileName = "H://CS/CS 355/GROUP13/GROUP13.FISHERR/src/transactionSet_01.txt";
+	 //String fileName = "H://CS/CS 355/GROUP13/textFiles/test1.txt";
+	 
+	
+	 
 	
 	 //Add items to inventory
 	 Item a = new Item("a");
@@ -102,7 +117,10 @@ public class APriori {
 	 double minimumSupportLevel = (numberOfTransContainingItemSet/totalTransactions)*totalTransactions;
 	 System.out.println("Minimum Confidence Level: " + minimumSupportLevel);
 	 double minimumConfidenceLevel = 0.5;
-	 TransactionSet apriori = doApriori(tranSet, minimumSupportLevel);
+	 System.out.println("HARD CODED");
+	 TransactionSet apriori1 = doApriori(tranSet, minimumSupportLevel);
+	 System.out.println("TEXT FILE");
+	 TransactionSet apriori2 = doApriori(getTransactionSetFromFile(fileName), minimumSupportLevel);
 	 //RuleSet ruleset = generateRuleSet(apriori, )
  }
 	 
@@ -213,12 +231,57 @@ private static int getBit(int value, int position) {
 	
 }
 
+public static TransactionSet getTransactionSetFromFile(String fileName){
+
+TransactionSet allTransactions = new TransactionSet();
+try{
+	 ReadFile file = new ReadFile(fileName);
+	 String[] transactionSetLines = file.openFile();
+	 
+	 String pattern = "([A-Z])";
+	 Pattern regex = Pattern.compile(pattern);
+	 
+	 
+	 for(int i = 0; i < transactionSetLines.length;i++){
+		
+		 Scanner scanner = new Scanner(transactionSetLines[i]);
+		 scanner.useDelimiter("[^A-Za-z0-9]+");
+		 
+		 //make a new ItemSet to store
+		 ItemSet itemset = new ItemSet();
+		
+		 while(scanner.hasNext()){
+			
+			 //get the item one by one
+			 String itemName = scanner.next();
+			 //System.out.println("ItemName: " + itemName);
+			 Item nextItem = new Item(itemName);
+	
+			 itemset.add(nextItem);
+			 
+			
+			 
+		 }//end of while
+		 //create a new transaction from the itemSet
+		 Transaction nextTransaction = new Transaction(itemset);
+		 
+		 
+	//add the finished transaction to the total TransactionSet
+	 allTransactions.add(nextTransaction);	 
+	 }
+	 
+	 
+}catch (IOException e){
+	 System.out.println(e.getMessage());
+}
+return allTransactions;
+
 
 
 
 
 }
-
+}
 
 
 
