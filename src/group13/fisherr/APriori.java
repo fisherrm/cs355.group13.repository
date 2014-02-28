@@ -96,8 +96,14 @@ public class APriori {
 	 //System.out.println(tranSet);
 	 
 	 
-	 //Call A Priori
-	 doApriori(tranSet, 2.0);
+	 //set number of transactions containing an itemset
+	 double numberOfTransContainingItemSet  = 2.0;
+	 int totalTransactions = tranSet.getTransactionSet().size();
+	 double minimumSupportLevel = (numberOfTransContainingItemSet/totalTransactions)*totalTransactions;
+	 System.out.println("Minimum Confidence Level: " + minimumSupportLevel);
+	 double minimumConfidenceLevel = 0.5;
+	 TransactionSet apriori = doApriori(tranSet, minimumSupportLevel);
+	 //RuleSet ruleset = generateRuleSet(apriori, )
  }
 	 
 	 public static TransactionSet doApriori(TransactionSet tranSet, double minimumSupportLevel ){
@@ -116,7 +122,6 @@ public class APriori {
 		Item candidate = uniqueItems.getItems().get(i);
 		ItemSet itemSet = new ItemSet();
 		itemSet.add(candidate);
-		//System.out.println("ITEMSET: " + itemSet);
 		candidates.add(new Transaction(itemSet));
 		
 		
@@ -145,7 +150,7 @@ public class APriori {
 				
 			}
 		}
-		System.out.println("ITERATIONS: " + iterations);
+		
 			
 			
 			//set candidates for next iteration (find supersets of iterations)
