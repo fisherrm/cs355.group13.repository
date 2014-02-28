@@ -121,7 +121,7 @@ public class APriori {
 		//or do I add only one transaction?
 		
 	}
-	System.out.println("Candidate 1: " + candidates);
+	//System.out.println("Candidate 1: " + candidates);
 	
 	//next iterations
 	int k = 2;
@@ -138,7 +138,11 @@ public class APriori {
 		
 			if(transaction.getItemSet().getSupport() >=minimumSupportLevel){
 				iterations.add(transaction);
-				large.add(transaction);
+				if(transaction.getItemSet().getItems().size() >1){
+					large.add(transaction);
+					//System.out.println("large added: " + transaction);
+				}
+				
 			}
 		}
 			
@@ -146,14 +150,14 @@ public class APriori {
 			//set candidates for next iteration (find supersets of iterations)
 			candidates.getTransactionSet().clear();
 			//System.out.println("ITERATIONS:" + iterations);
-			//System.out.println("CANDIDATES:" + candidates);
 			candidates.setTransactionSet(findSubsets(iterations.getUniqueItems(), k));//get k-item subsets
-			
+		
+			//System.out.println("NEW CANDIDATES:" + candidates);
 			k+=1;
 		
 		
 		}
-		System.out.println(large);
+		System.out.println("LARGE:" +large);
 		return large;
 		
 		
@@ -172,20 +176,25 @@ public class APriori {
 	// TODO Auto-generated method stub
 	 
 	 ArrayList<Transaction> allSubsets  = new ArrayList<Transaction>();
-	 
-	 int subsetCount = (int)Math.pow(2, k);
-	 System.out.println("SubsetCount: " + subsetCount);
+	 //System.out.println(itemSet);
+	 int subsetCount = (int)Math.pow(2, itemSet.getItems().size());
+	 //System.out.println("SubsetCount: " + subsetCount);
 	 for(int i = 0 ; i < subsetCount; i++){
 		ItemSet subset = new ItemSet();
 		//System.out.println("i: " + i);
-		for(int bitIndex = 0; bitIndex < k; bitIndex++){
+		for(int bitIndex = 0; bitIndex < itemSet.getItems().size(); bitIndex++){
 			if(getBit(i, bitIndex)==1){
 				//System.out.println("i: " + i +", bitIndex: " + bitIndex);
-				System.out.println(itemSet);
+				//System.out.println(itemSet);
 				subset.add(itemSet.getItems().get(bitIndex));
+					
+				}
+				
 			}
+		
+		if(subset.getItems().size()==k-1){
+			allSubsets.add(new Transaction(subset));
 		}
-		allSubsets.add(new Transaction(subset));
 	 }
 	 
 	
@@ -203,6 +212,9 @@ private static int getBit(int value, int position) {
 	}
 	
 }
+
+
+
 
 
 }

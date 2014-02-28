@@ -89,7 +89,37 @@ public class ItemSet {
 		
 		
 		
+		
+		
 	}
+	
+	
+	public boolean containsItemSet(ItemSet itemset){
+		
+		//System.out.print("Does: " + this.items + " contain :" + itemset);
+		
+		//Does everything in itemset in question appear in this?
+		for(int i = 0 ; i<this.items.size();i++){
+			for(int j = 0 ; j < itemset.getItems().size(); j++){
+				
+				//get first element of itemset in question
+				Item item = itemset.getItems().get(j);
+				//if you find at least one item not in the main itemset, then there is no subset
+				if(!this.items.contains(item)){
+					//System.out.println("= Not a subset");
+					return false;
+				}
+			}
+		}
+		//System.out.println("= Yes, subset");
+		
+		return true;
+		
+		
+		
+		
+	}
+	
 	
 	
 	

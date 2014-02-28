@@ -29,8 +29,8 @@ public class TransactionSet {
 	public String toString() {
 		// TODO Auto-generated method stub
 		
-		String str = "TransactionSet: \n";
-		System.out.println(transactionSet.size());
+		String str = "TransactionSet:"+ transactionSet.size()+"\n";
+		
 		for(int i = 0; i < transactionSet.size();i++){
 			str+=transactionSet.get(i).toString();
 		}
@@ -62,6 +62,7 @@ public class TransactionSet {
 
 	public void add(Transaction transaction) {
 		// TODO Auto-generated method stub
+		//System.out.println("Added: " + transaction.toString());
 		this.transactionSet.add(transaction);
 		
 	}
@@ -71,14 +72,13 @@ public class TransactionSet {
 		//System.out.println("find SupportLevel started");
 		//System.out.println("TS:\n" + transactionSet);
 		for(int i = 0; i < this.transactionSet.size();i++){
-			for(int j = 0; j < itemSet.getItems().size();j++){
-				//System.out.println("DOES: "+transactionSet.get(i).getItemSet() + "=="  +itemSet);
-				//if the transaction's itemset contains an item found in the itemSet in question
-				//increase the 
-				if(transactionSet.get(i).getItemSet().getItems().contains(itemSet.getItems().get(j))){
+			
+				//if the transaction's itemset support if we find a subset 
+				if(transactionSet.get(i).getItemSet().containsItemSet(itemSet)){
+					
 					supportLevel+=1;
 				
-			}
+
 			
 			}
 		}
