@@ -145,6 +145,7 @@ public class APriori {
 				
 			}
 		}
+		System.out.println("ITERATIONS: " + iterations);
 			
 			
 			//set candidates for next iteration (find supersets of iterations)
