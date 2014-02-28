@@ -53,11 +53,6 @@ public class Transaction {
 	public String toString() {
 		// TODO Auto-generated method stub
 		int currentSize = itemSet.getItems().size();
-		//String str = "Transaction: [";
-		//for(int i = 0 ; i < itemSet.getItems().size();i++){
-			
-		//	str+=""+itemSet.getItems()+"";
-		//}
 		String str = itemSet.toString();
 		return str +"\n";
 	}

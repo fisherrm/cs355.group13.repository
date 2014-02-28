@@ -80,10 +80,10 @@ public class ItemSet {
 					}
 				}
 			
-			System.out.println("EQUAL ITEMSETS");
+			//System.out.println("EQUAL ITEMSETS");
 			return true;
 		}else{
-			System.out.println("UNEQUAL ITEMSETS");
+			//System.out.println("UNEQUAL ITEMSETS");
 			return false;
 		}
 		

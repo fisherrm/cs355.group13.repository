@@ -118,7 +118,7 @@ public class APriori {
 		itemSet.add(candidate);
 		//System.out.println("ITEMSET: " + itemSet);
 		candidates.add(new Transaction(itemSet));
-		//or do I add only one transaction?
+		
 		
 	}
 	//System.out.println("Candidate 1: " + candidates);
@@ -126,7 +126,7 @@ public class APriori {
 	//next iterations
 	int k = 2;
 	while(candidates.getTransactionSet().size()!=0){
-		//System.out.println("while loop start: "  +candidates.getTransactionSet().size());
+		
 		//set iterations from candidates (pruning)
 		iterations.getTransactionSet().clear();
 		
@@ -134,7 +134,7 @@ public class APriori {
 			double supportLevel = tranSet.findSupportLevel(transaction.getItemSet());
 			transaction.getItemSet().setSupport(supportLevel);
 			//System.out.println(transaction.getItemSet());
-			//break;
+			
 		
 			if(transaction.getItemSet().getSupport() >=minimumSupportLevel){
 				iterations.add(transaction);
@@ -150,9 +150,7 @@ public class APriori {
 			
 			//set candidates for next iteration (find supersets of iterations)
 			candidates.getTransactionSet().clear();
-			//System.out.println("ITERATIONS:" + iterations);
 			candidates.setTransactionSet(findSubsets(iterations.getUniqueItems(), k));//get k-item subsets
-		
 			//System.out.println("NEW CANDIDATES:" + candidates);
 			k+=1;
 		
@@ -177,16 +175,12 @@ public class APriori {
 	// TODO Auto-generated method stub
 	 
 	 ArrayList<Transaction> allSubsets  = new ArrayList<Transaction>();
-	 //System.out.println(itemSet);
 	 int subsetCount = (int)Math.pow(2, itemSet.getItems().size());
 	 //System.out.println("SubsetCount: " + subsetCount);
 	 for(int i = 0 ; i < subsetCount; i++){
 		ItemSet subset = new ItemSet();
-		//System.out.println("i: " + i);
 		for(int bitIndex = 0; bitIndex < itemSet.getItems().size(); bitIndex++){
 			if(getBit(i, bitIndex)==1){
-				//System.out.println("i: " + i +", bitIndex: " + bitIndex);
-				//System.out.println(itemSet);
 				subset.add(itemSet.getItems().get(bitIndex));
 					
 				}

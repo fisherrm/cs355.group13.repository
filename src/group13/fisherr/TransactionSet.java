@@ -62,7 +62,7 @@ public class TransactionSet {
 
 	public void add(Transaction transaction) {
 		// TODO Auto-generated method stub
-		//System.out.println("Added: " + transaction.toString());
+		
 		this.transactionSet.add(transaction);
 		
 	}
