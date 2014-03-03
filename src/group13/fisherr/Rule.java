@@ -60,7 +60,7 @@ public class Rule {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "If " +antecedent.toString() + "then"+ consequent.toString() +"("+ actualConfidenceLevel +")";
+		return "If " +antecedent.toString() + " then "+ consequent.toString() +" ("+ actualConfidenceLevel +")";
 	}
 	
 	
