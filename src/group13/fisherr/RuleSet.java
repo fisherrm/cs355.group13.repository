@@ -17,6 +17,18 @@ public class RuleSet {
 	public void setRuleSet(ArrayList<Rule> ruleSet) {
 		this.ruleSet = ruleSet;
 	}
+
+	@Override
+	public String toString() {
+		String str = "RULESET: \n";
+		for(Rule rule : this.ruleSet){
+			str +=rule +"\n";
+		}
+		return str;
+	}
+	
+	
+	
 	
 }
 		

@@ -67,8 +67,8 @@ public class TransactionSet {
 		
 	}
 	
-	public int findSupportLevel(ItemSet itemSet){
-		int supportLevel = 0;
+	public double  findSupportLevel(ItemSet itemSet){
+		double  supportLevel = 0;
 		//System.out.println("find SupportLevel started");
 		//System.out.println("TS:\n" + transactionSet);
 		for(int i = 0; i < this.transactionSet.size();i++){

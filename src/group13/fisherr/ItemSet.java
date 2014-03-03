@@ -38,13 +38,17 @@ public class ItemSet {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		String str = "{";
-		for (int i = 0; i < this.items.size()-1;i++){
-			str+= ""+items.get(i)+",";
+		String str = "";
+		for (int i = 0; i < this.items.size();i++){
+			str+= ""+items.get(i)+"";
+			if(this.items.size()>1){
+				str+="";
+			}
 		}
-		str += items.get(items.size()-1);
-		
-		return str +"}-" + support;
+		//str += items.get(items.size());
+		return str +"";
+
+		//return str +"}-" + support;
 	}
 
 	
@@ -75,7 +79,7 @@ public class ItemSet {
 				//compare each item in each itemSet to each other
 				for(int j = 0; j<itemSet.items.size();j++){
 					if(!this.items.get(j).equals(itemSet.items.get(j))){
-						System.out.println("UNEQUAL ITEMSETS");
+						//System.out.println("UNEQUAL ITEMSETS");
 						return false;
 						
 					}
@@ -119,6 +123,11 @@ public class ItemSet {
 		
 		
 		
+	}
+
+	public void remove(Item currentItem) {
+		// TODO Auto-generated method stub
+		this.items.remove(currentItem);
 	}
 	
 	

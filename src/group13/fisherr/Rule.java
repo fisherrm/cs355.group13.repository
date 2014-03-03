@@ -5,7 +5,10 @@ public class Rule {
 	public ItemSet antecedent;
 	public ItemSet consequent;
 	public double actualConfidenceLevel;
+	public double support;
 	
+	
+
 
 	public Rule(ItemSet antecedent, ItemSet consequent,  double minSupportLevel, double actualConfidenceLevel){
 		this.antecedent = antecedent;
@@ -13,6 +16,14 @@ public class Rule {
 		this.actualConfidenceLevel = actualConfidenceLevel;
 		
 		
+	}
+
+	public Rule() {
+		this.antecedent = new ItemSet();
+		this.consequent = new ItemSet();
+		this.actualConfidenceLevel = 0;
+		
+		// TODO Auto-generated constructor stub
 	}
 
 	public ItemSet getAntecedent() {
@@ -39,10 +50,17 @@ public class Rule {
 		this.actualConfidenceLevel = actualConfidenceLevel;
 	}
 
+	public double getSupport() {
+		return support;
+	}
+	
+	public void setSupport(double support) {
+		this.support = support;
+	}
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return antecedent.toString() + consequent.toString() + actualConfidenceLevel;
+		return "If " +antecedent.toString() + "then"+ consequent.toString() +"("+ actualConfidenceLevel +")";
 	}
 	
 	

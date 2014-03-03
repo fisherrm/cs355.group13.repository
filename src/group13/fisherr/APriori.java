@@ -85,36 +85,152 @@ public class APriori {
 
 		System.out.println("TEXT FILE:  " + fileName1);
 		TransactionSet textFileTranSet = getTransactionSetFromFile(fileName1);
+		System.out.println(textFileTranSet);
 		double numberOfTransContainingItemSet = 2.0;
 		double totalTransactions = textFileTranSet.getTransactionSet().size();
 		double minimumSupportLevel = (numberOfTransContainingItemSet / totalTransactions)* totalTransactions;
 		double minimumConfidenceLevel = 0.5;
+		
+		
 		TransactionSet apriori2 = doApriori(textFileTranSet, minimumSupportLevel);
 		System.out.println(apriori2);
-		RuleSet ruleset = generateRuleSet(apriori2, minimumConfidenceLevel);
+		RuleSet ruleset = generateRuleSet(textFileTranSet, apriori2, minimumConfidenceLevel);
+		
+		System.out.println("RULESET: \n"+ ruleset);
+		
+		
 	}
+	
+	
+	public static ArrayList<ItemSet> findSubsets(ItemSet candidates, ArrayList<ItemSet> ps)
+	{
+		ArrayList<ItemSet> powerSet = ps;
+		if(!powerSet.contains(candidates) )
+		{
+			//System.out.println("adding to power set: " + candidates);
+			powerSet.add(candidates);
+			//System.out.println(powerSet);
+		}
+		
+		
+		
+		for(int i = 0; i<candidates.getItems().size(); i++)
+		{
+			ArrayList<Item> subset = new ArrayList<Item>(candidates.getItems());
+			subset.remove(i);
+			
+			ItemSet itemSubset = new ItemSet(subset);			
+			findSubsets(itemSubset, powerSet);
+		}	
+		return powerSet;
+	}
+	
+	
+	
+	public static ArrayList<Transaction> findSubsets2(Transaction candidates, ArrayList<Transaction> ps, int kitems)
+	{
+		ArrayList<Transaction> powerSet = ps;
+		if(!powerSet.contains(candidates) && candidates.getItemSet().getItems().size()<=kitems)
+		{
+			System.out.println("adding to power set: " + candidates);
+			powerSet.add((candidates));
+			System.out.println(powerSet);
+		}
+		
+		
+		
+		for(int i = 0; i<candidates.getItemSet().getItems().size(); i++)
+		{
+			Transaction subset = new Transaction(candidates.getItemSet());
+			subset.getItemSet().getItems().remove(i);
+			
+			Transaction itemSubset = new Transaction(subset.getItemSet());			
+			findSubsets2(itemSubset, powerSet, kitems);
+		}	
+		
+		
+		return  powerSet;
+	}
+	
+	
 
-	private static RuleSet generateRuleSet(TransactionSet apriori2,	double minimumConfidenceLevel) {
+	private static RuleSet generateRuleSet(TransactionSet originalTranSet, TransactionSet aprioriSet,	double minimumConfidenceLevel) {
 		// TODO Auto-generated method stub
-		/*Put Adam's source Code here*/
+		
+		
+		
+		ArrayList<Rule> allRules = new ArrayList<Rule>();
+			for(Transaction transaction: aprioriSet.getTransactionSet()){
+				ArrayList<ItemSet> itemList = new ArrayList<ItemSet>();
+				itemList = findSubsets(transaction.getItemSet(), itemList);//get all subsets
+				
+				
+				
+				for(ItemSet subset : itemList){
+					
+					//System.out.println(subset + "-->"+transaction.getItemSet());
+					//System.out.print(originalTranSet.findSupportLevel(transaction.getItemSet()));
+					//System.out.print("/" + originalTranSet.findSupportLevel(subset));
+					double confidence = (originalTranSet.findSupportLevel(transaction.getItemSet()))/(originalTranSet.findSupportLevel(subset))*100.0;
+					//System.out.println("="+confidence);
+					
+					if(confidence >= minimumConfidenceLevel){
+						Rule newRule = new Rule();
+						newRule.setAntecedent(subset);
+						ArrayList<Item> items = new ArrayList<Item>(transaction.getItemSet().getItems());
+						ItemSet consequent = new ItemSet(items);
+						for(int i =0; i<subset.getItems().size(); i++)
+						{
+							System.out.println("REMOVE:" + subset.getItems().get(i));
+							consequent.getItems().remove(subset.getItems().get(i));
+						}
+						
+						
+						newRule.setConsequent(consequent);
+						newRule.setActualConfidenceLevel(confidence);
+						newRule.setSupport(originalTranSet.findSupportLevel(transaction.getItemSet()));
+						if(newRule.getAntecedent().getItems().size() > 0 && newRule.getConsequent().getItems().size() >0){
+							System.out.println(newRule);
+							allRules.add(newRule);
+						}
+					}
+				
+			}
+			}
+		
+
 		
 		
 		
 		
 		
 		
-		
-		
-		
-		return null;
+		return new RuleSet(allRules);
 	}
+	
 
 	/* METHOD NOTES: */
 
 	public static TransactionSet doApriori(TransactionSet tranSet,	double minimumSupportLevel) {
 
 		ItemSet uniqueItems = tranSet.getUniqueItems();
-
+		
+		/*
+		System.out.println("uniqueItems: " + uniqueItems);
+		ArrayList<ItemSet> itemList = new ArrayList<ItemSet>();
+		itemList = findSubsets(uniqueItems, itemList, 2);
+		System.out.println("ITEMLIST: " + itemList);
+		TransactionSet psTransSet = new TransactionSet();
+		for(int i=0; i<itemList.size(); i++)
+		{
+			Transaction temp = new Transaction(itemList.get(i));
+			psTransSet.add(temp);
+		}
+		
+		System.out.println("TransLIST: " + psTransSet);
+		 */
+		
+		
 		// System.out.println("UNIQUE:" +uniqueItems);
 
 		TransactionSet large = new TransactionSet(); // resultant large ItemSets
@@ -132,7 +248,9 @@ public class APriori {
 			candidates.add(new Transaction(itemSet));
 
 		}
-
+		System.out.println("candidates: " + candidates);
+		
+		
 		// next iterations
 		int k = 2;
 		while (candidates.getTransactionSet().size() != 0) {
@@ -157,8 +275,14 @@ public class APriori {
 
 			// set candidates for next iteration (find supersets of iterations)
 			candidates.getTransactionSet().clear();
-			candidates.setTransactionSet(findSubsets(
-					iterations.getUniqueItems(), k));// get k-item subsets
+			/*
+			//ArrayList<ItemSet> itemList = new ArrayList<It>
+		    //ArrayList<ItemSet> itemSetPowerSet = new ArrayList<ItemSet>(findSubsets(iterations.getUniqueItems(), new ArrayList<ItemSet>(),k));// get k-item subsets
+			
+			//candidates.setTransactionSet(psTransSet);
+			 * */
+			 
+			candidates.setTransactionSet(findSubsetsTrans(iterations.getUniqueItems(), k));// get k-item subsets
 
 			k += 1;
 
@@ -167,10 +291,24 @@ public class APriori {
 		return large;
 
 	}
+	
+	
+	
+	public static TransactionSet generateTranSet(TransactionSet ts){
+		ArrayList<ItemSet> itemList = new ArrayList<ItemSet>();
+		itemList = findSubsets(ts.getUniqueItems(), itemList);
+	    ArrayList<Transaction> psTransSet = new ArrayList<Transaction>();
+		for(int i=0; i<itemList.size(); i++)
+		{
+			Transaction temp = new Transaction(itemList.get(i));
+			psTransSet.add(temp);
+		}
+		return new TransactionSet(psTransSet);
+	}
 
 	/* METHOD NOTES: */
 
-	private static ArrayList<Transaction> findSubsets(ItemSet itemSet, int k) {
+	private static ArrayList<Transaction> findSubsetsTrans(ItemSet itemSet, int k) {
 
 		ArrayList<Transaction> allSubsets = new ArrayList<Transaction>();
 		int subsetCount = (int) Math.pow(2, itemSet.getItems().size());
