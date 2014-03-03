@@ -42,11 +42,11 @@ public class ItemSet {
 		for (int i = 0; i < this.items.size();i++){
 			str+= ""+items.get(i)+"";
 			if(this.items.size()>1){
-				str+="";
+				str+= " and ";
 			}
 		}
 		//str += items.get(items.size());
-		return str +"";
+		return str;
 
 		//return str +"}-" + support;
 	}
