@@ -9,8 +9,6 @@ public class Transaction {
 	
 	public Transaction(ItemSet itemSet){
 		this.itemSet = itemSet;
-		//this.totalCost = totalCost;
-		//this.numberOfItems = numberOfItems;
 		this.date = date;
 	}
 	

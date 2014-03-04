@@ -49,7 +49,7 @@ public class TransactionSet {
 				//if you find an item that is unique to the list, then add it, else don't
 				//override the equalsMethod
 				if(!itemSet.containsItem(currentItem)){
-					//System.out.println("currentItem: " + currentItem);
+					
 					itemSet.add(currentItem);
 				}
 			}
@@ -69,8 +69,7 @@ public class TransactionSet {
 	
 	public double  findSupportLevel(ItemSet itemSet){
 		double  supportLevel = 0;
-		//System.out.println("find SupportLevel started");
-		//System.out.println("TS:\n" + transactionSet);
+	
 		for(int i = 0; i < this.transactionSet.size();i++){
 			
 				//if the transaction's itemset support if we find a subset 

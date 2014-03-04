@@ -40,12 +40,15 @@ public class ItemSet {
 		// TODO Auto-generated method stub
 		String str = "";
 		for (int i = 0; i < this.items.size();i++){
-			str+= ""+items.get(i)+"";
-			if(this.items.size()>1){
-				str+= " and ";
+			if((i<this.items.size()-1)){
+				str+= ""+items.get(i)+",";
+				
+			}else{
+				str+=items.get(i);
 			}
 		}
 		//str += items.get(items.size());
+	
 		return str;
 
 		//return str +"}-" + support;

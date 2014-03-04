@@ -20,7 +20,7 @@ public class RuleSet {
 
 	@Override
 	public String toString() {
-		String str = "RULESET: \n";
+		String str = "";
 		for(Rule rule : this.ruleSet){
 			str +=rule +"\n";
 		}

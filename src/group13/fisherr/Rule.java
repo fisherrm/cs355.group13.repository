@@ -60,8 +60,12 @@ public class Rule {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
+		//antecedent.toString().replaceAll(",", " and ");
 		
-		String str = "If " +antecedent.toString() + " then "+ consequent.toString() +" ("+ actualConfidenceLevel +")";
+		
+		
+		
+		String str = "If " +antecedent.toString().replaceAll(",", " and ") + " then "+ consequent.toString().replaceAll(",", " and ") +" ("+ actualConfidenceLevel +")";
 		str = str.replaceAll(" {2,}", " ");
 		return str;
 	}
