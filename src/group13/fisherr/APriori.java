@@ -2,7 +2,11 @@ package group13.fisherr;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.security.AllPermission;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -12,14 +16,13 @@ public class APriori {
 
 	public static void main(String[] args) throws IOException {
 		
-		
 		//1. Provide hardcoded text file paths for the file reader
 		
 		String fileName1 = "src/transactionSet_01.txt";
 		String fileName2 = "src/transactionSet_02.txt";
 		String fileName3 = "src/transactionSet_03.txt";
 		// String fileName = "H://CS/CS 355/GROUP13/GROUP13.FISHERR/src/transactionSet_01.txt";
-		// String fileName = "H://CS/CS 355/GROUP13/textFiles/test1.txt";
+		
 		
 		//System.out.println("TEXT FILE:  " + fileName1);
 		
@@ -31,20 +34,23 @@ public class APriori {
 		double numberOfTransContainingItemSet = 2.0;
 		double totalTransactions = textFileTranSet.getTransactionSet().size();
 		
-		//3. specify the minimumSupportLevel
+		//3. specify the minimumSupportLevel, calculated or hardcoded
 		double minimumSupportLevel = (numberOfTransContainingItemSet / totalTransactions)* totalTransactions;
-		
+		//System.out.println("minimumSupportLevel: " + minimumSupportLevel);
 		//4. specify the minimumConfidenceLevel
 		double minimumConfidenceLevel = 0.5;
+	
 		
-		
+		//System.out.println("rounded: " + rounded);
 		TransactionSet apriori = doApriori(textFileTranSet, minimumSupportLevel);
 		//System.out.println(apriori);
 		RuleSet ruleset = generateRuleSet(textFileTranSet, apriori, minimumConfidenceLevel);
 		
 		//5. Write ruleset to the output file
 		System.out.println(ruleset);
-		
+		PrintWriter writer = new PrintWriter("output.txt");
+		writer.println(ruleset);
+		writer.close();
 		
 	}
 	
@@ -104,6 +110,7 @@ public class APriori {
 					double confidence = (originalTranSet.findSupportLevel(transaction.getItemSet()))/(originalTranSet.findSupportLevel(subset));
 					//System.out.println("="+confidence);
 					
+					
 					if(confidence >= minimumConfidenceLevel){
 						Rule newRule = new Rule();
 						newRule.setAntecedent(subset);
@@ -118,7 +125,12 @@ public class APriori {
 						}
 						
 						
+						//round to 4 decimal places
+						confidence = Math.round(confidence*10000)/10000.0;
 						newRule.setConsequent(consequent);
+						
+						
+						
 						
 						newRule.setActualConfidenceLevel(confidence);
 						newRule.setSupport(originalTranSet.findSupportLevel(transaction.getItemSet()));

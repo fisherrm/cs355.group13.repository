@@ -1,5 +1,7 @@
 package group13.fisherr;
 
+import java.text.DecimalFormat;
+
 public class Rule {
 	
 	public ItemSet antecedent;
@@ -61,11 +63,14 @@ public class Rule {
 	public String toString() {
 		// TODO Auto-generated method stub
 		//antecedent.toString().replaceAll(",", " and ");
+		String formatActualConf = ""+actualConfidenceLevel;
+		
+			while(formatActualConf.length()<6){
+				formatActualConf+="0";
+			}
 		
 		
-		
-		
-		String str = "If " +antecedent.toString().replaceAll(",", " and ") + " then "+ consequent.toString().replaceAll(",", " and ") +" ("+ actualConfidenceLevel +")";
+		String str = "If " +antecedent.toString().replaceAll(",", " and ") + " then "+ consequent.toString().replaceAll(",", " and ") +" ("+ formatActualConf +")";
 		str = str.replaceAll(" {2,}", " ");
 		return str;
 	}
