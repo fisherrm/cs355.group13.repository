@@ -1,16 +1,16 @@
 package group13.fisherr;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.security.AllPermission;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.sound.sampled.Line;
 
 public class APriori {
 
@@ -24,25 +24,42 @@ public class APriori {
 		// String fileName = "H://CS/CS 355/GROUP13/GROUP13.FISHERR/src/transactionSet_01.txt";
 		
 		
+		
+		
+		
+		
+		
+		
+		
 		//System.out.println("TEXT FILE:  " + fileName1);
 		
 		//2. Read the transaction set from the file
-		TransactionSet textFileTranSet = getTransactionSetFromFile(fileName1);
-		//System.out.println(textFileTranSet);
+		TransactionSet textFileTranSet = getTransactionSetFromFile(fileName2);
+		//getTransactionSetFromFile(fileName2);
 		
+		System.out.println("FIRST METHOD: " + textFileTranSet +"end of TS");
+		//System.out.println("SECOND METHOD: " + textFileTranSet2 +"end of TS");
 		//fix this number, this should be found in the text file
-		double numberOfTransContainingItemSet = 2.0;
-		double totalTransactions = textFileTranSet.getTransactionSet().size();
+		//double numberOfTransContainingItemSet = 2.0;
+		//double totalTransactions = textFileTranSet.getTransactionSet().size();
 		
 		//3. specify the minimumSupportLevel, calculated or hardcoded
-		double minimumSupportLevel = (numberOfTransContainingItemSet / totalTransactions)* totalTransactions;
+		//double minimumSupportLevel = (numberOfTransContainingItemSet / totalTransactions);
+		double minimumSupportLevel = 0.5;
+		//System.out.println(minimumSupportLevel);
+
 		//System.out.println("minimumSupportLevel: " + minimumSupportLevel);
 		//4. specify the minimumConfidenceLevel
-		double minimumConfidenceLevel = 0.5;
-	
+		double minimumConfidenceLevel = 0.75;
+	   
 		
 		//System.out.println("rounded: " + rounded);
+		Timer timer = new Timer();
+		timer.startTimer();
 		TransactionSet apriori = doApriori(textFileTranSet, minimumSupportLevel);
+		System.out.println("APRIORI: \n" + apriori);
+		timer.stopTimer();
+		System.out.println("elapsed time in msec.: " + timer.getTotal() );
 		//System.out.println(apriori);
 		RuleSet ruleset = generateRuleSet(textFileTranSet, apriori, minimumConfidenceLevel);
 		
@@ -188,7 +205,8 @@ public class APriori {
 			for (Transaction transaction : candidates.getTransactionSet()) {
 				double supportLevel = tranSet.findSupportLevel(transaction
 						.getItemSet());
-				transaction.getItemSet().setSupport(supportLevel);
+				System.out.println("support level: " + supportLevel/tranSet.getTransactionSet().size() + " MSL: " + minimumSupportLevel);
+				transaction.getItemSet().setSupport(supportLevel/tranSet.getTransactionSet().size());
 
 				if (transaction.getItemSet().getSupport() >= minimumSupportLevel) {
 					iterations.add(transaction);
@@ -270,9 +288,19 @@ public class APriori {
 			String pattern = "([A-Z])";
 			Pattern regex = Pattern.compile(pattern);
 
-			for (int i = 0; i < transactionSetLines.length; i++) {
-
+			//System.out.println("transactionSetLines" + transactionSetLines);
+			
+			
+			
+			for (int i = 3; i < transactionSetLines.length; i++) {
+				
 				Scanner scanner = new Scanner(transactionSetLines[i]);
+				//get the date
+				//remove new empty lines
+				transactionSetLines[i].replaceAll("\n{2,}", "");
+				
+				
+				
 				scanner.useDelimiter("[^A-Za-z0-9]+");
 
 				// make a new ItemSet to store
@@ -301,4 +329,130 @@ public class APriori {
 		return allTransactions;
 
 	}
+	
+	public static TransactionSet getTransactionSetFromFile2(String fileName) throws FileNotFoundException{
+
+		TransactionSet allTransactions = new TransactionSet();
+		
+			
+			FileReader filereader = new FileReader(fileName);
+			Pattern pattern = null;
+			Matcher matcher = null;
+			
+	        
+	        //
+			// Create a new Scanner object which will read the data 
+			// from the file passed in. To check if there are more 
+			// line to read from it we check by calling the 
+			// scanner.hasNextLine() method. We then read line one 
+			// by one till all line is read.
+			//
+			Scanner fileScanner = new Scanner(filereader);
+			ArrayList<String> transactionLines = new ArrayList<String>();
+			
+			//1. get the lines with no empty lines
+			while(fileScanner.hasNextLine()){
+			
+				//get a line
+				String line = fileScanner.nextLine();
+				//if there are only non-empty lines
+				if(!line.equals("")){
+					//System.out.println("new lines found");
+					transactionLines.add(line);
+					System.out.println("line: " + line);
+				}
+				
+			}
+			//assign variables
+			String vendor = transactionLines.get(0);
+			String startDate = transactionLines.get(1);
+			String endDate = transactionLines.get(2);
+			
+			//start at index 3 for next validation
+			
+			for(String transaction: transactionLines){
+				
+				System.out.println(transaction + "-->valid : "+  validateBraces(transaction));
+				pattern = Pattern.compile("\\{(.*)\\}");//get content within start and end braces
+				matcher = pattern.matcher(transaction);		
+				if(matcher.find()){
+					
+					//keep going
+					Scanner scanner = new Scanner(transaction);
+					//get the date
+					//remove new empty lines
+					scanner.useDelimiter("[^A-Za-z0-9]+");
+					//reduce whitespace
+					System.out.println("Item: " + scanner.next());
+					
+					
+				}
+			}
+	        
+	  
+	        return allTransactions;
+		}
+
+	private static boolean validateBraces(String transaction) {
+		// TODO Auto-generated method stub
+		Pattern pattern = null;
+		Matcher matcher = null;
+		//check for a only 1 left brace at beginning and look ahead to see there is no other left braces
+		boolean valid = false;
+		String leftBraceRegex=	"^\\{{1}(?=[^\\{])";
+		pattern = Pattern.compile(leftBraceRegex);
+		matcher = pattern.matcher(transaction);		
+		if(matcher.find()){
+			valid = true;
+		}
+		//check for a only 1 right brace at end and look behind to see there is no other right braces 
+		//regex = (?<=[^\}])\}{1}
+		String rightBraceRegex = "(?<=[^\\}])\\}{1}";
+		pattern = Pattern.compile(rightBraceRegex);
+		matcher = pattern.matcher(transaction);
+		if(matcher.find()){
+			valid = true;
+		}
+		
+		return valid;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*
+	public static boolean validateTransaction(String line){
+		
+		//1. check if start of line is {
+		if(line.matches("^{")){
+			
+		}else{
+			return false;
+		}
+		
+		
+		
+		//2. Check for anything besides [^A-Za-z0-9] or single comma , 
+		if(line.matches("[^A-Za-z0-9]"))
+		
+		if(line.matches("^{")){
+		//2. check if end of line is }
+		
+		
+
+	}
+	
+	*/
+	
 }

@@ -1,8 +1,12 @@
-{A,  B}
-{ B,  C}
-{ C, A,  D}
-{A}
-{ B,  C, A,  D}
-{A}
-{A}
-{A}
+Paulmart
+2014
+2014
+{umbrella, beer, milk, bread, diaper}
+{milk, detergent, bread, diaper}
+{beer}
+{milk, beer, umbrella}
+{beer, diaper}
+{umbrella, detergent, diaper, milk, bread}
+{beer}
+{beer}
+{diaper, beer}

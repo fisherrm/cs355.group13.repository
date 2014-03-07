@@ -22,6 +22,7 @@ public class ReadFile {
 		
 		
 		for(int i = 0; i < numberOfLines; i++){
+		
 			textData[i] = textReader.readLine();
 		}
 		textReader.close();
@@ -34,10 +35,14 @@ public class ReadFile {
 		FileReader fileToRead = new FileReader(path);
 		BufferedReader bf = new BufferedReader(fileToRead);
 		
+		//remove any whitespace for lines
+		
+		
+		
 		String line;
 		int numberOfLines = 0;
 		
-		while((line=bf.readLine())!=null){
+		while((line=bf.readLine())!=null ){
 			numberOfLines++;
 		}
 		bf.close();

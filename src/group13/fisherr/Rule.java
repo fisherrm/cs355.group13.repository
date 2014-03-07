@@ -70,7 +70,7 @@ public class Rule {
 			}
 		
 		
-		String str = "If " +antecedent.toString().replaceAll(",", " and ") + " then "+ consequent.toString().replaceAll(",", " and ") +" ("+ formatActualConf +")";
+		String str = "If " +antecedent.toString().replaceAll(",", " and ") + " THEN "+ consequent.toString().replaceAll(",", " and ") +" ("+ formatActualConf +")";
 		str = str.replaceAll(" {2,}", " ");
 		return str;
 	}
