@@ -23,12 +23,8 @@ public class APriori {
 		String fileName3 = "src/transactionSet_03.txt";
 		// String fileName = "H://CS/CS 355/GROUP13/GROUP13.FISHERR/src/transactionSet_01.txt";
 		
-		//System.out.println("TEXT FILE:  " + fileName1);
-		
 		//2. Read the transaction set from the file
 		TransactionSet textFileTranSet = getTransactionSetFromFile(fileName3);
-		
-		
 		
 		//fix this number, this should be found in the text file
 		//double numberOfTransContainingItemSet = 2.0;
@@ -37,33 +33,36 @@ public class APriori {
 		//3. specify the minimumSupportLevel, calculated or hardcoded
 		//double minimumSupportLevel = (numberOfTransContainingItemSet / totalTransactions);
 		double minimumSupportLevel = 0.50;
-		//System.out.println(minimumSupportLevel);
-
-		//System.out.println("minimumSupportLevel: " + minimumSupportLevel);
+		
 		//4. specify the minimumConfidenceLevel
 		double minimumConfidenceLevel = 0.50;
 	   
 		if(validateMinLevel(minimumSupportLevel) && validateMinLevel(minimumConfidenceLevel)){
+			Timer timer = new Timer();
+			timer.startTimer();
+			TransactionSet apriori = doApriori(textFileTranSet, minimumSupportLevel);
+			//System.out.println("APRIORI: \n" + apriori);
+			timer.stopTimer();
+			System.out.println("elapsed time in msec.: " + timer.getTotal() );
+			//5. generate the ruleSet from the apriori 
+			RuleSet ruleset = generateRuleSet(textFileTranSet, apriori, minimumConfidenceLevel);
 			
-		
-		
-		
-		Timer timer = new Timer();
-		timer.startTimer();
-		TransactionSet apriori = doApriori(textFileTranSet, minimumSupportLevel);
-		//System.out.println("APRIORI: \n" + apriori);
-		timer.stopTimer();
-		System.out.println("elapsed time in msec.: " + timer.getTotal() );
-		//System.out.println(apriori);
-		RuleSet ruleset = generateRuleSet(textFileTranSet, apriori, minimumConfidenceLevel);
-		
-		//5. Write ruleset to the output file
-		System.out.println(ruleset);
-		PrintWriter writer = new PrintWriter("output.txt");
-		writer.println(ruleset);
-		writer.close();
+			//6. Write ruleset to the output file
+			System.out.println(ruleset);
+			PrintWriter writer = new PrintWriter("output.txt");
+			writer.println(ruleset);
+			writer.close();
 		}else{
-			System.out.println("Minimum Support Level and Minimum Confidence Level must be between 0.000 and 1.000");
+			
+			if(!validateMinLevel(minimumSupportLevel)){
+				System.out.println("Error: Minimum Support Level must be between 0.000 and 1.000");
+
+			}
+			if(!validateMinLevel(minimumConfidenceLevel)){
+				System.out.println("Error: Minimum Confidence Level must be between 0.000 and 1.000");
+
+			}
+			//System.out.println("Minimum Support Level and Minimum Confidence Level must be between 0.000 and 1.000");
 		}
 	}
 	
@@ -85,6 +84,10 @@ public class APriori {
 		}
 		
 	}
+	
+	
+
+	
 
 	public static ArrayList<ItemSet> findSubsets(ItemSet candidates, ArrayList<ItemSet> ps)
 	{
@@ -292,6 +295,9 @@ public class APriori {
 		try {
 			ReadFile file = new ReadFile(fileName);
 			String[] transactionSetLines = file.openFile();
+			
+			/*If we need to use a FileReader
+			
 			FileReader filereader = new FileReader(fileName);
 			Scanner fileScanner = new Scanner(filereader);
 			
@@ -300,12 +306,13 @@ public class APriori {
 				transactionLines.add(fileScanner.nextLine());
 				
 			}
-			System.out.println(transactionLines);
+			
 			for(String insideBracket : transactionLines){
 				//no leading brace
 				validateBraces(insideBracket);
 				//no closing brace
 			}
+			*/
 			//System.out.println("transactionSetLines" + transactionSetLines);
 			
 			
@@ -314,9 +321,8 @@ public class APriori {
 			
 			for (int i = 3; i < transactionSetLines.length; i++) {
 				
-				Scanner scanner = new Scanner(transactionSetLines[i]);
-				//get the date
-				//remove new empty lines
+				//Scanner scanner = new Scanner(transactionSetLines[i]);
+				//continue if the length of the line is greater than 0
 				if(transactionSetLines[i].length()>0){
 				
 					
@@ -332,14 +338,16 @@ public class APriori {
 				if(matcher.find()&& !matcher.group(0).isEmpty()){
 					//System.out.println(matcher.group(0));
 					group = matcher.group(0);
+					//get rid of extra whitespace
 					group =group.replaceAll(" {1,}", " ");
 					
 				}else{
-					System.out.println("Error in transaction \""+transactionSetLines[i]+ "\" at transaction " + (i-2) );
+					System.out.println("Error: in transaction \""+transactionSetLines[i]+ "\" at transaction " + (i-2) );
 					System.out.println("Each transaction requires opening and closing curly braces, as well as containing at least one item.");
 				}
-				
+				//separate by commas
 				String[] candidates = group.split(",");
+				// make a new ItemSet to store
 				ItemSet itemset = new ItemSet();
 				for(int k = 0; k<candidates.length; k++)
 				{
@@ -350,22 +358,11 @@ public class APriori {
 
 					itemset.add(nextItem);
 				}
-				scanner.useDelimiter(".*\\{[^A-Za-z0-9]+\\}.*");
-
-				// make a new ItemSet to store
 				
-/*
-				while (scanner.hasNext()) {
 
-					// get the item one by one
-					String itemName = scanner.next();
-					 System.out.println("ItemName: " + itemName);
-					Item nextItem = new Item(itemName);
+				
 
-					itemset.add(nextItem);
-
-				}// end of while
-				*/	// create a new transaction from the itemSet
+				// create a new transaction from the itemSet
 				Transaction nextTransaction = new Transaction(itemset);
 
 				// add the finished transaction to the total TransactionSet
