@@ -3,5 +3,7 @@ PaulMart
 2014-03-06
 {Apples, Beer, Cheese}
 {Beer, Diapers}
-{Apples, Beer, Diapers}
+{  Apples   Beer , Diapers}
 {Apples}
+
+

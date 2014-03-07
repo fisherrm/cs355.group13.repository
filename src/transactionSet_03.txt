@@ -1,12 +1,7 @@
-Paulmart
-2014
-2014
-{umbrella, beer, milk, bread, diaper}
-{milk, detergent, bread, diaper}
-{beer}
-{milk, beer, umbrella}
-{beer, diaper}
-{umbrella, detergent, diaper, milk, bread}
-{beer}
-{beer}
-{diaper, beer}
+PaulMart
+2014-03-05
+2014-03-06
+{Apples, Beer, Cheese}
+{Beer, Diapers}
+{Apples, Beer, Diapers}
+{Apples}
