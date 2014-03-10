@@ -1,6 +1,5 @@
 package group13.fisherr;
 
-import java.text.DecimalFormat;
 
 public class Rule {
 	

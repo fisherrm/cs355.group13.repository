@@ -21,7 +21,7 @@ public class Timer {
 	public Timer() {
 		startTime = 0;
 		stopTime = 0;
-		totalTime = 0;
+		setTotalTime(0);
 	}
 	
 	// --- startTimer - get a starting time
@@ -43,5 +43,13 @@ public class Timer {
 			result = stopTime - startTime;
 		}
 		return result;
+	}
+
+	public long getTotalTime() {
+		return totalTime;
+	}
+
+	public void setTotalTime(long totalTime) {
+		this.totalTime = totalTime;
 	}
 }	// end - class Timer

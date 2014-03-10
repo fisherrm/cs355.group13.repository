@@ -39,7 +39,8 @@ public class ReadFile {
 		
 		
 		
-		String line;
+		@SuppressWarnings("unused")
+		String line="";
 		int numberOfLines = 0;
 		
 		while((line=bf.readLine())!=null ){

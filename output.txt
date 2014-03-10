@@ -1,5 +1,2 @@
-If Beer THEN Apples (0.6667)
-If Apples THEN Beer (0.6667)
 If Diapers THEN Beer (1.0000)
-If Beer THEN Diapers (0.6667)
 

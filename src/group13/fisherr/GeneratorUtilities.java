@@ -1,21 +1,17 @@
 package group13.fisherr;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.sound.sampled.Line;
 
 public class GeneratorUtilities {
 
 	
-	
+	/*METHOD NOTES
+	 * 
+	 * Use this method to validate a Minimum Support Level or Minimum Confidence Level
+	 * */
 	
 	public boolean validateMinLevel(double level) {
 		// TODO Auto-generated method stub
@@ -29,9 +25,10 @@ public class GeneratorUtilities {
 		
 	}
 	
-	
-
-	
+	/*METHOD NOTES
+	 * 
+	 * Use this method to find the the powerset of subsets given an ItemSet
+	 * */
 
 	public static ArrayList<ItemSet> findSubsets(ItemSet candidates, ArrayList<ItemSet> ps)
 	{
@@ -236,7 +233,7 @@ public class GeneratorUtilities {
 	 * This is will need to have validation methods later
 	 * */
 
-	public static TransactionSet getTransactionSetFromFile(String fileName) {
+	public TransactionSet getTransactionSetFromFile(String fileName) {
 
 		TransactionSet allTransactions = new TransactionSet();
 		try {

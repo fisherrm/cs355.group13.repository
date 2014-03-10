@@ -9,7 +9,7 @@ public class Transaction {
 	
 	public Transaction(ItemSet itemSet){
 		this.itemSet = itemSet;
-		this.date = date;
+		//this.date = date;
 	}
 	
 	
@@ -50,7 +50,7 @@ public class Transaction {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		int currentSize = itemSet.getItems().size();
+		
 		String str = itemSet.toString();
 		return str +"\n";
 	}
