@@ -18,13 +18,14 @@ public class Test {
 				// String fileName = "H://CS/CS 355/GROUP13/GROUP13.FISHERR/src/transactionSet_01.txt";
 				
 				//2. Read the transaction set from the file
-				TransactionSet textFileTranSet = generator.getTransactionSetFromFile(fileName3);
+				//transactions2 and transactions4.txt
+				TransactionSet textFileTranSet = generator.getTransactionSetFromFile("src/transactions6.txt");
 				
 				//3. specify the minimumSupportLevel, calculated or hardcoded
-				double minimumSupportLevel = 0.50;
+				double minimumSupportLevel = 0.014;
 				
 				//4. specify the minimumConfidenceLevel
-				double minimumConfidenceLevel = 0.50;
+				double minimumConfidenceLevel = 0.2;
 			   
 				if(generator.validateMinLevel(minimumSupportLevel) && generator.validateMinLevel(minimumConfidenceLevel)){
 					Timer timer = new Timer();
