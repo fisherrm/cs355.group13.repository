@@ -7,12 +7,20 @@ public class Transaction {
 	public int numberOfItems = 0;
 	public String date;
 	
+	
+	
 	public Transaction(ItemSet itemSet){
 		this.itemSet = itemSet;
 		//this.date = date;
 	}
 	
 	
+	public Transaction() {
+		// TODO Auto-generated constructor stub
+		this.itemSet = new ItemSet();
+	}
+
+
 	public ItemSet getItemSet() {
 		return itemSet;
 	}
