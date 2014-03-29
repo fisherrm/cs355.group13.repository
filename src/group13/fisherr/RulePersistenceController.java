@@ -5,6 +5,9 @@
  */
 package group13.fisherr;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class RulePersistenceController {
 	// data
 	private  Rule rule;		// Rule being worked with
@@ -38,7 +41,7 @@ public class RulePersistenceController {
 		// TODO: code to convert Rule object to SQL insert statement string for that Rule
 		String actualCL = ""+aRule.getActualConfidenceLevel();
 		String generator_id = "1";
-		String ruleSet_id = "";
+		String ruleSet_id = getRuleSetID(aRule);
 		String antecedent = aRule.getAntecedent().toString();
 		String consequent = aRule.getConsequent().toString();
 		
@@ -46,4 +49,12 @@ public class RulePersistenceController {
 				+ "Values("+actualCL+","+generator_id+","+ruleSet_id+","+antecedent+","+consequent+")";
 		return result;
 	}
+	
+	private String getRuleSetID(Rule aRule){
+		String selectQuery = "SELECT RuleSet_ID FROM RuleSet WHERE RuleSet_ID = "+aRule.getRuleSet_ID();
+		int ruleSet_id = dao.executeForResultSet(selectQuery);
+		return ""+ruleSet_id;
+	
+	}
+	
 }

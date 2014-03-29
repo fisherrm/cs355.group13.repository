@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class ItemSet {
 	
-	public ArrayList<Item> items;
+	private ArrayList<Item> items;
 	
 	
-	public double support = 0;
+	private double support = 0;
 	
 	public ItemSet(ArrayList<Item>items){
 		this.items = items;

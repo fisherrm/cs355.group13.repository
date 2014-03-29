@@ -2,15 +2,20 @@ package group13.fisherr;
 
 public class Transaction {
 	
-	public ItemSet itemSet;
-	public double totalCost = 0;
-	public int numberOfItems = 0;
-	public String date;
+	private ItemSet itemSet;
+	private double totalCost = 0;
+	private int numberOfItems = 0;
+	private String date;
+	private int transactionSet_ID = 0;
 	
 	
 	
+	
+
+
 	public Transaction(ItemSet itemSet){
 		this.itemSet = itemSet;
+		
 		//this.date = date;
 	}
 	
@@ -54,6 +59,17 @@ public class Transaction {
 	public void setDate(String date) {
 		this.date = date;
 	}
+	
+	
+	public int getTransactionSet_ID() {
+		return transactionSet_ID;
+	}
+
+
+	public void setTransactionSet_ID(int transactionSet_ID) {
+		this.transactionSet_ID = transactionSet_ID;
+	}
+	
 
 	@Override
 	public String toString() {

@@ -2,9 +2,9 @@ package group13.fisherr;
 
 public class Item {
 	
-	public String itemName;
-	public String itemDesc;
-	public String itemPrice;
+	private String itemName;
+	private String itemDesc;
+	private String itemPrice;
 	
 
 	//Constructor

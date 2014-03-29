@@ -5,6 +5,8 @@
  */
 package group13.fisherr;
 
+import java.sql.ResultSet;
+
 public class MockDAO implements DAOInterface {
 	// methods
 	public void connect() {
@@ -19,5 +21,11 @@ public class MockDAO implements DAOInterface {
 	
 	public void disconnect() {
 		// do nothing
+	}
+
+	@Override
+	public int executeForResultSet(String query) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

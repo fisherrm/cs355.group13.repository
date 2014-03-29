@@ -44,6 +44,8 @@ public class Test {
 					
 					//6. Write ruleset to the output file
 					System.out.println(generatedRuleSet);
+					//inserting original TransactionSet and generated RuleSet
+					DAOController(textFileTranSet,generatedRuleSet);
 					PrintWriter writer;
 					try {
 						writer = new PrintWriter("output.txt");
@@ -53,20 +55,6 @@ public class Test {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
-					
-					DAOController(apriori,generatedRuleSet);
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
 					
 					
 					

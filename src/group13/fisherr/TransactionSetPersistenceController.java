@@ -5,18 +5,18 @@
  */
 package group13.fisherr;
 
-public class TransactionPersistenceController {
+public class TransactionSetPersistenceController {
 	// data
-	private  Transaction transaction;		// Transaction being worked with
+	private  TransactionSet transactionSset;		// Transaction being worked with
 	private DAOInterface dao;		// the Data Access Object (DAO) being used
 	
 	// methods
 	// persistTransaction - overall method to persist a single Transaction object
-	public void persistTransaction(Transaction transaction) {
+	public void persistTransaction(TransactionSet transactionSet) {
 		String sqlStatement;		// SQL statement to persist the Transaction
 		
 			// could pass a Transaction object in as parameter to this method
-		sqlStatement = generateInsertStmt(transaction);
+		sqlStatement = generateInsertStmt(transactionSet);
 		dao.connect();
 		dao.execute(sqlStatement);
 		dao.disconnect();
@@ -33,21 +33,13 @@ public class TransactionPersistenceController {
 	}
 	
 	// generateInsertStmt - generate an SQL insert statement for a particular Transaction object
-	public String generateInsertStmt(Transaction aTransaction) {
+	public String generateInsertStmt(TransactionSet aTransactionSet) {
 		String result = null;
 		// TODO: code to convert Transaction object to SQL insert statement string for that Transaction
-		String itemSet = aTransaction.getItemSet().toString();
-		String datetime = aTransaction.getDate();
-		String vendor="PaulMart";
-		String transactionSetID = getTransactionSetID(aTransaction);
-		result = "INSERT INTO Transaction (TransactionDateTime, ItemSet_ID, Vendor_ID, TransactionSet_ID) Values("+datetime+","+itemSet+","+vendor+","+transactionSetID+")";
+		
+		String datetime = aTransactionSet.getDate();
+		String generator_id = "1";
+		result = "INSERT INTO TransactionSet (TransactionSetDateTime, GeneratorUtilities_ID) Values("+datetime+","+generator_id+")";
 		return result;
-	}
-
-	private String getTransactionSetID(Transaction aTransaction) {
-		// TODO Auto-generated method stub
-		String selectQuery = "SELECT TransactionSet_ID FROM TransactionSet WHERE " + aTransaction.getTransactionSet_ID() ;
-		int transactionSet_id = dao.executeForResultSet(selectQuery);
-		return ""+transactionSet_id;
 	}
 }

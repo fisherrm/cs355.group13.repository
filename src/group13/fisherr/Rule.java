@@ -3,19 +3,22 @@ package group13.fisherr;
 
 public class Rule {
 	
-	public ItemSet antecedent;
-	public ItemSet consequent;
-	public double actualConfidenceLevel;
-	public double support;
+	private ItemSet antecedent;
+	private ItemSet consequent;
+	private double actualConfidenceLevel;
+	private double support;
+	private int ruleSet_ID;
 	
 	
 
+
+	
 
 	public Rule(ItemSet antecedent, ItemSet consequent,  double minSupportLevel, double actualConfidenceLevel){
 		this.antecedent = antecedent;
 		this.consequent = consequent;
 		this.actualConfidenceLevel = actualConfidenceLevel;
-		
+		this.ruleSet_ID = 0;
 		
 	}
 
@@ -23,6 +26,7 @@ public class Rule {
 		this.antecedent = new ItemSet();
 		this.consequent = new ItemSet();
 		this.actualConfidenceLevel = 0;
+		this.ruleSet_ID = 0;
 		
 		// TODO Auto-generated constructor stub
 	}
@@ -58,6 +62,18 @@ public class Rule {
 	public void setSupport(double support) {
 		this.support = support;
 	}
+	
+	
+	
+	
+	public int getRuleSet_ID() {
+		return ruleSet_ID;
+	}
+
+	public void setRuleSet_ID(int ruleSet_ID) {
+		this.ruleSet_ID = ruleSet_ID;
+	}
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

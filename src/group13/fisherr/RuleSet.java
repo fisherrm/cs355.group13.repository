@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class RuleSet {
 	
-	public ArrayList<Rule> ruleSet;
+	private ArrayList<Rule> ruleSet;
+	private String date;
 	
 	public RuleSet(ArrayList<Rule> ruleSet){
 		this.ruleSet = ruleSet;
@@ -16,6 +17,14 @@ public class RuleSet {
 
 	public void setRuleSet(ArrayList<Rule> ruleSet) {
 		this.ruleSet = ruleSet;
+	}
+	
+	public String getDate() {
+		return date;
+	}
+	
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 	@Override

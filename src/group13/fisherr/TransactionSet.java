@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 public class TransactionSet {
 
-	public ArrayList<Transaction> transactionSet;
-
+	private ArrayList<Transaction> transactionSet;
+	private String date;
+	
 	public TransactionSet(ArrayList<Transaction> transactionSet) {
 		this.transactionSet = transactionSet;
 
@@ -22,6 +23,13 @@ public class TransactionSet {
 
 	public void setTransactionSet(ArrayList<Transaction> transactionSet) {
 		this.transactionSet = transactionSet;
+	}
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 	
 
