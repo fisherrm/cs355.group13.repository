@@ -1,7 +1,12 @@
 package group13.fisherr;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
+
+import edu.uwec.cs.wagnerpj.daointerface.StudentPersistenceController;
 
 public class Test {
 	
@@ -35,19 +40,37 @@ public class Test {
 					timer.stopTimer();
 					System.out.println("elapsed time in msec.: " + timer.getTotal() );
 					//5. generate the ruleSet from the apriori 
-					RuleSet ruleset = generator.generateRuleSet(textFileTranSet, apriori, minimumConfidenceLevel);
+					RuleSet generatedRuleSet = generator.generateRuleSet(textFileTranSet, apriori, minimumConfidenceLevel);
 					
 					//6. Write ruleset to the output file
-					System.out.println(ruleset);
+					System.out.println(generatedRuleSet);
 					PrintWriter writer;
 					try {
 						writer = new PrintWriter("output.txt");
-						writer.println(ruleset);
+						writer.println(generatedRuleSet);
 						writer.close();
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					
+					
+					DAOController(apriori,generatedRuleSet);
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+				//ERRORS	
 				}else{
 					
 					if(!generator.validateMinLevel(minimumSupportLevel)){
@@ -60,7 +83,7 @@ public class Test {
 					}
 					//System.out.println("Minimum Support Level and Minimum Confidence Level must be between 0.000 and 1.000");
 				}
-			}
+			}//end of MAIN
 			
 			
 			
@@ -71,4 +94,40 @@ public class Test {
 	
 	
 
+
+
+public static void DAOController(TransactionSet transactionSet, RuleSet ruleSet){
+	
+	
+	/*DAO MAIN*/
+	RulePersistenceController rpc = new RulePersistenceController();		// controller for delegating rule persistence
+	TransactionPersistenceController tpc = new TransactionPersistenceController();		// controller for delegating rule persistence
+
+	String daoString = null;
+    InputStreamReader unbuffered = new InputStreamReader( System.in );
+    BufferedReader keyboard = new BufferedReader( unbuffered );
+	try {
+		System.out.println("Use (Mock) DAO or (MySQL) DAO? Mock");
+		daoString = keyboard.readLine();
+	}
+	catch (IOException error) {
+		System.err.println("Error reading input");
+	}
+
+	rpc.setDAO(daoString);
+	tpc.setDAO(daoString);
+	//iterate through each rule in ruleSet and persist
+	for(Rule rule: ruleSet.getRuleSet()){
+		
+		rpc.persistRule(rule);
+	}
+	
+	//iterate through each transaction in transactionSet and persist
+	for(Transaction transaction: transactionSet.getTransactionSet()){
+		
+		tpc.persistTransaction(transaction);
+		
+	}
+	
+}
 }

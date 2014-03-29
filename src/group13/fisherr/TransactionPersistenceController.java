@@ -12,10 +12,10 @@ public class TransactionPersistenceController {
 	
 	// methods
 	// persistTransaction - overall method to persist a single Transaction object
-	public void persistTransaction() {
+	public void persistTransaction(Transaction transaction) {
 		String sqlStatement;		// SQL statement to persist the Transaction
 		
-		transaction = new Transaction();	// could pass a Transaction object in as parameter to this method
+			// could pass a Transaction object in as parameter to this method
 		sqlStatement = generateInsertStmt(transaction);
 		dao.connect();
 		dao.execute(sqlStatement);

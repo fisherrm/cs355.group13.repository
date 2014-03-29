@@ -12,10 +12,10 @@ public class RulePersistenceController {
 	
 	// methods
 	// persistRule - overall method to persist a single Rule object
-	public void persistRule() {
+	public void persistRule(Rule rule) {
 		String sqlStatement;		// SQL statement to persist the Rule
 		
-		rule = new Rule();	// could pass a Rule object in as parameter to this method
+		// could pass a Rule object in as parameter to this method
 		sqlStatement = generateInsertStmt(rule);
 		dao.connect();
 		dao.execute(sqlStatement);
