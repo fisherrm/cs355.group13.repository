@@ -12,13 +12,13 @@ public class TransactionSetPersistenceController {
 	
 	// methods
 	// persistTransaction - overall method to persist a single Transaction object
-	public void persistTransaction(TransactionSet transactionSet) {
+	public void persistTransactionSet(TransactionSet transactionSet) {
 		String sqlStatement;		// SQL statement to persist the Transaction
 		
 			// could pass a Transaction object in as parameter to this method
 		sqlStatement = generateInsertStmt(transactionSet);
 		dao.connect();
-		dao.execute(sqlStatement);
+		dao.executeUpdate(sqlStatement);
 		dao.disconnect();
 	}
 
@@ -37,9 +37,9 @@ public class TransactionSetPersistenceController {
 		String result = null;
 		// TODO: code to convert Transaction object to SQL insert statement string for that Transaction
 		
-		String datetime = aTransactionSet.getDate();
-		String generator_id = "1";
-		result = "INSERT INTO TransactionSet (TransactionSetDateTime, GeneratorUtilities_ID) Values("+datetime+","+generator_id+")";
+		//String datetime = aTransactionSet.getDate();
+		String start_date = "STR_TO_DATE(\"2014-04-04 12:00:00\",\"%Y-%m-%d %H:%i:%S\")";
+		result = "INSERT INTO TransactionSet (TransactionSetDate) Values("+start_date+")";
 		return result;
 	}
 }

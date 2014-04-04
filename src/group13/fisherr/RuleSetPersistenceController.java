@@ -12,13 +12,13 @@ public class RuleSetPersistenceController {
 	
 	// methods
 	// persistRule - overall method to persist a single Rule object
-	public void persistRule(RuleSet ruleset) {
+	public void persistRuleSet(RuleSet ruleset) {
 		String sqlStatement;		// SQL statement to persist the Rule
 		
 		// could pass a Rule object in as parameter to this method
 		sqlStatement = generateInsertStmt(ruleset);
 		dao.connect();
-		dao.execute(sqlStatement);
+		dao.executeUpdate(sqlStatement);
 		dao.disconnect();
 	}
 
@@ -36,10 +36,13 @@ public class RuleSetPersistenceController {
 	public String generateInsertStmt(RuleSet aRuleSet) {
 		String result = null;
 		// TODO: code to convert Rule object to SQL insert statement string for that Rule
-		
+		String query = "SELECT MAX(TransactionSet_ID) FROM TransactionSet";
 		String datetime = aRuleSet.getDate();
-		String generator_id = "1";
-		result = "INSERT INTO RuleSet (RuleSetDateTime, GeneratorUtilities_ID) Values("+datetime+","+generator_id+")";
+		dao.connect();
+		int transactionSetID = dao.execute(query);
+		dao.disconnect();
+		String startDate = "STR_TO_DATE(\"2014-04-04 12:00:00\",\"%Y-%m-%d %H:%i:%S\")"; 
+		result = "INSERT INTO RuleSet (RuleSetDate, TransactionSet_ID) Values("+startDate+","+transactionSetID+")";
 
 		return result;
 	}

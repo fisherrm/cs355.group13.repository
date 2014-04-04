@@ -13,13 +13,15 @@ public class TransactionPersistenceController {
 	// methods
 	// persistTransaction - overall method to persist a single Transaction object
 	public void persistTransaction(Transaction transaction) {
+		System.out.println("PersistTransaction() Started");
 		String sqlStatement;		// SQL statement to persist the Transaction
 		
 			// could pass a Transaction object in as parameter to this method
 		sqlStatement = generateInsertStmt(transaction);
 		dao.connect();
-		dao.execute(sqlStatement);
+		dao.executeUpdate(sqlStatement);
 		dao.disconnect();
+		System.out.println("PersistTransaction() Done");
 	}
 
 	// setDAO - set the controller DAO to a given DAO
@@ -38,16 +40,18 @@ public class TransactionPersistenceController {
 		// TODO: code to convert Transaction object to SQL insert statement string for that Transaction
 		String itemSet = aTransaction.getItemSet().toString();
 		String datetime = aTransaction.getDate();
-		String vendor="PaulMart";
-		String transactionSetID = getTransactionSetID(aTransaction);
-		result = "INSERT INTO Transaction (TransactionDateTime, ItemSet_ID, Vendor_ID, TransactionSet_ID) Values("+datetime+","+itemSet+","+vendor+","+transactionSetID+")";
+		
+		String start_date = "STR_TO_DATE(\"2014-04-04 12:00:00\",\"%Y-%m-%d %H:%i:%S\")";
+		
+		
+		String query = "SELECT MAX(TransactionSet_ID) FROM TransactionSet";
+		dao.connect();
+		int transactionSetID = dao.execute(query);
+		dao.disconnect();
+		System.out.println("FINAL INSERT");
+		result = "INSERT INTO Transaction (TransactionDate, TransactionItemSet, TransactionSet_ID) Values("+start_date+",\""+itemSet+"\","+transactionSetID+")";
 		return result;
 	}
 
-	private String getTransactionSetID(Transaction aTransaction) {
-		// TODO Auto-generated method stub
-		String selectQuery = "SELECT TransactionSet_ID FROM TransactionSet WHERE " + aTransaction.getTransactionSet_ID() ;
-		int transactionSet_id = dao.executeForResultSet(selectQuery);
-		return ""+transactionSet_id;
-	}
+	
 }

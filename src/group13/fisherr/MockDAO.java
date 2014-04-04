@@ -23,8 +23,10 @@ public class MockDAO implements DAOInterface {
 		// do nothing
 	}
 
+	
+
 	@Override
-	public int executeForResultSet(String query) {
+	public int executeUpdate(String query) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

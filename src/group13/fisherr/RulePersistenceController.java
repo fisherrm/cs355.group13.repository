@@ -21,7 +21,7 @@ public class RulePersistenceController {
 		// could pass a Rule object in as parameter to this method
 		sqlStatement = generateInsertStmt(rule);
 		dao.connect();
-		dao.execute(sqlStatement);
+		dao.executeUpdate(sqlStatement);
 		dao.disconnect();
 	}
 
@@ -39,22 +39,19 @@ public class RulePersistenceController {
 	public String generateInsertStmt(Rule aRule) {
 		String result = null;
 		// TODO: code to convert Rule object to SQL insert statement string for that Rule
-		String actualCL = ""+aRule.getActualConfidenceLevel();
-		String generator_id = "1";
-		String ruleSet_id = getRuleSetID(aRule);
+		String query = "SELECT MAX(RuleSet_ID) FROM RuleSet";
+		
+		double actualCL = aRule.getActualConfidenceLevel();
 		String antecedent = aRule.getAntecedent().toString();
 		String consequent = aRule.getConsequent().toString();
-		
-		result = "INSERT INTO Rule (RuleActualConfidenceLevel, GeneratorUtilities_ID, RuleSet_ID, RuleAntecedent, RuleConsequent) "
-				+ "Values("+actualCL+","+generator_id+","+ruleSet_id+","+antecedent+","+consequent+")";
+		dao.connect();
+		int ruleSetID = dao.execute(query);
+		dao.disconnect();
+		result = "INSERT INTO Rule (RuleAntecedent, RuleConsequent, RuleActualConfidenceLevel, RuleSet_ID) "
+				+ "Values(\""+antecedent+"\",\""+consequent+"\", "+actualCL+", "+ruleSetID+")";
 		return result;
 	}
 	
-	private String getRuleSetID(Rule aRule){
-		String selectQuery = "SELECT RuleSet_ID FROM RuleSet WHERE RuleSet_ID = "+aRule.getRuleSet_ID();
-		int ruleSet_id = dao.executeForResultSet(selectQuery);
-		return ""+ruleSet_id;
 	
-	}
 	
 }

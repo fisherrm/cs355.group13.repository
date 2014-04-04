@@ -24,13 +24,13 @@ public class Test {
 				
 				//2. Read the transaction set from the file
 				//transactions2 and transactions4.txt
-				TransactionSet textFileTranSet = generator.getTransactionSetFromFile("src/transactions6.txt");
+				TransactionSet textFileTranSet = generator.getTransactionSetFromFile("src/transactions1.txt");
 				
 				//3. specify the minimumSupportLevel, calculated or hardcoded
-				double minimumSupportLevel = 0.014;
+				double minimumSupportLevel = 0;
 				
 				//4. specify the minimumConfidenceLevel
-				double minimumConfidenceLevel = 0.2;
+				double minimumConfidenceLevel = 0;
 			   
 				if(generator.validateMinLevel(minimumSupportLevel) && generator.validateMinLevel(minimumConfidenceLevel)){
 					Timer timer = new Timer();
@@ -45,7 +45,17 @@ public class Test {
 					//6. Write ruleset to the output file
 					System.out.println(generatedRuleSet);
 					//inserting original TransactionSet and generated RuleSet
+					
+					
+					
+					
 					DAOController(textFileTranSet,generatedRuleSet);
+					
+					
+					
+					
+					
+					
 					PrintWriter writer;
 					try {
 						writer = new PrintWriter("output.txt");
@@ -88,8 +98,10 @@ public static void DAOController(TransactionSet transactionSet, RuleSet ruleSet)
 	
 	
 	/*DAO MAIN*/
-	RulePersistenceController rpc = new RulePersistenceController();		// controller for delegating rule persistence
-	TransactionPersistenceController tpc = new TransactionPersistenceController();		// controller for delegating rule persistence
+	RulePersistenceController rulePC = new RulePersistenceController();		// controller for delegating rule persistence
+	RuleSetPersistenceController ruleSetPC = new RuleSetPersistenceController();		// controller for delegating ruleSet persistence
+	TransactionPersistenceController tranPC = new TransactionPersistenceController();		// controller for delegating transaction persistence
+	TransactionSetPersistenceController tranSetPC = new TransactionSetPersistenceController();		// controller for delegating transactionSet persistence
 
 	String daoString = null;
     InputStreamReader unbuffered = new InputStreamReader( System.in );
@@ -101,20 +113,29 @@ public static void DAOController(TransactionSet transactionSet, RuleSet ruleSet)
 	catch (IOException error) {
 		System.err.println("Error reading input");
 	}
-
-	rpc.setDAO(daoString);
-	tpc.setDAO(daoString);
-	//iterate through each rule in ruleSet and persist
-	for(Rule rule: ruleSet.getRuleSet()){
-		
-		rpc.persistRule(rule);
-	}
+	//set the daoStrings
+	rulePC.setDAO(daoString);
+	ruleSetPC.setDAO(daoString);
+	tranPC.setDAO(daoString);
+	tranSetPC.setDAO(daoString);
+	
+	
+	//persist TransactionSet
+	tranSetPC.persistTransactionSet(transactionSet);
+	//persist RuleSet
+	ruleSetPC.persistRuleSet(ruleSet);
+	
 	
 	//iterate through each transaction in transactionSet and persist
 	for(Transaction transaction: transactionSet.getTransactionSet()){
+		System.out.println("persisting transaction");
+		tranPC.persistTransaction(transaction);
 		
-		tpc.persistTransaction(transaction);
-		
+	}
+	//iterate through each rule in ruleSet and persist
+	for(Rule rule: ruleSet.getRuleSet()){
+		System.out.println("persisting rule");
+		rulePC.persistRule(rule);
 	}
 	
 }

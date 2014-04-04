@@ -48,7 +48,7 @@ public class MySQLDAO implements DAOInterface {
 		  
 		   try
 		   {
-			  conn = DriverManager.getConnection("jdbc:mysql://dario.cs.uwec.edu/student",user,pass);
+			  conn = DriverManager.getConnection("jdbc:mysql://dario.cs.uwec.edu/cs355group13",user,pass);
 		   }
 		   catch (SQLException sqle)
 		   {
@@ -64,8 +64,52 @@ public class MySQLDAO implements DAOInterface {
 		
 	}
 
+	public int executeUpdate(String query) {
+		
+		int resultCode = 0 ;
+		System.out.println("MySQL DAO executeUpdate");
+		// use connection to execute update,
+		
+		// set resutCode
+		
+		
+		// --- 3) prepare and execute statement
+		   
+		   try
+		   {
+			  stmt = conn.createStatement();
+			  resultCode = stmt.executeUpdate(query);
+		   }
+		   catch (Exception e)
+		   {
+			   System.out.println("Could not execute SQL statement");
+			   System.out.println(e.getMessage());
+			   System.exit(1);
+			 
+		   }
+
+		   if(resultCode==0){
+			   System.out.println("Insert Failed");
+		   }else{
+			   System.out.println("Insert Succeeded");
+		   }
+
+		  
+		   
+	  
+
+		
+		
+		
+		return resultCode;
+	}
+	
+	
+	
+	@Override
 	public int execute(String query) {
 		int errorCode = 0;
+		int id = 0;
 		System.out.println("MySQL DAO execute");
 		// use connection to execute query,
 		//    get resultset
@@ -91,8 +135,8 @@ public class MySQLDAO implements DAOInterface {
 		   // --- 4) process result set
 		   try {
 			   while (rset.next()) {
-				   System.out.println(rset.getString(1) + "  " +	// TODO: change to use metadata
-								 	  rset.getString(2));
+				   id = rset.getInt(1);
+				 System.out.println("ID: " + id);
 			   }     // --- end - while
 		   }
 		   catch (SQLException sqle) {
@@ -105,12 +149,19 @@ public class MySQLDAO implements DAOInterface {
 		  
 		   
 	  
-
+		   if(errorCode == 0){
+			   System.out.println("SELECT Succeeded");
+			   return id;
+		   }else{
+			   System.out.println("SELECT Failed");
+		   }
 		
 		
 		
 		return errorCode;
 	}
+	
+	
 	
 	public void disconnect() {
 		// disconnect MySQL connection, statement, resultset
@@ -118,9 +169,18 @@ public class MySQLDAO implements DAOInterface {
 		
 		 // --- 5) clean up statement and connection
 		   try {
-			   rset.close();
-			   stmt.close();
+			   if(rset!=null){
+				   //System.out.println("Successfully closed result Set");
+
+				   rset.close();
+			   }
+			   if(stmt!=null){
+				   
+				   stmt.close();
+				  // System.out.println("Successfully closed statement");
+			   }
 			   conn.close();
+			   //System.out.println("Successfully closed connection");
 		   } 
 		   catch (SQLException sqle) {
 			   System.out.println("Could not close statement and connection");
@@ -128,57 +188,10 @@ public class MySQLDAO implements DAOInterface {
 			   System.exit(1);
 		   }
 		   
-		   System.exit(0);
+		 
 
 		
 	}
 
-	@Override
-	public int executeForResultSet(String query) {
-		// TODO Auto-generated method stub
-		
-		System.out.println("MySQL DAO execute");
-		// use connection to execute query,
-		//    get resultset
-		// process resultset
-		// set errorCode
-		
-		int id = 0;
-		// --- 3) prepare and execute statement
-		   
-		   try
-		   {
-			  stmt = conn.createStatement();
-			  rset = stmt.executeQuery(query);
-		   }
-		   catch (Exception e)
-		   {
-			   System.out.println("Could not execute SQL statement");
-			   System.out.println(e.getMessage());
-			   System.exit(1);
-			  
-		   }
-
-		   // --- 4) process result set
-		   try {
-			   while (rset.next()) {
-				   id = rset.getInt(0);
-			   }     // --- end - while
-		   }
-		   catch (SQLException sqle) {
-			   System.out.println("Could not process result set");
-			   System.out.println(sqle.getMessage());
-			   System.exit(1);
-			  
-		   }
-
-		  
-		   
-	  
-
-		
-		
-		
-		return id;
-	}
+	
 }
