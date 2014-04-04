@@ -262,7 +262,7 @@ public class GeneratorUtilities {
 			
 			Pattern pattern = null;
 			Matcher matcher = null;
-			
+			Vendor vendor = new Vendor(transactionSetLines[0]);
 			for (int i = 3; i < transactionSetLines.length; i++) {
 				
 				//Scanner scanner = new Scanner(transactionSetLines[i]);
@@ -314,6 +314,7 @@ public class GeneratorUtilities {
 			}
 			}//end of > length 0
 
+			allTransactions.add(vendor);
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}

@@ -41,15 +41,17 @@ public class TransactionPersistenceController {
 		String itemSet = aTransaction.getItemSet().toString();
 		String datetime = aTransaction.getDate();
 		
-		String start_date = "STR_TO_DATE(\"2014-04-04 12:00:00\",\"%Y-%m-%d %H:%i:%S\")";
+		String startDate = "STR_TO_DATE(\"2014-04-04 12:00:00\",\"%Y-%m-%d %H:%i:%S\")";
 		
 		
-		String query = "SELECT MAX(TransactionSet_ID) FROM TransactionSet";
+		String queryTranSetID = "SELECT MAX(TransactionSet_ID) FROM TransactionSet";
+		String queryVendorID = "SELECT MAX(Vendor_ID) FROM Vendor";
 		dao.connect();
-		int transactionSetID = dao.execute(query);
+		int transactionSetID = dao.execute(queryTranSetID);
+		int vendorID = dao.execute(queryVendorID);
 		dao.disconnect();
 		System.out.println("FINAL INSERT");
-		result = "INSERT INTO Transaction (TransactionDate, TransactionItemSet, TransactionSet_ID) Values("+start_date+",\""+itemSet+"\","+transactionSetID+")";
+		result = "INSERT INTO Transaction (TransactionDate, TransactionItemSet, TransactionSet_ID, Vendor_ID) Values("+startDate+",\""+itemSet+"\","+transactionSetID+", "+vendorID+")";
 		return result;
 	}
 

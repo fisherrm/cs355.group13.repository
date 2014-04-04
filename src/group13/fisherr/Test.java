@@ -98,6 +98,8 @@ public static void DAOController(TransactionSet transactionSet, RuleSet ruleSet)
 	
 	
 	/*DAO MAIN*/
+	
+	VendorPersistenceController vendorPC = new VendorPersistenceController();		// controller for delegating vendor persistence
 	RulePersistenceController rulePC = new RulePersistenceController();		// controller for delegating rule persistence
 	RuleSetPersistenceController ruleSetPC = new RuleSetPersistenceController();		// controller for delegating ruleSet persistence
 	TransactionPersistenceController tranPC = new TransactionPersistenceController();		// controller for delegating transaction persistence
@@ -114,10 +116,20 @@ public static void DAOController(TransactionSet transactionSet, RuleSet ruleSet)
 		System.err.println("Error reading input");
 	}
 	//set the daoStrings
+	vendorPC.setDAO(daoString);
 	rulePC.setDAO(daoString);
 	ruleSetPC.setDAO(daoString);
 	tranPC.setDAO(daoString);
 	tranSetPC.setDAO(daoString);
+	
+	
+	
+	System.out.println(transactionSet.getVendorSet());
+	//persist Vendor
+	for(Vendor vendor: transactionSet.getVendorSet()){
+		vendorPC.persistVendor(vendor);
+	}
+	
 	
 	
 	//persist TransactionSet

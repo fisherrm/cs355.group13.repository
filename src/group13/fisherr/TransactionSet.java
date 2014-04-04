@@ -6,15 +6,18 @@ public class TransactionSet {
 
 	private ArrayList<Transaction> transactionSet;
 	private String date;
+	private ArrayList<Vendor> vendorSet;
 	
+
 	public TransactionSet(ArrayList<Transaction> transactionSet) {
 		this.transactionSet = transactionSet;
-
+		this.vendorSet = new ArrayList<Vendor>();
 	}
 
 	public TransactionSet() {
 		// TODO Auto-generated constructor stub
 		this.transactionSet = new ArrayList<Transaction>();
+		this.vendorSet = new ArrayList<Vendor>();
 	}
 
 	public ArrayList<Transaction> getTransactionSet() {
@@ -23,6 +26,7 @@ public class TransactionSet {
 
 	public void setTransactionSet(ArrayList<Transaction> transactionSet) {
 		this.transactionSet = transactionSet;
+		
 	}
 	public String getDate() {
 		return date;
@@ -93,5 +97,17 @@ public class TransactionSet {
 		return supportLevel;
 	}
 	
+	public ArrayList<Vendor> getVendorSet() {
+		return vendorSet;
+	}
+	
+	public void setVendorSet(ArrayList<Vendor> vendorSet) {
+		this.vendorSet = vendorSet;
+	}
+
+	public void add(Vendor vendor) {
+		// TODO Auto-generated method stub
+		this.vendorSet.add(vendor);
+	}
 	
 }
