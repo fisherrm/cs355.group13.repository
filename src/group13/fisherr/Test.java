@@ -27,10 +27,10 @@ public class Test {
 				TransactionSet textFileTranSet = generator.getTransactionSetFromFile("src/transactions1.txt");
 				
 				//3. specify the minimumSupportLevel, calculated or hardcoded
-				double minimumSupportLevel = 0;
+				double minimumSupportLevel = 0.5;
 				
 				//4. specify the minimumConfidenceLevel
-				double minimumConfidenceLevel = 0;
+				double minimumConfidenceLevel = 0.5;
 			   
 				if(generator.validateMinLevel(minimumSupportLevel) && generator.validateMinLevel(minimumConfidenceLevel)){
 					Timer timer = new Timer();

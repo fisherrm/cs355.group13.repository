@@ -36,10 +36,17 @@ public class TransactionSetPersistenceController {
 	public String generateInsertStmt(TransactionSet aTransactionSet) {
 		String result = null;
 		// TODO: code to convert Transaction object to SQL insert statement string for that Transaction
-		
+		// 1. Add real dates
+		// 2. Change the file parsing of items.
+		// 3. Handle Errors
 		//String datetime = aTransactionSet.getDate();
-		String start_date = "STR_TO_DATE(\"2014-04-04 12:00:00\",\"%Y-%m-%d %H:%i:%S\")";
-		result = "INSERT INTO TransactionSet (TransactionSetDate) Values("+start_date+")";
+		
+		
+		String startDate = "STR_TO_DATE(\""+aTransactionSet.getStartDate()+"\",\"%Y-%m-%d %H:%i:%S\")";
+		String endDate = "STR_TO_DATE(\""+aTransactionSet.getEndDate()+"\",\"%Y-%m-%d %H:%i:%S\")";
+		result = "INSERT INTO TransactionSet (TransactionSetDate) Values("+startDate+")";
+
+		//result = "INSERT INTO TransactionSet (TransactionSetStartDate, TransactionSetEndDate) Values("+startDate+","+endDate+")";
 		return result;
 	}
 }

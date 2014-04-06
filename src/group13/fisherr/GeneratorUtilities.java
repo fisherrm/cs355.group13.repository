@@ -1,6 +1,7 @@
 package group13.fisherr;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -63,6 +64,9 @@ public class GeneratorUtilities {
 
 	public RuleSet generateRuleSet(TransactionSet originalTranSet, TransactionSet aprioriSet,	double minimumConfidenceLevel) {
 		
+		
+		
+		
 		ArrayList<Rule> allRules = new ArrayList<Rule>();
 			for(Transaction transaction: aprioriSet.getTransactionSet()){
 				ArrayList<ItemSet> itemList = new ArrayList<ItemSet>();
@@ -112,8 +116,12 @@ public class GeneratorUtilities {
 			}
 			}
 		
-
-		return new RuleSet(allRules);
+			java.util.Date dt = new java.util.Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String currentTime = sdf.format(dt);
+			RuleSet generated = new RuleSet(allRules);
+			generated.setDate(currentTime);
+		return generated;
 	}
 	
 
@@ -258,11 +266,15 @@ public class GeneratorUtilities {
 			}
 			*/
 			//System.out.println("transactionSetLines" + transactionSetLines);
-			
+			//Get the Date
 			
 			Pattern pattern = null;
 			Matcher matcher = null;
 			Vendor vendor = new Vendor(transactionSetLines[0]);
+			String startDate = transactionSetLines[1];//for TransactionSet
+			String endDate = transactionSetLines[2];//for TransactionSet
+			String transactionDate = "2014-04-04 12:00:00";//default date
+			
 			for (int i = 3; i < transactionSetLines.length; i++) {
 				
 				//Scanner scanner = new Scanner(transactionSetLines[i]);
@@ -304,10 +316,9 @@ public class GeneratorUtilities {
 				}
 				
 
-				
-
 				// create a new transaction from the itemSet
 				Transaction nextTransaction = new Transaction(itemset);
+				nextTransaction.setDate(transactionDate);
 
 				// add the finished transaction to the total TransactionSet
 				allTransactions.add(nextTransaction);
@@ -315,6 +326,8 @@ public class GeneratorUtilities {
 			}//end of > length 0
 
 			allTransactions.add(vendor);
+			allTransactions.setStartDate(startDate);
+			allTransactions.setEndDate(endDate);
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}

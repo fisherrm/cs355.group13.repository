@@ -5,6 +5,9 @@
  */
 package group13.fisherr;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+
 public class RuleSetPersistenceController {
 	// data
 	private  RuleSet ruleset;		// Rule being worked with
@@ -38,10 +41,15 @@ public class RuleSetPersistenceController {
 		// TODO: code to convert Rule object to SQL insert statement string for that Rule
 		String query = "SELECT MAX(TransactionSet_ID) FROM TransactionSet";
 		String datetime = aRuleSet.getDate();
+		String startDate = aRuleSet.getDate();
+		System.out.println("RULE SET Date: " + startDate);
+		
+		//? Does a  date become generated right after I make a rule set or when I insert into the database
+		
 		dao.connect();
 		int transactionSetID = dao.execute(query);
 		dao.disconnect();
-		String startDate = "STR_TO_DATE(\"2014-04-04 12:00:00\",\"%Y-%m-%d %H:%i:%S\")"; 
+		startDate = "STR_TO_DATE(\""+startDate+"\",\"%Y-%m-%d %H:%i:%S\")"; 
 		result = "INSERT INTO RuleSet (RuleSetDate, TransactionSet_ID) Values("+startDate+","+transactionSetID+")";
 
 		return result;

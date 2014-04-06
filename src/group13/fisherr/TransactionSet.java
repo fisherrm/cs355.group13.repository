@@ -5,7 +5,10 @@ import java.util.ArrayList;
 public class TransactionSet {
 
 	private ArrayList<Transaction> transactionSet;
-	private String date;
+	private String startDate;
+	private String endDate;
+	
+
 	private ArrayList<Vendor> vendorSet;
 	
 
@@ -28,12 +31,20 @@ public class TransactionSet {
 		this.transactionSet = transactionSet;
 		
 	}
-	public String getDate() {
-		return date;
+	public String getStartDate() {
+		return startDate;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 	
 
