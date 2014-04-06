@@ -44,9 +44,7 @@ public class TransactionSetPersistenceController {
 		
 		String startDate = "STR_TO_DATE(\""+aTransactionSet.getStartDate()+"\",\"%Y-%m-%d %H:%i:%S\")";
 		String endDate = "STR_TO_DATE(\""+aTransactionSet.getEndDate()+"\",\"%Y-%m-%d %H:%i:%S\")";
-		result = "INSERT INTO TransactionSet (TransactionSetDate) Values("+startDate+")";
-
-		//result = "INSERT INTO TransactionSet (TransactionSetStartDate, TransactionSetEndDate) Values("+startDate+","+endDate+")";
+		result = "INSERT INTO TransactionSet (TransactionSetStartDate, TransactionSetEndDate) Values("+startDate+","+endDate+")";
 		return result;
 	}
 }

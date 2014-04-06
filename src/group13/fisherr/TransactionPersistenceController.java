@@ -39,9 +39,9 @@ public class TransactionPersistenceController {
 		String result = null;
 		// TODO: code to convert Transaction object to SQL insert statement string for that Transaction
 		String itemSet = aTransaction.getItemSet().toString();
-		String datetime = aTransaction.getDate();
+		String date = aTransaction.getDate();
 		
-		datetime ="STR_TO_DATE(\""+datetime+"\",\"%Y-%m-%d %H:%i:%S\")";
+		date ="STR_TO_DATE(\""+date+"\",\"%Y-%m-%d %H:%i:%S\")";
 		
 		
 		String queryTranSetID = "SELECT MAX(TransactionSet_ID) FROM TransactionSet";
@@ -51,7 +51,7 @@ public class TransactionPersistenceController {
 		int vendorID = dao.execute(queryVendorID);
 		dao.disconnect();
 		System.out.println("FINAL INSERT");
-		result = "INSERT INTO Transaction (TransactionDate, TransactionItemSet, TransactionSet_ID, Vendor_ID) Values("+datetime+",\""+itemSet+"\","+transactionSetID+", "+vendorID+")";
+		result = "INSERT INTO Transaction (TransactionDate, TransactionItemSet, TransactionSet_ID, Vendor_ID) Values("+date+",\""+itemSet+"\","+transactionSetID+", "+vendorID+")";
 		return result;
 	}
 
