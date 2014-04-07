@@ -107,6 +107,7 @@ public class MySQLDAO implements DAOInterface {
 	
 	
 	@Override
+	//SELECT
 	public int execute(String query) {
 		int errorCode = 0;
 		int id = 0;
