@@ -39,17 +39,19 @@ public class RuleSetPersistenceController {
 	public String generateInsertStmt(RuleSet aRuleSet) {
 		String result = null;
 		// TODO: code to convert Rule object to SQL insert statement string for that Rule
-		String query = "SELECT MAX(TransactionSet_ID) FROM TransactionSet";
+		String queryTranSetID = "SELECT MAX(TransactionSet_ID) FROM TransactionSet";
+		String queryGenUtilitiesID = "SELECT MAX(GeneratorUtilities_ID) FROM GeneratorUtilities";
 		String date = aRuleSet.getDate();
 		System.out.println("RULE SET Date: " + date);
 		
 		//? Does a  date become generated right after I make a rule set or when I insert into the database
 		
 		dao.connect();
-		int transactionSetID = dao.execute(query);
+		int transactionSetID = dao.execute(queryTranSetID);
+		int genUtitliesID = dao.execute(queryGenUtilitiesID);
 		dao.disconnect();
 		date = "STR_TO_DATE(\""+date+"\",\"%Y-%m-%d %H:%i:%S\")"; 
-		result = "INSERT INTO RuleSet (RuleSetDate, TransactionSet_ID) Values("+date+","+transactionSetID+")";
+		result = "INSERT INTO RuleSet (RuleSetDate, TransactionSet_ID, GeneratorUtilities_ID) Values("+date+","+transactionSetID+","+genUtitliesID+")";
 
 		return result;
 	}

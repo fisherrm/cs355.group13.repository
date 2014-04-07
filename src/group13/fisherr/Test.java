@@ -24,15 +24,17 @@ public class Test {
 				
 				//2. Read the transaction set from the file
 				//transactions2 and transactions4.txt
-				TransactionSet textFileTranSet = generator.getTransactionSetFromFile("src/transactionsSet01.txt");
+				
+				TransactionSet textFileTranSet = generator.getTransactionSetFromFile("src/transactions1.txt");
+				
 				
 				//3. specify the minimumSupportLevel, calculated or hardcoded
-				double minimumSupportLevel = 0.5;
-				
+				double minimumSupportLevel = 0.9999;
+				generator.setMinimumSupportLevel(minimumSupportLevel);
 				//4. specify the minimumConfidenceLevel
 				double minimumConfidenceLevel = 0.5;
-			   
-				if(generator.validateMinLevel(minimumSupportLevel) && generator.validateMinLevel(minimumConfidenceLevel)){
+			    generator.setMinimumConfidenceLevel(minimumConfidenceLevel);
+				if(generator.validateTranSet(textFileTranSet) && generator.validateMinLevel(minimumSupportLevel) && generator.validateMinLevel(minimumConfidenceLevel)){
 					Timer timer = new Timer();
 					timer.startTimer();
 					TransactionSet apriori = generator.doApriori(textFileTranSet, minimumSupportLevel);
@@ -42,34 +44,32 @@ public class Test {
 					//5. generate the ruleSet from the apriori 
 					RuleSet generatedRuleSet = generator.generateRuleSet(textFileTranSet, apriori, minimumConfidenceLevel);
 					
-					//6. Write ruleset to the output file
-					System.out.println(generatedRuleSet);
-					//inserting original TransactionSet and generated RuleSet
-					
-					
-					
-					
-					DAOController(textFileTranSet,generatedRuleSet);
-					
-					
-					
-					
-					
-					
-					PrintWriter writer;
-					try {
-						writer = new PrintWriter("output.txt");
-						writer.println(generatedRuleSet);
-						writer.close();
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					if(generator.validateRuleSet(generatedRuleSet)){
+						System.out.println(generatedRuleSet);
+						System.out.println("RuleSet with contents generated");
+						DAOController(generator, textFileTranSet,generatedRuleSet);
 					}
+						//6. Write ruleset to the output file
+						//inserting original TransactionSet and generated RuleSet
+					
+	
+						PrintWriter writer;
+						try {
+							writer = new PrintWriter("output3.txt");
+							writer.println(generatedRuleSet);
+							writer.close();
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					
 					
 					
 				//ERRORS	
 				}else{
+					if(!generator.validateTranSet(textFileTranSet)){
+						System.out.println("Error: Transaction Set has invalid format");
+					}
 					
 					if(!generator.validateMinLevel(minimumSupportLevel)){
 						System.out.println("Error: Minimum Support Level must be between 0.000 and 1.000");
@@ -94,10 +94,14 @@ public class Test {
 
 
 
-public static void DAOController(TransactionSet transactionSet, RuleSet ruleSet){
+public static void DAOController(GeneratorUtilities generator, TransactionSet transactionSet, RuleSet ruleSet){
 	
 	
 	/*DAO MAIN*/
+	
+	GeneratorUtilitiesPersistenceController generatorPC = new GeneratorUtilitiesPersistenceController();
+	
+	
 	
 	VendorPersistenceController vendorPC = new VendorPersistenceController();		// controller for delegating vendor persistence
 	RulePersistenceController rulePC = new RulePersistenceController();		// controller for delegating rule persistence
@@ -116,12 +120,16 @@ public static void DAOController(TransactionSet transactionSet, RuleSet ruleSet)
 		System.err.println("Error reading input");
 	}
 	//set the daoStrings
+	generatorPC.setDAO(daoString);
 	vendorPC.setDAO(daoString);
 	rulePC.setDAO(daoString);
 	ruleSetPC.setDAO(daoString);
 	tranPC.setDAO(daoString);
 	tranSetPC.setDAO(daoString);
 	
+	
+	//persist GeneratorUtilities
+	generatorPC.persistGeneratorUtilities(generator);
 	
 	
 	System.out.println(transactionSet.getVendorSet());

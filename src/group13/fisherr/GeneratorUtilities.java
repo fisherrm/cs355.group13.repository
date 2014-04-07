@@ -7,13 +7,76 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GeneratorUtilities {
+	
+	private double minimumSupportLevel;
+	private double minimumConfidenceLevel;
+	
+	public GeneratorUtilities(){
+		
+		minimumSupportLevel = 0;
+		minimumConfidenceLevel =0;;
+	}
+	
+	public GeneratorUtilities(double minimumSupportLevel, double minimumConfidenceLevel){
+		this.minimumSupportLevel=minimumSupportLevel;
+		this.minimumConfidenceLevel = minimumConfidenceLevel;
+		
+	}
 
+	
+	public double getMinimumSupportLevel() {
+		return minimumSupportLevel;
+	}
+
+
+
+	public void setMinimumSupportLevel(double minimumSupportLevel) {
+		this.minimumSupportLevel = minimumSupportLevel;
+	}
+
+
+
+	public double getMinimumConfidenceLevel() {
+		return minimumConfidenceLevel;
+	}
+
+	/*METHOD NOTES
+	* 
+	* Use this method to validate a Minimum Support Level or Minimum Confidence Level
+	* */
+
+
+	public void setMinimumConfidenceLevel(double minimumConfidenceLevel) {
+		this.minimumConfidenceLevel = minimumConfidenceLevel;
+	}
 	
 	/*METHOD NOTES
 	 * 
-	 * Use this method to validate a Minimum Support Level or Minimum Confidence Level
+	 * Use this method to validate a Transaction Set with contents
 	 * */
 	
+    public boolean validateTranSet(TransactionSet transactionSet){
+    	if(transactionSet.getTransactionSet().size()>0){
+    		return true;
+    	}else{
+    		return false;
+    	}
+    }
+
+    /*METHOD NOTES
+	 * 
+	 * Use this method to validate a RuleSet with contents
+	 * */
+    public boolean validateRuleSet(RuleSet ruleSet){
+    	if(ruleSet.getRuleSet().size()>0){
+    		System.out.println("Valid RuleSet");
+    		return true;
+    	}else{
+    		System.out.println("Invalid RuleSet");
+    		return false;
+    	}
+    }
+
 	public boolean validateMinLevel(double level) {
 		// TODO Auto-generated method stub
 		
@@ -287,42 +350,52 @@ public class GeneratorUtilities {
 				
 				//check for a only 1 left brace at beginning and look ahead to see there is no other left braces
 				
-				String regex =	"(?<=\\{)(.*)(?=\\})";
-				pattern = Pattern.compile(regex);
-				matcher = pattern.matcher(transactionSetLines[i]);	
-				String group = "";
+				String bracesRegex =  "\\{{2,}|\\}{2,}|\\{\\s*\\}";//look for multiple left braces, right braces, or no contents
+				pattern = Pattern.compile(bracesRegex);
+				matcher = pattern.matcher(transactionSetLines[i]);
 				if(matcher.find()&& !matcher.group(0).isEmpty()){
-					//System.out.println(matcher.group(0));
-					group = matcher.group(0);
-					//get rid of extra whitespace
-					group =group.replaceAll(" {1,}", " ");
-					
+					System.out.println("Bad brace format");
+					//return an empty transaction set
+					return new TransactionSet();
 				}else{
-					System.out.println("Error: in transaction \""+transactionSetLines[i]+ "\" at transaction " + (i-2) );
-					System.out.println("Each transaction requires opening and closing curly braces, as well as containing at least one item.");
-				}
-				//separate by commas
-				String[] candidates = group.split(",");
-				// make a new ItemSet to store
-				ItemSet itemset = new ItemSet();
-				for(int k = 0; k<candidates.length; k++)
-				{
-					candidates[k] = candidates[k].trim();
 					
-					//System.out.println("Candidate " + k + ": " + candidates[k]);
-					Item nextItem = new Item(candidates[k]);
-
-					itemset.add(nextItem);
-				}
-				
-
-				// create a new transaction from the itemSet
-				Transaction nextTransaction = new Transaction(itemset);
-				nextTransaction.setDate(transactionDate);
-
-				// add the finished transaction to the total TransactionSet
-				allTransactions.add(nextTransaction);
-			}
+						String regex =	"(?<=\\{)(.*)(?=\\})";
+						pattern = Pattern.compile(regex);
+						matcher = pattern.matcher(transactionSetLines[i]);	
+						String group = "";
+						if(matcher.find()&& !matcher.group(0).isEmpty()){
+							//System.out.println(matcher.group(0));
+							group = matcher.group(0);
+							//get rid of extra whitespace
+							group =group.replaceAll(" {1,}", " ");
+							
+						}else{
+							System.out.println("Error: in transaction \""+transactionSetLines[i]+ "\" at transaction " + (i-2) );
+							System.out.println("Each transaction requires opening and closing curly braces, as well as containing at least one item.");
+						}
+						//separate by commas
+						String[] candidates = group.split(",");
+						// make a new ItemSet to store
+						ItemSet itemset = new ItemSet();
+						for(int k = 0; k<candidates.length; k++)
+						{
+							candidates[k] = candidates[k].trim();
+							
+							//System.out.println("Candidate " + k + ": " + candidates[k]);
+							Item nextItem = new Item(candidates[k]);
+		
+							itemset.add(nextItem);
+						}
+						
+		
+						// create a new transaction from the itemSet
+						Transaction nextTransaction = new Transaction(itemset);
+						nextTransaction.setDate(transactionDate);
+		
+						// add the finished transaction to the total TransactionSet
+						allTransactions.add(nextTransaction);
+					}//
+				}//end of brace regex
 			}//end of > length 0
 
 			allTransactions.add(vendor);
