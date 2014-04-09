@@ -35,8 +35,13 @@ public class GeneratorUtilitiesPersistenceController {
 			
 			double minSupportLevel = aGeneratorUtilities.getMinimumSupportLevel();
 			double minConfidenceLevel = aGeneratorUtilities.getMinimumConfidenceLevel();
-		
-			result = "INSERT INTO GeneratorUtilities (GeneratorUtilitiesMinimumSupportLevel, GeneratorUtilitiesMinimumConfidenceLevel)Values("+minSupportLevel+","+minConfidenceLevel+")";
+			String queryTranSetID = "SELECT MAX(TransactionSet_ID) FROM TransactionSet";
+			
+			dao.connect();
+			int transactionSetID = dao.execute(queryTranSetID);
+			dao.disconnect();
+			
+			result = "INSERT INTO GeneratorUtilities (GeneratorUtilitiesMinimumSupportLevel, GeneratorUtilitiesMinimumConfidenceLevel, TransactionSet_ID)Values("+minSupportLevel+","+minConfidenceLevel+", "+transactionSetID+")";
 
 			return result;
 		}

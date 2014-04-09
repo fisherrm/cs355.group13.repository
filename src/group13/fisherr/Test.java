@@ -29,10 +29,10 @@ public class Test {
 				
 				
 				//3. specify the minimumSupportLevel, calculated or hardcoded
-				double minimumSupportLevel = 0.9999;
+				double minimumSupportLevel = 0.25;
 				generator.setMinimumSupportLevel(minimumSupportLevel);
 				//4. specify the minimumConfidenceLevel
-				double minimumConfidenceLevel = 0.5;
+				double minimumConfidenceLevel = 0.75;
 			    generator.setMinimumConfidenceLevel(minimumConfidenceLevel);
 				if(generator.validateTranSet(textFileTranSet) && generator.validateMinLevel(minimumSupportLevel) && generator.validateMinLevel(minimumConfidenceLevel)){
 					Timer timer = new Timer();
@@ -128,22 +128,16 @@ public static void DAOController(GeneratorUtilities generator, TransactionSet tr
 	tranSetPC.setDAO(daoString);
 	
 	
-	//persist GeneratorUtilities
-	generatorPC.persistGeneratorUtilities(generator);
-	
-	
-	System.out.println(transactionSet.getVendorSet());
 	//persist Vendor
 	for(Vendor vendor: transactionSet.getVendorSet()){
 		vendorPC.persistVendor(vendor);
 	}
 	
 	
+	System.out.println(transactionSet.getVendorSet());
 	
 	//persist TransactionSet
 	tranSetPC.persistTransactionSet(transactionSet);
-	//persist RuleSet
-	ruleSetPC.persistRuleSet(ruleSet);
 	
 	
 	//iterate through each transaction in transactionSet and persist
@@ -152,11 +146,19 @@ public static void DAOController(GeneratorUtilities generator, TransactionSet tr
 		tranPC.persistTransaction(transaction);
 		
 	}
+	//persist GeneratorUtilities
+	generatorPC.persistGeneratorUtilities(generator);
+	//persist RuleSet
+	ruleSetPC.persistRuleSet(ruleSet);
+	
+	
 	//iterate through each rule in ruleSet and persist
 	for(Rule rule: ruleSet.getRuleSet()){
 		System.out.println("persisting rule");
 		rulePC.persistRule(rule);
 	}
+	
+	
 	
 }
 }

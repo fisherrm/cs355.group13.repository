@@ -1,1 +1,3 @@
+If Beer THEN Cheese (1.0000)
+If Apples and Beer THEN Cheese (1.0000)
 
