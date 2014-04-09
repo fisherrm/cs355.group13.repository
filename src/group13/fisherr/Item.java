@@ -3,8 +3,7 @@ package group13.fisherr;
 public class Item {
 	
 	private String itemName;
-	private String itemDesc;
-	private String itemPrice;
+	
 	
 
 	//Constructor
