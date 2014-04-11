@@ -167,9 +167,8 @@ public class GeneratorUtilities {
 						
 						
 						
-						
 						newRule.setActualConfidenceLevel(confidence);
-						newRule.setSupport(originalTranSet.findSupportLevel(transaction.getItemSet()));
+						newRule.setSupportLevel(originalTranSet.findSupportLevel(transaction.getItemSet()));
 						if(newRule.getAntecedent().getItems().size() > 0 && newRule.getConsequent().getItems().size() >0){
 							
 							allRules.add(newRule);
@@ -229,9 +228,9 @@ public class GeneratorUtilities {
 				double supportLevel = tranSet.findSupportLevel(transaction
 						.getItemSet());
 				//System.out.println("support level: " + supportLevel/tranSet.getTransactionSet().size() + " MSL: " + minimumSupportLevel);
-				transaction.getItemSet().setSupport(supportLevel/tranSet.getTransactionSet().size());
+				transaction.getItemSet().setSupportLevel(supportLevel/tranSet.getTransactionSet().size());
 
-				if (transaction.getItemSet().getSupport() >= minimumSupportLevel) {
+				if (transaction.getItemSet().getSupportLevel() >= minimumSupportLevel) {
 					iterations.add(transaction);
 					if (transaction.getItemSet().getItems().size() > 1) {
 						large.add(transaction);

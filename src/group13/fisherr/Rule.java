@@ -6,7 +6,7 @@ public class Rule {
 	private ItemSet antecedent;
 	private ItemSet consequent;
 	private double actualConfidenceLevel;
-	private double support;
+	private double supportLevel;
 	private int ruleSet_ID;
 	
 	
@@ -19,6 +19,7 @@ public class Rule {
 		this.consequent = consequent;
 		this.actualConfidenceLevel = actualConfidenceLevel;
 		this.ruleSet_ID = 0;
+		this.supportLevel = 0;
 		
 	}
 
@@ -27,6 +28,7 @@ public class Rule {
 		this.consequent = new ItemSet();
 		this.actualConfidenceLevel = 0;
 		this.ruleSet_ID = 0;
+		this.supportLevel = 0;
 		
 		// TODO Auto-generated constructor stub
 	}
@@ -55,12 +57,12 @@ public class Rule {
 		this.actualConfidenceLevel = actualConfidenceLevel;
 	}
 
-	public double getSupport() {
-		return support;
+	public double getSupportLevel() {
+		return supportLevel;
 	}
 	
-	public void setSupport(double support) {
-		this.support = support;
+	public void setSupportLevel(double supportLevel) {
+		this.supportLevel = supportLevel;
 	}
 	
 	

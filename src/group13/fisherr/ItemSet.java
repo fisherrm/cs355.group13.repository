@@ -7,11 +7,11 @@ public class ItemSet {
 	private ArrayList<Item> items;
 	
 	
-	private double support = 0;
+	private double supportLevel = 0;
 	
 	public ItemSet(ArrayList<Item>items){
 		this.items = items;
-		this.support = 0;
+		this.supportLevel = 0;
 	}
 	
 	public ItemSet(){
@@ -27,12 +27,12 @@ public class ItemSet {
 		this.items = items;
 	}
 
-	public double getSupport() {
-		return support;
+	public double getSupportLevel() {
+		return supportLevel;
 	}
 	
-	public void setSupport(double supportLevel) {
-		this.support = supportLevel;
+	public void setSupportLevel(double supportLevel) {
+		this.supportLevel = supportLevel;
 	}
 	
 	@Override

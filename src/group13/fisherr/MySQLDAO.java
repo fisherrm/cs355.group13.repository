@@ -18,6 +18,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class MySQLDAO implements DAOInterface {
 	// methods
@@ -27,6 +28,8 @@ public class MySQLDAO implements DAOInterface {
 	// --- set the username and password
 	String user = "CS355GROUP13";		// bypass call to readEntry	
 	String pass = "U856314$";
+	ArrayList<String> errorList = new ArrayList<String>();
+	
 	public void connect() {
 		// load MySQL driver
 		// create connection to MySQL database
@@ -90,8 +93,9 @@ public class MySQLDAO implements DAOInterface {
 
 		   if(resultCode==0){
 			   System.out.println("Insert Failed");
+			   errorList.add("Insert Failed");
 		   }else{
-			   System.out.println("Insert Succeeded");
+			   System.out.println("Insert statement Succeeded");
 		   }
 
 		  
@@ -155,6 +159,7 @@ public class MySQLDAO implements DAOInterface {
 			   return id;
 		   }else{
 			   System.out.println("SELECT Failed");
+			   errorList.add("SELECT statement Failed");
 		   }
 		
 		
