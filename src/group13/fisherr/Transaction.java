@@ -60,7 +60,7 @@ public class Transaction {
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
 		Transaction trans = (Transaction) obj;
-		if(this.itemSet.equals(trans.itemSet) && (this.itemSet.equals(trans.date))){
+		if(this.itemSet.equals(trans.itemSet)){
 			return true;
 		}else{
 			return false;

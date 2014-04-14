@@ -19,10 +19,8 @@ import junit.framework.TestCase;
  */
 public class TestTransaction extends TestCase { 
 
+
 	
-	
-	
-	ItemSet itemSet = new ItemSet();
 	public void testTransaction() {
 	ItemSet item = new ItemSet();
 	Transaction transaction = new Transaction(item);
@@ -128,6 +126,8 @@ public class TestTransaction extends TestCase {
 		itemlist2.add(singleItem3);
 		ItemSet item2 = new ItemSet(itemlist2);
 		/* end of making test2 itemset */
+		
+		//THIS NEEDS FIXING
 		Transaction transaction2 = new Transaction(item2);
 		assertTrue(transaction1.equals(transaction2));
 		Item singleItem4 = new Item("beer");
