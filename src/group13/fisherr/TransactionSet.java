@@ -93,10 +93,10 @@ public class TransactionSet {
 			
 		}
 		timer.stopTimer();
-		System.out.println("GET UNIQUE ITEMS elapsed time in msec.: " + timer.getTotal() );
+		//System.out.println("GET UNIQUE ITEMS elapsed time in msec.: " + timer.getTotal() );
 		return itemSet;
 	}
-
+/*
 	
 	public ItemSet getUniqueItemsSET(){
 		Timer timer = new Timer();
@@ -128,14 +128,14 @@ public class TransactionSet {
 			}
 			
 		}
-		*/
+		
 		 timer.stopTimer();
 		 System.out.println("GET UNIQUE ITEMS elapsed time in msec.: " + timer.getTotal() );
 		return totalItemSet;
 	}
 	
 	
-	
+	*/
 	
 	
 	

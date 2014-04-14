@@ -49,9 +49,9 @@ public class ItemSet {
 		}
 		//str += items.get(items.size());
 	
-		//return str;
+		return str;
 
-		return str +"-" + supportLevel;
+		//return str +"-" + supportLevel;
 	}
 
 	

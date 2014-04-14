@@ -24,11 +24,11 @@ public class Test {
 				//2. Read the transaction set from the file
 				//transactions2 and transactions4.txt
 				
-				TransactionSet textFileTranSet = generator.getTransactionSetFromFile("src/transactions6.txt");
+				TransactionSet textFileTranSet = generator.getTransactionSetFromFile("src/transactions1.txt");
 				
 				
 				//3. specify the minimumSupportLevel, calculated or hardcoded
-				double minimumSupportLevel = 0.014;
+				double minimumSupportLevel = 0.4;
 				generator.setMinimumSupportLevel(minimumSupportLevel);
 				//4. specify the minimumConfidenceLevel
 				double minimumConfidenceLevel = 0.2;
@@ -39,16 +39,16 @@ public class Test {
 					TransactionSet apriori = generator.doApriori(textFileTranSet, minimumSupportLevel);
 					//System.out.println("APRIORI: \n" + apriori);
 					timer.stopTimer();
-					System.out.println("DONE WITH APRIORI elapsed time in msec.: " + timer.getTotal() );
+					//System.out.println("DONE WITH APRIORI elapsed time in msec.: " + timer.getTotal() );
 					//5. generate the ruleSet from the apriori 
 					RuleSet generatedRuleSet = generator.generateRuleSet(textFileTranSet, apriori, minimumConfidenceLevel);
-					/*
-					if(generator.validateRuleSet(generatedRuleSet)){
+					
+					
 						System.out.println(generatedRuleSet);
-						System.out.println("RuleSet with contents generated");
+						//System.out.println("RuleSet with contents generated");
 						DAOController(generator, textFileTranSet,generatedRuleSet);
-					}
-					*/
+					
+					
 						//6. Write ruleset to the output file
 						//inserting original TransactionSet and generated RuleSet
 					

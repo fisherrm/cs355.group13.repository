@@ -5,9 +5,11 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -66,7 +68,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 		rsLabel = new JLabel("Output File Path: ");
 		outPath = new JTextField(20);
 		//outPath.setBorder(new TitledBorder("Output File Path"));
-		ruleSetText = new JTextArea(5, 30);
+		ruleSetText = new JTextArea(10, 50);
 		ruleSetText.setEditable(false);
 		ruleSet = new JScrollPane(ruleSetText);
 		ruleSet.setBorder(new TitledBorder("Rule Set"));
@@ -93,7 +95,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 	{
 		GeneratorGUI genGUI = new GeneratorGUI();
 		
-		genGUI.setSize(500, 400);
+		genGUI.setSize(600, 400);
 		genGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		genGUI.setVisible(true);
 	}
@@ -112,10 +114,16 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 			System.out.println("Text file to TransSet");
 			
 			//System.out.println(textFileTranSet);		
-			double minimumSupportLevel = this.getMS();
+			double minimumSupportLevel = this.getMS(generator);
 			//System.out.println(minimumSupportLevel);
-			double minimumConfidenceLevel = this.getMC();
+			double minimumConfidenceLevel = this.getMC(generator);
 			//System.out.println(minimumConfidenceLevel);
+			
+			
+			
+			
+			
+			
 			String outFile = this.getOutPath();
 			if(this.valid){
 				Timer timer = new Timer();
@@ -126,7 +134,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 				System.out.println("elapsed time in msec.: " + timer.getTotal() );
 						 
 				RuleSet ruleset = generator.generateRuleSet(textFileTranSet, apriori, minimumConfidenceLevel);
-						
+				DAOController(generator, textFileTranSet,ruleset);		
 						
 				System.out.println(ruleset);
 				PrintWriter writer;
@@ -205,7 +213,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 		return filePath;
 	}
 	
-	public double getMS()
+	public double getMS(GeneratorUtilities generator)
 	{
 		Double minSup = 0.0;
 		if(this.msParam.getText().trim().length() == 0)
@@ -218,7 +226,15 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 			try{
 				minSup = Double.parseDouble(this.msParam.getText());
 			} catch(NumberFormatException nfe){
-				this.errorMsg += "Minimum Support muse be ranging from 0.0 to 1.0...\n";
+				
+					
+					this.errorMsg += "Minimum Support must be ranging from 0.0 to 1.0...\n";
+					this.valid = false;
+				
+			}
+			if(!generator.validateMinLevel(minSup)){
+				
+				this.errorMsg += "Minimum Support must be ranging from 0.0 to 1.0...\n";
 				this.valid = false;
 			}
 			
@@ -226,7 +242,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 		return minSup;
 	}
 	
-	public double getMC()
+	public double getMC(GeneratorUtilities generator)
 	{
 		Double minCon = 0.0;
 		if(this.mcParam.getText().trim().length() == 0)
@@ -239,13 +255,26 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 			try{
 				minCon = Double.parseDouble(this.mcParam.getText());
 			} catch(NumberFormatException nfe){
-				this.errorMsg += "Minimum Confidence muse be ranging from 0.0 to 1.0...\n";
+				
+					this.errorMsg += "Minimum Confidence must be ranging from 0.0 to 1.0...\n";
+					this.valid = false;
+				
+			}
+			if(!generator.validateMinLevel(minCon)){
+				this.errorMsg += "Minimum Confidence must be ranging from 0.0 to 1.0...\n";
 				this.valid = false;
 			}
 		}
 		return minCon;
 	}
 	
+
+	/* METHOD NOTES: 
+	 * 
+	 * Used to read a transactions set from a file
+	 * This is will need to have validation methods later
+	 * */
+
 	public TransactionSet getTransactionSetFromFile(String fileName) {
 
 		TransactionSet allTransactions = new TransactionSet();
@@ -253,64 +282,183 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 			ReadFile file = new ReadFile(fileName);
 			String[] transactionSetLines = file.openFile();
 			
+			/*If we need to use a FileReader
 			
+			FileReader filereader = new FileReader(fileName);
+			Scanner fileScanner = new Scanner(filereader);
+			
+			ArrayList<String> transactionLines = new ArrayList<String>();
+			while(fileScanner.hasNextLine()){
+				transactionLines.add(fileScanner.nextLine());
+				
+			}
+			
+			for(String insideBracket : transactionLines){
+				//no leading brace
+				validateBraces(insideBracket);
+				//no closing brace
+			}
+			*/
+			//System.out.println("transactionSetLines" + transactionSetLines);
+			//Get the Date
 			
 			Pattern pattern = null;
 			Matcher matcher = null;
+			Vendor vendor = new Vendor(transactionSetLines[0]);
+			String startDate = transactionSetLines[1];//for TransactionSet
+			String endDate = transactionSetLines[2];//for TransactionSet
+			String transactionDate = "2014-04-04 12:00:00";//default date
 			
 			for (int i = 3; i < transactionSetLines.length; i++) {
 				
 				//Scanner scanner = new Scanner(transactionSetLines[i]);
 				//continue if the length of the line is greater than 0
 				if(transactionSetLines[i].length()>0){
-
+				
+					
+					
+					
+				
 				//check for a only 1 left brace at beginning and look ahead to see there is no other left braces
 				
-				String regex =	"(?<=\\{)(.*)(?=\\})";
-				pattern = Pattern.compile(regex);
-				matcher = pattern.matcher(transactionSetLines[i]);	
-				String group = "";
+				String bracesRegex =  "\\{{2,}|\\}{2,}|\\{\\s*\\}";//look for multiple left braces, right braces, or no contents
+				pattern = Pattern.compile(bracesRegex);
+				matcher = pattern.matcher(transactionSetLines[i]);
 				if(matcher.find()&& !matcher.group(0).isEmpty()){
-					//System.out.println(matcher.group(0));
-					group = matcher.group(0);
-					//get rid of extra whitespace
-					group =group.replaceAll(" {1,}", " ");
-					
+					this.errorMsg+="Error: in transaction \""+transactionSetLines[i]+ "\" at transaction " + (i-2)+" (line "+(i+1)+")...\n"; 
+					this.errorMsg+="Bad transaction set formatting (no item contents, or extra/missing left and right braces)...\n";
+					this.valid=false;
+					//System.out.println("Bad brace format");
+					//return an empty transaction set
+					return new TransactionSet();
 				}else{
-					this.errorMsg += "Error in transaction \""+transactionSetLines[i]+ "\" at transaction " + (i-2) + "\n " ;
-					this.errorMsg += "Each transaction requires opening and closing curly braces, as well as containing at least one item.\n";
-					this.valid = false;
-				}
-				//separate by commas
-				String[] candidates = group.split(",");
-				// make a new ItemSet to store
-				ItemSet itemset = new ItemSet();
-				for(int k = 0; k<candidates.length; k++)
-				{
-					candidates[k] = candidates[k].trim();
 					
-					//System.out.println("Candidate " + k + ": " + candidates[k]);
-					Item nextItem = new Item(candidates[k]);
-
-					itemset.add(nextItem);
-				}
-				
-
-				
-
-				// create a new transaction from the itemSet
-				Transaction nextTransaction = new Transaction(itemset);
-
-				// add the finished transaction to the total TransactionSet
-				allTransactions.add(nextTransaction);
-			}
+						String regex =	"(?<=\\{)(.*)(?=\\})";
+						pattern = Pattern.compile(regex);
+						matcher = pattern.matcher(transactionSetLines[i]);	
+						String group = "";
+						if(matcher.find()&& !matcher.group(0).isEmpty()){
+							//System.out.println(matcher.group(0));
+							group = matcher.group(0);
+							//get rid of extra whitespace
+							group =group.replaceAll(" {1,}", " ");
+							
+						}else{
+							//System.out.println("Error: in transaction \""+transactionSetLines[i]+ "\" at transaction " + (i-2) );
+							//System.out.println("Each transaction requires opening and closing curly braces, as well as containing at least one item.");
+							this.errorMsg+="Error: in transaction \""+transactionSetLines[i]+ "\" at transaction " + (i-2)+"...\n"; 
+							this.errorMsg+="Each transaction requires opening and closing curly braces, as well as containing at least one item...\n";
+							this.valid=false;
+						}
+						//separate by commas
+						String[] candidates = group.split(",");
+						// make a new ItemSet to store
+						ItemSet itemset = new ItemSet();
+						for(int k = 0; k<candidates.length; k++)
+						{
+							candidates[k] = candidates[k].trim();
+							
+							//System.out.println("Candidate " + k + ": " + candidates[k]);
+							Item nextItem = new Item(candidates[k]);
+		
+							itemset.add(nextItem);
+						}
+						
+		
+						// create a new transaction from the itemSet
+						Transaction nextTransaction = new Transaction(itemset);
+						nextTransaction.setDate(transactionDate);
+		
+						// add the finished transaction to the total TransactionSet
+						allTransactions.add(nextTransaction);
+					}//
+				}//end of brace regex
 			}//end of > length 0
 
+			allTransactions.add(vendor);
+			allTransactions.setStartDate(startDate);
+			allTransactions.setEndDate(endDate);
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
 		return allTransactions;
 
+	}
+	
+	
+	
+	
+	
+	
+	public static void DAOController(GeneratorUtilities generator, TransactionSet transactionSet, RuleSet ruleSet){
+		
+		
+		/*DAO MAIN*/
+		
+		GeneratorUtilitiesPersistenceController generatorPC = new GeneratorUtilitiesPersistenceController();
+		
+		
+		
+		VendorPersistenceController vendorPC = new VendorPersistenceController();		// controller for delegating vendor persistence
+		RulePersistenceController rulePC = new RulePersistenceController();		// controller for delegating rule persistence
+		RuleSetPersistenceController ruleSetPC = new RuleSetPersistenceController();		// controller for delegating ruleSet persistence
+		TransactionPersistenceController tranPC = new TransactionPersistenceController();		// controller for delegating transaction persistence
+		TransactionSetPersistenceController tranSetPC = new TransactionSetPersistenceController();		// controller for delegating transactionSet persistence
+
+		String daoString = "MySQL";
+		/*
+	    InputStreamReader unbuffered = new InputStreamReader( System.in );
+	    BufferedReader keyboard = new BufferedReader( unbuffered );
+		try {
+			System.out.println("Use (Mock) DAO or (MySQL) DAO? Mock");
+			daoString = keyboard.readLine();
+			daoString = "MySQL";
+		}
+		catch (IOException error) {
+			System.err.println("Error reading input");
+		}
+		*/
+		//set the daoStrings
+		generatorPC.setDAO(daoString);
+		vendorPC.setDAO(daoString);
+		rulePC.setDAO(daoString);
+		ruleSetPC.setDAO(daoString);
+		tranPC.setDAO(daoString);
+		tranSetPC.setDAO(daoString);
+		
+		
+		//persist Vendor
+		for(Vendor vendor: transactionSet.getVendorSet()){
+			vendorPC.persistVendor(vendor);
+		}
+		
+		
+		//System.out.println(transactionSet.getVendorSet());
+		
+		//persist TransactionSet
+		tranSetPC.persistTransactionSet(transactionSet);
+		
+		
+		//iterate through each transaction in transactionSet and persist
+		for(Transaction transaction: transactionSet.getTransactionSet()){
+			//System.out.println("persisting transaction");
+			tranPC.persistTransaction(transaction);
+			
+		}
+		//persist GeneratorUtilities
+		generatorPC.persistGeneratorUtilities(generator);
+		//persist RuleSet
+		ruleSetPC.persistRuleSet(ruleSet);
+		
+		
+		//iterate through each rule in ruleSet and persist
+		for(Rule rule: ruleSet.getRuleSet()){
+			//System.out.println("persisting rule");
+			rulePC.persistRule(rule);
+		}
+		
+		
+		
 	}
 
 }
