@@ -96,7 +96,9 @@ public class GeneratorUtilities {
 
 	public static ArrayList<ItemSet> findSubsets(ItemSet candidates, ArrayList<ItemSet> ps)
 	{
-		
+		System.out.println("findSubsets starting...");
+		Timer timer = new Timer();
+		timer.startTimer();
 		ArrayList<ItemSet> powerSet = ps;
 		
 		if(!powerSet.contains(candidates) )	{
@@ -111,7 +113,8 @@ public class GeneratorUtilities {
 			ItemSet itemSubset = new ItemSet(subset);			
 			findSubsets(itemSubset, powerSet);
 		}
-		
+		timer.stopTimer();
+		System.out.println("FindSubsets elapsed time in msec.: " + timer.getTotal() );
 		return powerSet;
 	}
 	
@@ -194,10 +197,10 @@ public class GeneratorUtilities {
 	 * */
 
 	public TransactionSet doApriori(TransactionSet tranSet,	double minimumSupportLevel) {
-
+		
 		ItemSet uniqueItems = tranSet.getUniqueItems();
 		
-		// System.out.println("UNIQUE:" +uniqueItems);
+		 System.out.println("UNIQUE:" +uniqueItems);
 
 		TransactionSet large = new TransactionSet(); // resultant large ItemSets
 		TransactionSet iterations = new TransactionSet(); // large ItemSet in
@@ -220,13 +223,14 @@ public class GeneratorUtilities {
 		// next iterations
 		int k = 2;
 		while (candidates.getTransactionSet().size() != 0) {
-
+			System.out.println("CANDIDATES");
+			System.out.println(candidates);
 			// set iterations from candidates (pruning)
 			iterations.getTransactionSet().clear();
 			// look at each transaction from the candidates
 			for (Transaction transaction : candidates.getTransactionSet()) {
-				double supportLevel = tranSet.findSupportLevel(transaction
-						.getItemSet());
+				double supportLevel = tranSet.findSupportLevel(transaction.getItemSet());
+				System.out.println("SL: " + supportLevel);
 				//System.out.println("support level: " + supportLevel/tranSet.getTransactionSet().size() + " MSL: " + minimumSupportLevel);
 				transaction.getItemSet().setSupportLevel(supportLevel/tranSet.getTransactionSet().size());
 
@@ -242,8 +246,9 @@ public class GeneratorUtilities {
 
 			// set candidates for next iteration (find supersets of iterations)
 			candidates.getTransactionSet().clear();
+			System.out.println("making new candidates");
 			candidates.setTransactionSet(findSubsetsApriori(iterations.getUniqueItems(), k));// get k-item subsets
-
+			System.out.println("done making candidates");
 			k += 1;
 
 		}
@@ -259,14 +264,18 @@ public class GeneratorUtilities {
 	 */
 
 	private static ArrayList<Transaction> findSubsetsApriori(ItemSet itemSet, int k) {
-
+		System.out.println("findSubsetsApriori starting... " + itemSet.getItems().size());
+		Timer timer = new Timer();
+		timer.startTimer();
 		ArrayList<Transaction> allSubsets = new ArrayList<Transaction>();
 		int subsetCount = (int) Math.pow(2, itemSet.getItems().size());
 		// System.out.println("SubsetCount: " + subsetCount);
 		for (int i = 0; i < subsetCount; i++) {
 			ItemSet subset = new ItemSet();
 			for (int bitIndex = 0; bitIndex < itemSet.getItems().size(); bitIndex++) {
+				System.out.println(bitIndex);
 				if (getBit(i, bitIndex) == 1) {
+					//System.out.println("adding itemset");
 					subset.add(itemSet.getItems().get(bitIndex));
 
 				}
@@ -275,9 +284,11 @@ public class GeneratorUtilities {
 
 			if (subset.getItems().size() == k - 1) {
 				allSubsets.add(new Transaction(subset));
+				System.out.println("Added new transaction subset");
 			}
 		}
-
+		timer.stopTimer();
+		System.out.println("FindSubsetsApriori elapsed time in msec.: " + timer.getTotal() );
 		return allSubsets;
 	}
 
@@ -287,11 +298,13 @@ public class GeneratorUtilities {
 	 * */
 
 	private static int getBit(int value, int position) {
-
+		//System.out.println("getBit called");
 		int bit = value & (int) Math.pow(2, position);
 		if (bit > 0) {
+			//System.out.println("getBit done");
 			return 1;
 		} else {
+			//System.out.println("getBit done");
 			return 0;
 		}
 

@@ -1,8 +1,6 @@
 package group13.fisherr;
 
 
-
-
 import junit.framework.TestCase;
 
 
@@ -155,6 +153,21 @@ public class TestGeneratorUtilities extends TestCase{
 
 
 
+	}
+	public void testGetTransactionSetFromFile(){
+		GeneratorUtilities generator = new GeneratorUtilities();
+		String filename = "src/transactionSet_01.txt";
+		TransactionSet transactionSet = new TransactionSet();
+		transactionSet = generator.getTransactionSetFromFile(filename);
+		ArrayList<Transaction> transactionList = transactionSet.getTransactionSet();
+		System.out.println(transactionList);
+		//make sure the first 4 lines are read right
+		assertTrue(transactionList.get(0).toString().contains("A,B,E"));
+		assertTrue(transactionList.get(1).toString().contains("B,D"));
+		assertTrue(transactionList.get(2).toString().contains("B,C"));
+		assertTrue(transactionList.get(3).toString().contains("A,B,D"));
+		//test to make sure it's not all true
+		assertFalse(transactionList.get(4).toString().contains("A,B,C"));
 	}
 
 
