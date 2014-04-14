@@ -5,7 +5,7 @@ public class Transaction {
 	public ItemSet itemSet;
 	public double totalCost = 0;
 	public int numberOfItems = 0;
-	public String date;
+	public String date = "";
 	
 	public Transaction(ItemSet itemSet){
 		this.itemSet = itemSet;
@@ -60,7 +60,7 @@ public class Transaction {
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
 		Transaction trans = (Transaction) obj;
-		if(this.itemSet.equals(trans.itemSet)){
+		if(this.itemSet.equals(trans.itemSet) && (this.getDate().equals(trans.getDate()))){
 			return true;
 		}else{
 			return false;

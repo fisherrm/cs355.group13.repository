@@ -127,7 +127,7 @@ public class TestTransaction extends TestCase {
 		ItemSet item2 = new ItemSet(itemlist2);
 		/* end of making test2 itemset */
 		
-		//THIS NEEDS FIXING
+		
 		Transaction transaction2 = new Transaction(item2);
 		assertTrue(transaction1.equals(transaction2));
 		Item singleItem4 = new Item("beer");

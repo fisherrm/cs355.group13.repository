@@ -170,8 +170,8 @@ public class MySQLDAO implements DAOInterface {
 		   {
 			   System.out.println("Could not execute SQL statement");
 			   System.out.println(e.getMessage());
-			   System.exit(1);
-			   errorCode = 1;
+//			   System.exit(1);
+			   return errorCode = 1;
 		   }
 
 
@@ -185,8 +185,8 @@ public class MySQLDAO implements DAOInterface {
 		   catch (SQLException sqle) {
 			   System.out.println("Could not process result set");
 			   System.out.println(sqle.getMessage());
-			   System.exit(1);
-			   errorCode= 1;
+//			   System.exit(1);
+			   return errorCode= 1;
 		   }
 
 
