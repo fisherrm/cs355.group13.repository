@@ -188,6 +188,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 			//this.errorMsg += "No output file indicated...\n";
 			//this.valid = false;
 			filePath = "defaultOutput.txt";
+			
 		}
 		else
 		{
@@ -200,6 +201,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 			}
 			*/
 		}
+		outPath.setText(filePath);
 		return filePath;
 	}
 	

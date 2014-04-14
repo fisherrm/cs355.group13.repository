@@ -246,7 +246,7 @@ public class GeneratorUtilities {
 
 			// set candidates for next iteration (find supersets of iterations)
 			candidates.getTransactionSet().clear();
-			System.out.println("making new candidates");
+			System.out.println("making new candidates k-item: " + k);
 			candidates.setTransactionSet(findSubsetsApriori(iterations.getUniqueItems(), k));// get k-item subsets
 			System.out.println("done making candidates");
 			k += 1;
@@ -269,11 +269,11 @@ public class GeneratorUtilities {
 		timer.startTimer();
 		ArrayList<Transaction> allSubsets = new ArrayList<Transaction>();
 		int subsetCount = (int) Math.pow(2, itemSet.getItems().size());
-		// System.out.println("SubsetCount: " + subsetCount);
+		 System.out.println("SubsetCount: " + subsetCount);
 		for (int i = 0; i < subsetCount; i++) {
 			ItemSet subset = new ItemSet();
 			for (int bitIndex = 0; bitIndex < itemSet.getItems().size(); bitIndex++) {
-				System.out.println(bitIndex);
+				//System.out.println(bitIndex);
 				if (getBit(i, bitIndex) == 1) {
 					//System.out.println("adding itemset");
 					subset.add(itemSet.getItems().get(bitIndex));
