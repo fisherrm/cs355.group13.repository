@@ -5,7 +5,7 @@
  */
 package group13.fisherr;
 
-import java.sql.ResultSet;
+
 
 public interface DAOInterface {
 	public void connect();				// connect to data store

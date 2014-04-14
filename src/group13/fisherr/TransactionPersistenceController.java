@@ -7,7 +7,7 @@ package group13.fisherr;
 
 public class TransactionPersistenceController {
 	// data
-	private  Transaction transaction;		// Transaction being worked with
+	//private  Transaction transaction;		// Transaction being worked with
 	private DAOInterface dao;		// the Data Access Object (DAO) being used
 	
 	// methods

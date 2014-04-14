@@ -3,7 +3,7 @@ package group13.fisherr;
 public class GeneratorUtilitiesPersistenceController {
 
 		// data
-		private  GeneratorUtilities generatorUtilities;		// Rule being worked with
+		//private  GeneratorUtilities generatorUtilities;		// Rule being worked with
 		private DAOInterface dao;		// the Data Access Object (DAO) being used
 		
 		// methods

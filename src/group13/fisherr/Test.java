@@ -18,7 +18,7 @@ public class Test {
 		
 				//String fileName1 = "src/transactionSet_01.txt";
 				//String fileName2 = "src/transactionSet_02.txt";
-				String fileName3 = "src/transactionSet_03.txt";//current location of Dr.Wagners test case from online
+				//String fileName3 = "src/transactionSet_03.txt";//current location of Dr.Wagners test case from online
 				// String fileName = "H://CS/CS 355/GROUP13/GROUP13.FISHERR/src/transactionSet_01.txt";
 				
 				//2. Read the transaction set from the file

@@ -5,12 +5,12 @@
  */
 package group13.fisherr;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
+//import java.sql.Timestamp;
+//import java.text.SimpleDateFormat;
 
 public class RuleSetPersistenceController {
 	// data
-	private  RuleSet ruleset;		// Rule being worked with
+	//private  RuleSet ruleset;		// Rule being worked with
 	private DAOInterface dao;		// the Data Access Object (DAO) being used
 	
 	// methods

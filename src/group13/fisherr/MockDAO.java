@@ -5,7 +5,7 @@
  */
 package group13.fisherr;
 
-import java.sql.ResultSet;
+
 
 public class MockDAO implements DAOInterface {
 	// methods

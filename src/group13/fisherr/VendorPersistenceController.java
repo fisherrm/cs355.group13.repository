@@ -7,7 +7,7 @@ package group13.fisherr;
 
 public class VendorPersistenceController {
 	// data
-	private  Vendor Vendor;		// Vendor being worked with
+	//private  Vendor Vendor;		// Vendor being worked with
 	private DAOInterface dao;		// the Data Access Object (DAO) being used
 	
 	// methods

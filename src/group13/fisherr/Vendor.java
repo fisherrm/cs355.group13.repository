@@ -4,9 +4,9 @@ public class Vendor {
 	 private String name;
 
 	 public Vendor(){
-		 this.name = name;
+		 this.name="";
 	 }
-
+	
 	public Vendor(String name) {
 		// TODO Auto-generated constructor stub
 		this.name = name;

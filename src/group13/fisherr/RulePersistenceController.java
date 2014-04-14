@@ -5,12 +5,11 @@
  */
 package group13.fisherr;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 
 public class RulePersistenceController {
 	// data
-	private  Rule rule;		// Rule being worked with
+	//private  Rule rule;		// Rule being worked with
 	private DAOInterface dao;		// the Data Access Object (DAO) being used
 	
 	// methods

@@ -94,7 +94,7 @@ public class GeneratorUtilities {
 	 * Use this method to find the the powerset of subsets given an ItemSet
 	 * */
 
-	public static ArrayList<ItemSet> findSubsets(ItemSet candidates, ArrayList<ItemSet> ps)
+	public  ArrayList<ItemSet> findSubsets(ItemSet candidates, ArrayList<ItemSet> ps)
 	{
 		//System.out.println("findSubsets starting...");
 		Timer timer = new Timer();
