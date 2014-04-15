@@ -24,84 +24,81 @@ import junit.framework.TestCase;
 
 public class TestMySQLDAO extends TestCase {
 
-
-
-
 	//This is the same as Execute, but in order to select something we must be connected
 	//so if this runs, then connect works.
 	public void testConnect(){
-	MySQLDAO SQL = new MySQLDAO();
-	SQL.connect();
-
-
-
-
-	String query = "SELECT * FROM Vendor;";
-	int result = 2;
-	result = SQL.execute(query);
-//	System.out.println(result);
-	assertNotSame(result, 1);
-	SQL.disconnect();
-//		
-	}
-
-
-	//Executes a select query
-	public void testExecute(){
 		MySQLDAO SQL = new MySQLDAO();
 		SQL.connect();
-
-
-
-
-		String query = "SELECT * FROM Vendor;";
-		int result = 2;
-		result = SQL.execute(query);
-//		System.out.println(result);
-		assertNotSame(result, 1);
+		String validQuery = "SELECT MIN(TransactionSet_ID) FROM TransactionSet;";
+		int result = SQL.execute(validQuery);
+		//System.out.println("1st result: " + result);
+		assertEquals(1, result);
 		SQL.disconnect();
+		
 	}
-	/*
-	public void testUpdate(){
-	MySQLDAO SQL = new MySQLDAO();
-	SQL.connect();
-	
-	String vendorName = "TestMart";
-	String query = "INSERT INTO Vendor (VendorName) Values(\""+vendorName+"\")";
-	int result = 2;
-	result = SQL.executeUpdate(query);
-	System.out.println(result);
-	assertNotSame(result, 0);
-	SQL.disconnect();
-}
-*/
+
+
+	public void testExecuteUpdate(){
+		MySQLDAO SQL = new MySQLDAO();
+		SQL.connect();
+		//test a valid INSERT for Transaction Set
+		String date = "2014-04-04 12:00:00";
+		String startDate = "STR_TO_DATE(\""+date+"\",\"%Y-%m-%d %H:%i:%S\")";
+		String endDate = "STR_TO_DATE(\""+date+"\",\"%Y-%m-%d %H:%i:%S\")";
+		String insertQuery = "INSERT INTO TransactionSet (TransactionSetStartDate, TransactionSetEndDate) Values("+startDate+","+endDate+")";
+		
+		int result = SQL.executeUpdate(insertQuery);
+		//System.out.println("1st result: " + result);
+		//a resultCode of 1 is a sucessful INSERT
+		assertEquals(1, result);
+		
+		//invalidInsertQuery
+		String invalidInsertQuery = "INSERT INTO TransactionSet (TransactionSetStartDate, TransactionSetEndDate)";
+		int result2 = SQL.executeUpdate(invalidInsertQuery);
+		//System.out.println("2nd result: " + result2);
+		//a resultCode of -1 is a failed INSERT
+		assertEquals(-1, result2);
+		
+	}
+	//Executes a select query
+	public void testExecute(){
+		
+		MySQLDAO SQL = new MySQLDAO();
+		SQL.connect();
+		//test for a valid select query
+		//the min transcation set id will be 1 (as long as a transaction set is inserted
+		String validQuery = "SELECT MIN(TransactionSet_ID) FROM TransactionSet;";
+		int result = SQL.execute(validQuery);
+		//System.out.println("1st result: " + result);
+		assertEquals(1, result);
+		//test the that the invalid select query
+		String invalidQuery = "SELECT TransactionSet;";
+		int result2 = SQL.execute(invalidQuery);
+		//System.out.println("2nd result: " + result2);
+		assertEquals(-1, result2);
+		SQL.disconnect();
+		
+	}
+		
 
 
 	public void testDisconnect(){
 		MySQLDAO SQL = new MySQLDAO();
 		SQL.connect();
 		SQL.disconnect();
-
-
-		String query = "SELECT * FROM Transaction;";
+		String query = "SELECT MIN(TransactionSet_ID) FROM Transaction;";
 		//int result = 2;
 		int result = SQL.execute(query);
-		System.out.println("First Result: " + result);
-		//Not connected to database so should give an error, which makes result = 1
+		//System.out.println("First Result: " + result);
+		//Not connected to database so should give an error, which makes result = -1
 		//assertEquals(result, 1);
-		assertEquals(1, result);
-
+		assertEquals(-1, result);
 		SQL.connect();
-		
 		int result2 = SQL.execute(query);
-		System.out.println("Second Result: " + result2);
-		//Same thing but now disconnect is after, so it should not be 1.
-		assertFalse(result2 == 1);
-		//assertEquals(0,result2);
+		//System.out.println("Second Result: " + result2);
+		//Same thing but now disconnect is after, so it should be an transaction set id of 1.
+		assertEquals(1, result2);
 		SQL.disconnect();
-
-
-
 
 	}
 
