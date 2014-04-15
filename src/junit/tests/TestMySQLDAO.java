@@ -1,7 +1,8 @@
-package group13.fisherr;
+package junit.tests;
 
 
 
+import service.MySQLDAO;
 import junit.framework.TestCase;
 
 

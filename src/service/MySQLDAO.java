@@ -3,7 +3,7 @@
  * 
  * Created by Paul J. Wagner, 2/28/2013
  */
-package group13.fisherr;
+package service;
 
 /*
  * MySQLDAO - DAO class that persists to a MySQL database

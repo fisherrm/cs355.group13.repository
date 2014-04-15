@@ -1,0 +1,99 @@
+package service;
+
+public class Transaction {
+	
+	private ItemSet itemSet;
+	private double totalCost = 0;
+	private int numberOfItems = 0;
+	private String date;
+	private int transactionSet_ID = 0;
+	
+	
+	
+	
+
+
+	public Transaction(ItemSet itemSet){
+		this.itemSet = itemSet;
+		
+		//this.date = date;
+	}
+	
+	
+	public Transaction() {
+		// TODO Auto-generated constructor stub
+		this.itemSet = new ItemSet();
+	}
+
+
+	public ItemSet getItemSet() {
+		return itemSet;
+	}
+
+
+	public void setItemSet(ItemSet itemSet) {
+		this.itemSet = itemSet;
+	}
+
+
+	public double getTotalCost() {
+		return totalCost;
+	}
+
+	public void setTotalCost(double totalCost) {
+		this.totalCost = totalCost;
+	}
+
+	public int getNumberOfItems() {
+		return numberOfItems;
+	}
+
+	public void setNumberOfItems(int numberOfItems) {
+		this.numberOfItems = numberOfItems;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+	
+	
+	public int getTransactionSet_ID() {
+		return transactionSet_ID;
+	}
+
+
+	public void setTransactionSet_ID(int transactionSet_ID) {
+		this.transactionSet_ID = transactionSet_ID;
+	}
+	
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		
+		String str = itemSet.toString();
+		return str +"\n";
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		Transaction trans = (Transaction) obj;
+		if(this.itemSet.equals(trans.itemSet)){
+			return true;
+		}else{
+			return false;
+		}
+		
+	}
+	
+	
+	
+	
+
+}

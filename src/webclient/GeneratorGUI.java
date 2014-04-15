@@ -1,4 +1,5 @@
-package group13.fisherr;
+package webclient;
+
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -19,6 +20,23 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+
+import service.GeneratorUtilities;
+import service.GeneratorUtilitiesPersistenceController;
+import service.Item;
+import service.ItemSet;
+import service.ReadFile;
+import service.Rule;
+import service.RulePersistenceController;
+import service.RuleSet;
+import service.RuleSetPersistenceController;
+import service.Timer;
+import service.Transaction;
+import service.TransactionPersistenceController;
+import service.TransactionSet;
+import service.TransactionSetPersistenceController;
+import service.Vendor;
+import service.VendorPersistenceController;
 
 @SuppressWarnings("serial")
 public class GeneratorGUI extends JFrame implements ActionListener{
@@ -136,6 +154,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 				System.out.println(ruleset);
 				PrintWriter writer;
 				try {
+					
 					writer = new PrintWriter(outFile);
 					System.out.println(outFile);
 					writer.println(ruleset);
