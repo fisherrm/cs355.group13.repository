@@ -1,10 +1,15 @@
 package service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class TransactionSet {
+public class TransactionSet implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Transaction> transactionSet;
 	private String startDate;
 	private String endDate;
@@ -22,6 +27,18 @@ public class TransactionSet {
 		// TODO Auto-generated constructor stub
 		this.transactionSet = new ArrayList<Transaction>();
 		this.vendorSet = new ArrayList<Vendor>();
+	}
+
+	public TransactionSet(TransactionSet aTranSet) {
+		// TODO Auto-generated constructor stub
+//		TransactionSet copy = new TransactionSet();
+//		copy.setTransactionSet(aTranSet.getTransactionSet());
+//		copy.setStartDate(aTranSet.getStartDate());
+//		copy.setEndDate(aTranSet.getEndDate());
+//		copy.setVendorSet(aTranSet.getVendorSet());
+		setStartDate(aTranSet.getStartDate());
+		setEndDate(aTranSet.getEndDate());
+		setVendorSet(aTranSet.getVendorSet());
 	}
 
 	public ArrayList<Transaction> getTransactionSet() {

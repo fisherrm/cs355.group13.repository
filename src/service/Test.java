@@ -24,7 +24,7 @@ public class Test {
 				//2. Read the transaction set from the file
 				//transactions2 and transactions4.txt
 				
-				TransactionSet textFileTranSet = generator.getTransactionSetFromFile("src/transactions1.txt");
+				TransactionSet textFileTranSet = generator.getTransactionSetFromFile("src/transactionSet_01.txt");
 				
 				
 				//3. specify the minimumSupportLevel, calculated or hardcoded

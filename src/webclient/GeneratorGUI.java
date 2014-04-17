@@ -21,6 +21,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import org.restlet.Request;
+import org.restlet.data.MediaType;
+import org.restlet.resource.ClientResource;
+
 import service.GeneratorUtilities;
 import service.GeneratorUtilitiesPersistenceController;
 import service.Item;
@@ -57,6 +61,9 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 	JTextArea ruleSetText = null;
 	String errorMsg = "";
 	boolean valid = true;
+	
+	
+
 	
 
 	public GeneratorGUI()
@@ -113,9 +120,18 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 		genGUI.setSize(600, 400);
 		genGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		genGUI.setVisible(true);
+		
+		
+	
+
+				
+		
+		
+		
+		
 	}
 	
-	public void actionPerformed(ActionEvent event)
+	public void actionPerformed(ActionEvent event) 
 	{
 		if(event.getSource()==submit)
 		{
@@ -138,6 +154,32 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 			
 			
 			
+			/*Code to try with client*/
+			ClientResource clientResource = new ClientResource("http://localhost:8111/");
+	       // Request req = clientResource.createRequest();
+	        clientResource.accept(MediaType.ALL);
+			TransactionSetResource proxy = clientResource.wrap(TransactionSetResource.class);
+			TransactionSet newTranSet = null;
+			proxy.store(textFileTranSet);
+			//proxy.store(generator);
+			newTranSet = proxy.retrieve();
+
+			if (newTranSet != null) {
+	            System.out.println("transactions: " + newTranSet.getTransactionSet());
+	            System.out.println("   startDate: " + newTranSet.getStartDate());
+	            System.out.println("     endDate: " + newTranSet.getEndDate());
+
+	            
+			}
+			else {
+				System.out.println("got null transactionSet");
+			}
+			
+			
+			
+
+			
+			
 			
 			String outFile = this.getOutPath();
 			if(this.valid){
@@ -149,7 +191,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 				System.out.println("elapsed time in msec.: " + timer.getTotal() );
 						 
 				RuleSet ruleset = generator.generateRuleSet(textFileTranSet, apriori, minimumConfidenceLevel);
-				DAOController(generator, textFileTranSet,ruleset);		
+				//DAOController(generator, textFileTranSet,ruleset);		
 						
 				System.out.println(ruleset);
 				PrintWriter writer;
@@ -421,7 +463,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 		TransactionPersistenceController tranPC = new TransactionPersistenceController();		// controller for delegating transaction persistence
 		TransactionSetPersistenceController tranSetPC = new TransactionSetPersistenceController();		// controller for delegating transactionSet persistence
 
-		String daoString = "Mock";
+		String daoString = "MySQL";
 		/*
 	    InputStreamReader unbuffered = new InputStreamReader( System.in );
 	    BufferedReader keyboard = new BufferedReader( unbuffered );
