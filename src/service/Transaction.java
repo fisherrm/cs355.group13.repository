@@ -1,7 +1,13 @@
 package service;
 
-public class Transaction {
+import java.io.Serializable;
+
+public class Transaction implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ItemSet itemSet;
 	private double totalCost = 0;
 	private int numberOfItems = 0;

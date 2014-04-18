@@ -1,9 +1,16 @@
 package service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ItemSet {
+public class ItemSet implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	private ArrayList<Item> items;
 	
 	

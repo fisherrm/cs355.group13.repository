@@ -157,14 +157,18 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 			/*Code to try with client*/
 			ClientResource clientResource = new ClientResource("http://localhost:8111/");
 	       // Request req = clientResource.createRequest();
-	        clientResource.accept(MediaType.ALL);
+	       // clientResource.accept(MediaType.ALL);
 			TransactionSetResource proxy = clientResource.wrap(TransactionSetResource.class);
+			
+			
 			TransactionSet newTranSet = null;
 			proxy.store(textFileTranSet);
+			
 			//proxy.store(generator);
 			newTranSet = proxy.retrieve();
 
 			if (newTranSet != null) {
+				System.out.println("NEW TRANSACTION SET");
 	            System.out.println("transactions: " + newTranSet.getTransactionSet());
 	            System.out.println("   startDate: " + newTranSet.getStartDate());
 	            System.out.println("     endDate: " + newTranSet.getEndDate());

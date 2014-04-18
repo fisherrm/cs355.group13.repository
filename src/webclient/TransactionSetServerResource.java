@@ -16,8 +16,6 @@ public class TransactionSetServerResource extends ServerResource implements
 	}
 
 	public TransactionSet retrieve() {
-		
-		TransactionSetServerResource.tranSet.setStartDate("[Insert Start Date]");
 		System.out.println("transactions: "+ TransactionSetServerResource.tranSet.getTransactionSet());
 		System.out.println("   startDate: "+ TransactionSetServerResource.tranSet.getStartDate());
 		System.out.println("     endDate: "+ TransactionSetServerResource.tranSet.getEndDate());

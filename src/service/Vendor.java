@@ -1,7 +1,13 @@
 package service;
 
-public class Vendor {
-	 private String name;
+import java.io.Serializable;
+
+public class Vendor implements Serializable{
+	 /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String name;
 
 	 public Vendor(){
 		 this.name="";
