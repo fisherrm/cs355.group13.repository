@@ -1,4 +1,4 @@
-package webclient;
+package service;
 
 import org.restlet.resource.ServerResource;
 
@@ -68,7 +68,7 @@ public static void DAOController(GeneratorUtilities generator, TransactionSet tr
 		TransactionPersistenceController tranPC = new TransactionPersistenceController();		// controller for delegating transaction persistence
 		TransactionSetPersistenceController tranSetPC = new TransactionSetPersistenceController();		// controller for delegating transactionSet persistence
 
-		String daoString = "MySQL";
+		String daoString = "Mock";
 		/*
 	    InputStreamReader unbuffered = new InputStreamReader( System.in );
 	    BufferedReader keyboard = new BufferedReader( unbuffered );

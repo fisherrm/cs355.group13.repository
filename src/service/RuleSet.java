@@ -1,14 +1,24 @@
 package service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class RuleSet {
+public class RuleSet implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Rule> ruleSet;
 	private String date;
 	
 	public RuleSet(ArrayList<Rule> ruleSet){
 		this.ruleSet = ruleSet;
+	}
+
+	public RuleSet() {
+		// TODO Auto-generated constructor stub
+		this.ruleSet = new ArrayList<Rule>();
 	}
 
 	public ArrayList<Rule> getRuleSet() {

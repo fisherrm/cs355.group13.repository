@@ -16,6 +16,7 @@ public class GeneratorUtilities implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private double minimumSupportLevel;
 	private double minimumConfidenceLevel;
+	private String filepath;
 	
 	public GeneratorUtilities(){
 		
@@ -23,9 +24,10 @@ public class GeneratorUtilities implements Serializable {
 		//minimumConfidenceLevel =0;
 	}
 	
-	public GeneratorUtilities(double minimumSupportLevel, double minimumConfidenceLevel){
+	public GeneratorUtilities(double minimumSupportLevel, double minimumConfidenceLevel, String filepath){
 		this.minimumSupportLevel=minimumSupportLevel;
 		this.minimumConfidenceLevel = minimumConfidenceLevel;
+		this.filepath = filepath;
 		
 	}
 
@@ -37,6 +39,17 @@ public class GeneratorUtilities implements Serializable {
 		//copy.setMinimumSupportLevel(genUtils.getMinimumSupportLevel());
 		setMinimumConfidenceLevel(genUtils.getMinimumConfidenceLevel());
 		setMinimumSupportLevel(genUtils.getMinimumSupportLevel());
+		setFilepath(genUtils.getFilepath());
+	}
+
+	
+
+	public String getFilepath() {
+		return filepath;
+	}
+
+	public void setFilepath(String filepath) {
+		this.filepath = filepath;
 	}
 
 	public double getMinimumSupportLevel() {

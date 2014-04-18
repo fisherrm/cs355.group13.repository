@@ -12,7 +12,7 @@ public class GeneratorUtilitiesClient {
 
 			//should we make constructor take in the dates?
 			//need to make it get actual GeneratorUtilitiess
-			GeneratorUtilities genUtils = new GeneratorUtilities(0.5,0.25);
+			GeneratorUtilities genUtils = new GeneratorUtilities(0.5,0.25, "src/transactions1.txt");
 
 			GeneratorUtilities newGenUtils = null;
 			
@@ -22,7 +22,8 @@ public class GeneratorUtilitiesClient {
 			System.out.println("Proxy made");
 			System.out.println(genUtils.getMinimumConfidenceLevel());
 			proxy.store(genUtils);
-			newGenUtils = proxy.retrieve();
+			//
+			//newGenUtils = proxy.retrieve();
 
 			if (newGenUtils != null) {
 				System.out.println(newGenUtils);

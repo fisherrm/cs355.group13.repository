@@ -136,79 +136,59 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 		if(event.getSource()==submit)
 		{
 			ruleSet.setBorder(new TitledBorder("Rule Set"));
-			GeneratorUtilities generator = new GeneratorUtilities();
+			String filepath = this.getInPath();//current location of Dr.Wagners test case from online
+			String outFile = this.getOutPath();
+			System.out.println(filepath);
 			
-			String inFile = this.getInPath();//current location of Dr.Wagners test case from online
-			
-			System.out.println(inFile);
-			TransactionSet textFileTranSet = this.getTransactionSetFromFile(inFile);
+			//do a file read to check if the format is correct?
+			TransactionSet textFileTranSet = this.getTransactionSetFromFile(filepath);
 			System.out.println("Text file to TransSet");
 			
 			//System.out.println(textFileTranSet);		
-			double minimumSupportLevel = this.getMS(generator);
+			double minimumSupportLevel = this.getMS();
 			//System.out.println(minimumSupportLevel);
-			double minimumConfidenceLevel = this.getMC(generator);
+			
+			double minimumConfidenceLevel = this.getMC();
 			//System.out.println(minimumConfidenceLevel);
-			
-			
-			
-			
-			
-			/*Code to try with client*/
-			ClientResource clientResource = new ClientResource("http://localhost:8111/");
-	       // Request req = clientResource.createRequest();
-	       // clientResource.accept(MediaType.ALL);
-			TransactionSetResource proxy = clientResource.wrap(TransactionSetResource.class);
-			
-			
-			TransactionSet newTranSet = null;
-			proxy.store(textFileTranSet);
-			
-			//proxy.store(generator);
-			newTranSet = proxy.retrieve();
-
-			if (newTranSet != null) {
-				System.out.println("NEW TRANSACTION SET");
-	            System.out.println("transactions: " + newTranSet.getTransactionSet());
-	            System.out.println("   startDate: " + newTranSet.getStartDate());
-	            System.out.println("     endDate: " + newTranSet.getEndDate());
-
-	            
-			}
-			else {
-				System.out.println("got null transactionSet");
-			}
-			
-			
-			
-
-			
-			
-			
-			String outFile = this.getOutPath();
 			if(this.valid){
 				Timer timer = new Timer();
 				timer.startTimer();
-				TransactionSet apriori = generator.doApriori(textFileTranSet, minimumSupportLevel);
-				System.out.println("APRIORI: \n" + apriori);
+				
+				/*Code to try with client*/
+				ClientResource clientResource = new ClientResource("http://localhost:8111/");
+				GeneratorUtilitiesResource proxy = clientResource.wrap(GeneratorUtilitiesResource.class);
+				GeneratorUtilities generator = new GeneratorUtilities(minimumSupportLevel, minimumConfidenceLevel, filepath);
+				proxy.store(generator);
+				
+				//get the rule set
+				RuleSet ruleset = null;
+				ruleset = proxy.retrieve();
+				
+				if(!generator.validateRuleSet(ruleset)){
+					System.out.println("No ruleset generated");
+					ruleSetText.setText("No ruleset generated");
+				}
+				
+				
+				
 				timer.stopTimer();
 				System.out.println("elapsed time in msec.: " + timer.getTotal() );
-						 
-				RuleSet ruleset = generator.generateRuleSet(textFileTranSet, apriori, minimumConfidenceLevel);
-				//DAOController(generator, textFileTranSet,ruleset);		
 						
-				System.out.println(ruleset);
+					
+				//System.out.println(ruleset);
 				PrintWriter writer;
 				try {
 					
 					writer = new PrintWriter(outFile);
 					System.out.println(outFile);
 					writer.println(ruleset);
+					System.out.println("wrote: " + ruleset);
 					writer.close();
+					
 					ruleSetText.setText(ruleset.toString());
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
-					//e.printStackTrace();
+					e.printStackTrace();
 					//this.errorMsg += "File not found...\n";
 					//ruleSet.setBorder(new TitledBorder("Error Console"));	
 					//ruleSetText.setText(this.errorMsg);
@@ -275,7 +255,20 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 		return filePath;
 	}
 	
-	public double getMS(GeneratorUtilities generator)
+	public boolean validateMinLevel(double level) {
+		// TODO Auto-generated method stub
+		
+		if(level >= 0.0 && level <= 1.0){
+			return true;
+		}else{
+		//System.out.println("Invalid minimum support or confidence level");
+			return false;
+		}
+		
+	}
+	
+	
+	public double getMS()
 	{
 		Double minSup = 0.0;
 		if(this.msParam.getText().trim().length() == 0)
@@ -294,7 +287,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 					this.valid = false;
 				
 			}
-			if(!generator.validateMinLevel(minSup)){
+			if(!validateMinLevel(minSup)){
 				
 				this.errorMsg += "Minimum Support must be ranging from 0.0 to 1.0...\n";
 				this.valid = false;
@@ -304,7 +297,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 		return minSup;
 	}
 	
-	public double getMC(GeneratorUtilities generator)
+	public double getMC()
 	{
 		Double minCon = 0.0;
 		if(this.mcParam.getText().trim().length() == 0)
@@ -322,7 +315,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 					this.valid = false;
 				
 			}
-			if(!generator.validateMinLevel(minCon)){
+			if(!validateMinLevel(minCon)){
 				this.errorMsg += "Minimum Confidence must be ranging from 0.0 to 1.0...\n";
 				this.valid = false;
 			}

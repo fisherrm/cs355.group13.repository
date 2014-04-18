@@ -1,8 +1,14 @@
 package service;
 
+import java.io.Serializable;
 
-public class Rule {
+
+public class Rule implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ItemSet antecedent;
 	private ItemSet consequent;
 	private double actualConfidenceLevel;
