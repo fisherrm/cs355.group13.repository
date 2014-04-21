@@ -395,7 +395,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 				
 					
 					//figure out how to validate a date and maintain it?
-					/*
+					
 					String datetimeRegex = "(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})";
 					pattern = Pattern.compile(datetimeRegex);
 					matcher = pattern.matcher(transactionSetLines[i]);	
@@ -403,9 +403,12 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 					if(matcher.find()&& !matcher.group(0).isEmpty()){
 						date = matcher.group(0);
 						transactionDate = date;
+						System.out.println("FOUND A NEW DATE");
+						transactionSetLines[i]  = transactionSetLines[i].replaceAll(datetimeRegex, "");
 						
 					}
-					*/
+					
+				
 					
 					
 					
