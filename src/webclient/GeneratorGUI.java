@@ -336,6 +336,16 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 		return minCon;
 	}
 	
+	
+	public boolean validateTransactionSet(TransactionSet tranSet){
+		if(tranSet.getTransactionSet()==null){
+			System.out.println("Transaction Set is NULL");
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
 
 	/* METHOD NOTES: 
 	 * 
@@ -384,13 +394,33 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 				if(transactionSetLines[i].length()>0){
 				
 					
+					//figure out how to validate a date and maintain it?
+					/*
+					String datetimeRegex = "(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})";
+					pattern = Pattern.compile(datetimeRegex);
+					matcher = pattern.matcher(transactionSetLines[i]);	
+					String date = "";
+					if(matcher.find()&& !matcher.group(0).isEmpty()){
+						date = matcher.group(0);
+						transactionDate = date;
+						
+					}
+					*/
 					
 					
+					
+					if(!validateLine(transactionSetLines[i], i)){
+						
+						return null;
+					}
+					
+					/*
 				
 				//check for a only 1 left brace at beginning and look ahead to see there is no other left braces
 				
 				String bracesRegex =  "\\{{2,}|\\}{2,}|\\{\\s*\\}";//look for multiple left braces, right braces, or no contents
 				pattern = Pattern.compile(bracesRegex);
+				
 				matcher = pattern.matcher(transactionSetLines[i]);
 				if(matcher.find()&& !matcher.group(0).isEmpty()){
 					this.errorMsg+="Error: in transaction \""+transactionSetLines[i]+ "\" at transaction " + (i-2)+" (line "+(i+1)+")...\n"; 
@@ -398,14 +428,37 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 					this.valid=false;
 					//System.out.println("Bad brace format");
 					//return an empty transaction set
-					return new TransactionSet();
-				}else{
+					//return new TransactionSet();
+					return null;
+				}
+					
+					System.out.println("VALID BRACKETS");
+					
+					
+					String validCharacters ="[^\\sA-Za-z0-9,\\{\\}]+";
+					
+					pattern = Pattern.compile(validCharacters);
+					matcher = pattern.matcher(transactionSetLines[i]);	
+					if(matcher.find()){
+						
+						this.errorMsg+="Error: in transaction \""+transactionSetLines[i]+ "\" at transaction " + (i-2)+" (line "+(i+1)+")...\n"; 
+						this.errorMsg+="	Invalid characters: Valid characters include alphanumeric, commas, whitespace and brackets\n";
+						this.valid=false;
+						return null;
+					}
+						System.out.println("VALID CHARACTERS");
+					*/
+					
+					
+					
+					
 					
 						String regex =	"(?<=\\{)(.*)(?=\\})";
 						pattern = Pattern.compile(regex);
 						matcher = pattern.matcher(transactionSetLines[i]);	
 						String group = "";
 						if(matcher.find()&& !matcher.group(0).isEmpty()){
+							System.out.println("VALID CONTENTS");
 							//System.out.println(matcher.group(0));
 							group = matcher.group(0);
 							//get rid of extra whitespace
@@ -415,8 +468,9 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 							//System.out.println("Error: in transaction \""+transactionSetLines[i]+ "\" at transaction " + (i-2) );
 							//System.out.println("Each transaction requires opening and closing curly braces, as well as containing at least one item.");
 							this.errorMsg+="Error: in transaction \""+transactionSetLines[i]+ "\" at transaction " + (i-2)+"...\n"; 
-							this.errorMsg+="	Improper bracketing: no item contents, or extra/missing left and right braces...\n";
+							this.errorMsg+="	No content in brackets\n";
 							this.valid=false;
+							return null;
 						}
 						//separate by commas
 						String[] candidates = group.split(",");
@@ -435,12 +489,17 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 		
 						// create a new transaction from the itemSet
 						Transaction nextTransaction = new Transaction(itemset);
+						
+						
+						
+						
+						System.out.println("SET DATE: " + transactionDate);
 						nextTransaction.setDate(transactionDate);
 		
 						// add the finished transaction to the total TransactionSet
 						allTransactions.add(nextTransaction);
 					}//
-				}//end of brace regex
+				//}//end of brace regex
 			}//end of > length 0
 
 			allTransactions.add(vendor);
@@ -458,6 +517,56 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 	
 	
 	
+	private boolean validateLine(String line, int linenumber) {
+		boolean validLine = true;
+		//check for a only 1 left brace at beginning and look ahead to see there is no other left braces
+		Pattern pattern = null;
+		Matcher matcher = null;
+		String bracesRegex =  "\\{{2,}|\\}{2,}|\\{\\s*\\}";//look for multiple left braces, right braces, or no contents
+		pattern = Pattern.compile(bracesRegex);
+		
+		matcher = pattern.matcher(line);
+		if(matcher.find()&& !matcher.group(0).isEmpty()){
+			this.errorMsg+="Error: in transaction \""+line+ "\" at transaction " + (linenumber-2)+" (line "+(linenumber+1)+")...\n"; 
+			this.errorMsg+="	Improper bracketing: no item contents, or extra/missing left and right braces...\n";
+			this.valid=false;
+			//System.out.println("Bad brace format");
+			//return an empty transaction set
+			//return new TransactionSet();
+			validLine = false;
+		}
+			
+		
+		
+		
+			
+			
+			String validCharacters ="[^\\sA-Za-z0-9,\\{\\}]+";
+			
+			pattern = Pattern.compile(validCharacters);
+			matcher = pattern.matcher(line);	
+			if(matcher.find()){
+				
+				this.errorMsg+="Error: in transaction \""+line+ "\" at transaction " + (linenumber-2)+" (line "+(linenumber+1)+")...\n"; 
+				this.errorMsg+="	Invalid characters: Valid characters include alphanumeric, commas, whitespace and brackets\n";
+				this.valid=false;
+				validLine = false;
+			}
+			
+			
+			
+			
+			
+		
+		System.out.println("Invalid line");
+		return validLine;
+		
+		
+		
+		// TODO Auto-generated method stub
+		
+	}
+
 	public static void DAOController(GeneratorUtilities generator, TransactionSet transactionSet, RuleSet ruleSet){
 		
 		
