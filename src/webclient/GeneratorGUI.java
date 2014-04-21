@@ -90,7 +90,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 		rsLabel = new JLabel("Output File Path: ");
 		outPath = new JTextField(20);
 		//outPath.setBorder(new TitledBorder("Output File Path"));
-		ruleSetText = new JTextArea(10, 50);
+		ruleSetText = new JTextArea(10, 55);
 		ruleSetText.setEditable(false);
 		ruleSet = new JScrollPane(ruleSetText);
 		ruleSet.setBorder(new TitledBorder("Rule Set"));
@@ -117,7 +117,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 	{
 		GeneratorGUI genGUI = new GeneratorGUI();
 		
-		genGUI.setSize(600, 400);
+		genGUI.setSize(700, 400);
 		genGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		genGUI.setVisible(true);
 		
@@ -137,7 +137,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 		{
 			ruleSet.setBorder(new TitledBorder("Rule Set"));
 			String filepath = this.getInPath();//current location of Dr.Wagners test case from online
-			String outFile = this.getOutPath();
+			String outFile ="";
 			System.out.println(filepath);
 			
 			//do a file read to check if the format is correct?
@@ -164,38 +164,52 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 				RuleSet ruleset = null;
 				ruleset = proxy.retrieve();
 				
-				if(!generator.validateRuleSet(ruleset)){
-					System.out.println("No ruleset generated");
-					ruleSetText.setText("No ruleset generated");
-				}
 				
 				
+				
+
 				
 				timer.stopTimer();
 				System.out.println("elapsed time in msec.: " + timer.getTotal() );
-						
-					
-				//System.out.println(ruleset);
-				PrintWriter writer;
-				try {
-					
-					writer = new PrintWriter(outFile);
-					System.out.println(outFile);
-					writer.println(ruleset);
-					System.out.println("wrote: " + ruleset);
-					writer.close();
-					
-					ruleSetText.setText(ruleset.toString());
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					//this.errorMsg += "File not found...\n";
-					//ruleSet.setBorder(new TitledBorder("Error Console"));	
-					//ruleSetText.setText(this.errorMsg);
-					//this.errorMsg = "";
-					//this.valid = true;
-						}
+				if(!generator.validateRuleSet(ruleset)){
+					//System.out.println("No ruleset generated");
+					ruleSetText.setText("No \"Rule Set\" generated");
 				}else{
+					outFile = this.getOutPath();
+					ruleSetText.setText(ruleset.toString());
+					
+					
+					//System.out.println(ruleset);
+					PrintWriter writer;
+					try {
+						
+						writer = new PrintWriter(outFile);
+						System.out.println(outFile);
+						writer.println(ruleset);
+						System.out.println("wrote: " + ruleset);
+						if(!generator.validateRuleSet(ruleset)){
+							//System.out.println("No ruleset generated");
+							ruleSetText.setText("No ruleset generated");
+						}else{
+	
+							ruleSetText.setText(ruleset.toString());
+						}
+						writer.close();
+					
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							//this.errorMsg += "File not found...\n";
+							//ruleSet.setBorder(new TitledBorder("Error Console"));	
+							//ruleSetText.setText(this.errorMsg);
+							//this.errorMsg = "";
+							//this.valid = true;
+						}
+					}
+			}//end of this.valid
+				
+				
+				else{
 					ruleSet.setBorder(new TitledBorder("Error Console"));	
 					ruleSetText.setText(this.errorMsg);
 					this.errorMsg = "";
@@ -203,7 +217,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 				
 				}
 				
-			}
+			}//end of submit
 		
 	}
 	
@@ -238,7 +252,6 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 			//this.errorMsg += "No output file indicated...\n";
 			//this.valid = false;
 			filePath = "defaultOutput.txt";
-			
 		}
 		else
 		{
@@ -381,7 +394,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 				matcher = pattern.matcher(transactionSetLines[i]);
 				if(matcher.find()&& !matcher.group(0).isEmpty()){
 					this.errorMsg+="Error: in transaction \""+transactionSetLines[i]+ "\" at transaction " + (i-2)+" (line "+(i+1)+")...\n"; 
-					this.errorMsg+="Bad transaction set formatting (no item contents, or extra/missing left and right braces)...\n";
+					this.errorMsg+="	Improper bracketing: no item contents, or extra/missing left and right braces...\n";
 					this.valid=false;
 					//System.out.println("Bad brace format");
 					//return an empty transaction set
@@ -402,7 +415,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 							//System.out.println("Error: in transaction \""+transactionSetLines[i]+ "\" at transaction " + (i-2) );
 							//System.out.println("Each transaction requires opening and closing curly braces, as well as containing at least one item.");
 							this.errorMsg+="Error: in transaction \""+transactionSetLines[i]+ "\" at transaction " + (i-2)+"...\n"; 
-							this.errorMsg+="Each transaction requires opening and closing curly braces, as well as containing at least one item...\n";
+							this.errorMsg+="	Improper bracketing: no item contents, or extra/missing left and right braces...\n";
 							this.valid=false;
 						}
 						//separate by commas
