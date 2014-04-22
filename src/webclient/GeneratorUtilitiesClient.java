@@ -3,7 +3,9 @@ package webclient;
 import org.restlet.resource.ClientResource;
 
 
+
 import service.GeneratorUtilities;
+import service.GeneratorUtilitiesResource;
 
 
 public class GeneratorUtilitiesClient {

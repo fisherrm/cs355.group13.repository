@@ -27,6 +27,7 @@ import org.restlet.resource.ClientResource;
 
 import service.GeneratorUtilities;
 import service.GeneratorUtilitiesPersistenceController;
+import service.GeneratorUtilitiesResource;
 import service.Item;
 import service.ItemSet;
 import service.ReadFile;
