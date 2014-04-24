@@ -4,7 +4,7 @@
  * Created by Paul J. Wagner, 2/28/2013
  */
 package service;
-
+import common.TransactionSet;
 public class TransactionSetPersistenceController {
 	// data
 	//private  TransactionSet transactionSset;		// Transaction being worked with

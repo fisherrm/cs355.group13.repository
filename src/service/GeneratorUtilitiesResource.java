@@ -3,8 +3,8 @@ package service;
 import org.restlet.resource.Get;
 import org.restlet.resource.Put;
 
-import service.GeneratorUtilities;
-import service.RuleSet;
+import common.GeneratorUtilities;
+import common.RuleSet;
 
 
 public interface GeneratorUtilitiesResource {

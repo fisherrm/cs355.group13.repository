@@ -2,15 +2,15 @@ package service;
 
 import org.restlet.resource.ServerResource;
 
-import service.GeneratorUtilities;
+import common.GeneratorUtilities;
 import service.GeneratorUtilitiesPersistenceController;
 import service.Rule;
 import service.RulePersistenceController;
-import service.RuleSet;
+import common.RuleSet;
 import service.RuleSetPersistenceController;
 import service.Transaction;
 import service.TransactionPersistenceController;
-import service.TransactionSet;
+import common.TransactionSet;
 import service.TransactionSetPersistenceController;
 import service.Vendor;
 import service.VendorPersistenceController;
@@ -50,13 +50,13 @@ public class GeneratorUtilitiesServerResource extends ServerResource implements
 		//generate the rules
 		ruleset = GeneratorUtilitiesServerResource.genUtils.generateRuleSet(textFileTranSet, apriori, minimumConfidenceLevel);
 		//store a generator in the database
-		DAOController(GeneratorUtilitiesServerResource.genUtils , textFileTranSet,ruleset);		
+		persistAllDAOControllers(GeneratorUtilitiesServerResource.genUtils , textFileTranSet,ruleset);		
 		
 	
 	}
 	
 	
-public static void DAOController(GeneratorUtilities generator, TransactionSet transactionSet, RuleSet ruleSet){
+public static void persistAllDAOControllers(GeneratorUtilities generator, TransactionSet transactionSet, RuleSet ruleSet){
 		
 		
 		/*DAO MAIN*/
@@ -68,7 +68,8 @@ public static void DAOController(GeneratorUtilities generator, TransactionSet tr
 		TransactionPersistenceController tranPC = new TransactionPersistenceController();		// controller for delegating transaction persistence
 		TransactionSetPersistenceController tranSetPC = new TransactionSetPersistenceController();		// controller for delegating transactionSet persistence
 
-		String daoString = "MySQL";
+		String
+		daoString = "MySQL";
 		/*
 	    InputStreamReader unbuffered = new InputStreamReader( System.in );
 	    BufferedReader keyboard = new BufferedReader( unbuffered );

@@ -4,7 +4,7 @@
  * Created by Paul J. Wagner, 2/28/2013
  */
 package service;
-
+import common.RuleSet;
 //import java.sql.Timestamp;
 //import java.text.SimpleDateFormat;
 
