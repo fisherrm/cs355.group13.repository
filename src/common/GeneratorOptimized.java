@@ -12,7 +12,7 @@ import service.Rule;
 import service.Transaction;
 import service.Vendor;
 
-public class GeneratorUtilities {
+public class GeneratorOptimized {
 	
 	
 	
@@ -21,13 +21,13 @@ public class GeneratorUtilities {
 	private double minimumConfidenceLevel;
 	private String filepath;
 	
-	public GeneratorUtilities(){
+	public GeneratorOptimized(){
 		
 		//minimumSupportLevel = 0;
 		//minimumConfidenceLevel =0;
 	}
 	
-	public GeneratorUtilities(double minimumSupportLevel, double minimumConfidenceLevel, String filepath){
+	public GeneratorOptimized(double minimumSupportLevel, double minimumConfidenceLevel, String filepath){
 		this.minimumSupportLevel=minimumSupportLevel;
 		this.minimumConfidenceLevel = minimumConfidenceLevel;
 		this.filepath = filepath;
@@ -35,7 +35,7 @@ public class GeneratorUtilities {
 	}
 
 	
-	public GeneratorUtilities(GeneratorUtilities genUtils) {
+	public GeneratorOptimized(GeneratorOptimized genUtils) {
 		// TODO Auto-generated constructor stub
 		//GeneratorUtilities copy = new GeneratorUtilities();
 		//copy.setMinimumConfidenceLevel(genUtils.getMinimumConfidenceLevel());
