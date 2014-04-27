@@ -1,6 +1,7 @@
 package common;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,7 +13,7 @@ import service.Rule;
 import service.Transaction;
 import service.Vendor;
 
-public class GeneratorUtilities {
+public class GeneratorUtilities implements Serializable{
 	
 	
 	
@@ -36,6 +37,7 @@ public class GeneratorUtilities {
 
 	
 	public GeneratorUtilities(GeneratorUtilities genUtils) {
+		System.out.println("Gen Utils copy constructor");
 		// TODO Auto-generated constructor stub
 		//GeneratorUtilities copy = new GeneratorUtilities();
 		//copy.setMinimumConfidenceLevel(genUtils.getMinimumConfidenceLevel());

@@ -35,6 +35,7 @@ public class GeneratorUtilitiesServerResource extends ServerResource implements
 
 	public void store(GeneratorUtilities genUtils) {
 		System.out.println("GeneratorUtilities store called");
+		System.out.println("GEN UTILS: " + genUtils);
 		GeneratorUtilitiesServerResource.genUtils = new GeneratorUtilities(genUtils);
 		//set the parameters
 		double minimumSupportLevel = GeneratorUtilitiesServerResource.genUtils.getMinimumSupportLevel();
