@@ -2,6 +2,7 @@ package common;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -201,6 +202,8 @@ public class GeneratorUtilities implements Serializable{
 						newRule.setConsequent(consequent);
 						
 						
+						 
+
 						
 						
 						newRule.setActualConfidenceLevel(confidence);
@@ -213,10 +216,21 @@ public class GeneratorUtilities implements Serializable{
 				
 			}
 			}
-		
+			java.util.Date dt = new java.util.Date();
 
-		return new RuleSet(allRules);
+		 
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String currentTime = sdf.format(dt);
+			RuleSet generated = new RuleSet(allRules);
+			generated.setDate(currentTime);
+		return generated;
 	}
+	
+	
+	
+	
+	
+	
 	
 	
 	public static ArrayList<ItemSet> findSubsets(ItemSet candidates, ArrayList<ItemSet> ps, int size)

@@ -47,7 +47,11 @@ public class GeneratorUtilitiesServerResource extends ServerResource implements
 		//read from the filepath
 		TransactionSet textFileTranSet = GeneratorUtilitiesServerResource.genUtils.getTransactionSetFromFile(filepath);
 		//do A Priori
+		Timer timer = new Timer();
+		timer.startTimer();
 		TransactionSet apriori = GeneratorUtilitiesServerResource.genUtils.doApriori(textFileTranSet, minimumSupportLevel);
+		timer.stopTimer();
+		System.out.println("A Priori: elapsed time in msec.: " + timer.getTotal() );
 		//generate the rules
 		ruleset = GeneratorUtilitiesServerResource.genUtils.generateRuleSet(textFileTranSet, apriori, minimumConfidenceLevel);
 		//store a generator in the database
@@ -70,7 +74,7 @@ public static void persistAllDAOControllers(GeneratorUtilities generator, Transa
 		TransactionSetPersistenceController tranSetPC = new TransactionSetPersistenceController();		// controller for delegating transactionSet persistence
 
 		String
-		daoString = "Mock";
+		daoString = "MySQL";
 		/*
 	    InputStreamReader unbuffered = new InputStreamReader( System.in );
 	    BufferedReader keyboard = new BufferedReader( unbuffered );

@@ -15,7 +15,7 @@ public class MockDAO implements DAOInterface {
 
 	public int execute(String query) {
 		// return fake error code
-		System.out.println("mock DAO execute");
+		//System.out.println("mock DAO execute");
 		return 0;
 	}
 	
