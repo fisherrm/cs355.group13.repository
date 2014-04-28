@@ -70,7 +70,7 @@ public static void persistAllDAOControllers(GeneratorUtilities generator, Transa
 		TransactionSetPersistenceController tranSetPC = new TransactionSetPersistenceController();		// controller for delegating transactionSet persistence
 
 		String
-		daoString = "MySQL";
+		daoString = "Mock";
 		/*
 	    InputStreamReader unbuffered = new InputStreamReader( System.in );
 	    BufferedReader keyboard = new BufferedReader( unbuffered );

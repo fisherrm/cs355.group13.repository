@@ -284,7 +284,7 @@ public class GeneratorUtilities implements Serializable{
 		
 		currKItemSubSet.clear();
 		//Generate 2-item subsets
-		
+		System.out.println("candidates size: " + candidates.getTransactionSet().size());
 		for(int i = 0; i<candidates.getTransactionSet().size(); i++){
 			Item currItem = candidates.getTransactionSet().get(i).getItemSet().getItems().get(0);
 			for(int j = i+1; j<candidates.getTransactionSet().size(); j++){
