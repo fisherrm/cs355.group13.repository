@@ -9,8 +9,6 @@ public class Transaction implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private ItemSet itemSet;
-	private double totalCost = 0;
-	private int numberOfItems = 0;
 	private String date;
 	private int transactionSet_ID = 0;
 	
@@ -42,21 +40,7 @@ public class Transaction implements Serializable{
 	}
 
 
-	public double getTotalCost() {
-		return totalCost;
-	}
-
-	public void setTotalCost(double totalCost) {
-		this.totalCost = totalCost;
-	}
-
-	public int getNumberOfItems() {
-		return numberOfItems;
-	}
-
-	public void setNumberOfItems(int numberOfItems) {
-		this.numberOfItems = numberOfItems;
-	}
+	
 
 	public String getDate() {
 		return date;

@@ -36,13 +36,13 @@ public class TestRule extends TestCase {
 
 	assertNotNull(rule2);
 	}
-	public void testSetGetAntecedent(){
+	public void testGetSetAntecedent(){
 		ItemSet itemSet = new ItemSet();
 		Rule rule = new Rule();
 		rule.setAntecedent(itemSet);
 		assertEquals(itemSet, rule.getAntecedent());
 	}
-	public void testSetGetConsequent(){
+	public void testGetSetConsequent(){
 		ItemSet itemSet = new ItemSet();
 		Rule rule = new Rule();
 		rule.setConsequent(itemSet);

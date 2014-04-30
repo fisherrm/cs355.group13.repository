@@ -79,31 +79,14 @@ public class TestTransaction extends TestCase {
 
 
 	}
-	public void testCost(){
+	
+	public void testGetSetDate(){
 		/*Makes a test itemset*/
 		ItemSet item = new ItemSet();
 		/* end of making test itemset */
 		Transaction transaction = new Transaction(item);	
-		transaction.setTotalCost(10);
-		double cost = 10;
-		assertEquals(cost, transaction.getTotalCost());		
-	}
-	public void testNumItems(){
-		/*Makes a test transaction*/
-		ItemSet item = new ItemSet();
-		/* end of making test transaction */
-		Transaction transaction = new Transaction(item);	
-		transaction.setNumberOfItems(10);
-		int numitems = 10;
-		assertEquals(numitems, transaction.getNumberOfItems());		
-	}
-	public void testDate(){
-		/*Makes a test itemset*/
-		ItemSet item = new ItemSet();
-		/* end of making test itemset */
-		Transaction transaction = new Transaction(item);	
-		transaction.setDate("10/4/2012");
-		String date = "10/4/2012";
+		String date = "2014-04-04 12:00:00";//default date
+		transaction.setDate("2014-04-04 12:00:00");
 		assertEquals(date, transaction.getDate());		
 	}
 	public void testToString(){
