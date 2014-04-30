@@ -1,5 +1,0 @@
-If Cheese-0.0 THEN Apples-0.0 (0.6667)
-If Apples-0.0 THEN Cheese-0.0 (0.6667)
-If Cheese-0.0 THEN Beer-0.0 (0.6667)
-If Beer-0.0 THEN Cheese-0.0 (1.0000)
-

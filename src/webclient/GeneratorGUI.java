@@ -167,14 +167,17 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 				RuleSet ruleset = null;
 				ruleset = proxy.retrieve();
 				
-				if(!generator.validateRuleSet(ruleset)){
-					//System.out.println("No ruleset generated");
-					ruleSetText.setText("No \"Rule Set\" generated");
-				}else{
+//				if(!generator.validateRuleSet(ruleset)){
+//					//System.out.println("No ruleset generated");
+//					ruleSetText.setText("No \"Rule Set\" generated");
+//				}
+//				
+//				
+//				else{
+//					ruleSetText.setText(ruleset.toString());
+//				}
+					
 					outFile = this.getOutPath();
-					ruleSetText.setText(ruleset.toString());
-					
-					
 					//System.out.println(ruleset);
 					PrintWriter writer;
 					try {
@@ -201,7 +204,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 							//this.errorMsg = "";
 							//this.valid = true;
 						}
-					}
+					
 			}//end of this.valid
 				
 				
