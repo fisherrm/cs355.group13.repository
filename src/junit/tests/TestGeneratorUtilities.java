@@ -6,13 +6,13 @@ import junit.framework.TestCase;
 
 import java.util.ArrayList;
 
-import service.GeneratorUtilities;
+import common.GeneratorUtilities;
 import service.Item;
 import service.ItemSet;
 import service.Rule;
-import service.RuleSet;
+import common.RuleSet;
 import service.Transaction;
-import service.TransactionSet;
+import common.TransactionSet;
 
 
 /*
@@ -30,6 +30,47 @@ import service.TransactionSet;
  *  fail (message)
  */
 public class TestGeneratorUtilities extends TestCase{
+	
+	
+	public void testGetSetMinimumSupportLevel(){
+		GeneratorUtilities generator = new GeneratorUtilities();
+		generator.setMinimumSupportLevel(0.5);
+		assertEquals(0.5, generator.getMinimumSupportLevel());
+		
+
+	}
+	
+	public void testGetSetMinimumConfidenceLevel(){
+		GeneratorUtilities generator = new GeneratorUtilities();
+		generator.setMinimumConfidenceLevel(0.5);
+		assertEquals(0.5, generator.getMinimumConfidenceLevel());
+	}
+
+	public void testGetSetFilepath(){
+		GeneratorUtilities generator = new GeneratorUtilities();
+		generator.setFilepath("filepath");
+		assertEquals("filepath", generator.getFilepath());
+	}
+	
+	public void testValidateTranSet(){
+		GeneratorUtilities generator = new GeneratorUtilities();
+		TransactionSet ts = new TransactionSet();
+		ts.add(new Transaction());
+		assertTrue(generator.validateTranSet(ts));
+		ts = new TransactionSet();
+		assertFalse(generator.validateTranSet(ts));
+
+	}
+	
+	public void testValidateRuleSetLevel(){
+		GeneratorUtilities generator = new GeneratorUtilities();
+		RuleSet rs = new RuleSet();
+		rs.add(new Rule());
+		assertTrue(generator.validateRuleSet(rs));
+		rs = new RuleSet();
+		assertFalse(generator.validateRuleSet(rs));
+		
+	}
 
 
 	public void testValidateMinLevel(){

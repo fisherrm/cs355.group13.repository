@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import service.Rule;
+import service.Transaction;
 
 public class RuleSet implements Serializable{
 	
@@ -48,7 +49,12 @@ public class RuleSet implements Serializable{
 		return str;
 	}
 	
-	
+	public void add(Rule rule) {
+		// TODO Auto-generated method stub
+		
+		this.ruleSet.add(rule);
+		
+	}
 	
 	
 }
