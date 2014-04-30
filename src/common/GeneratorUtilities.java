@@ -38,11 +38,7 @@ public class GeneratorUtilities implements Serializable{
 
 	
 	public GeneratorUtilities(GeneratorUtilities genUtils) {
-		System.out.println("Gen Utils copy constructor");
-		// TODO Auto-generated constructor stub
-		//GeneratorUtilities copy = new GeneratorUtilities();
-		//copy.setMinimumConfidenceLevel(genUtils.getMinimumConfidenceLevel());
-		//copy.setMinimumSupportLevel(genUtils.getMinimumSupportLevel());
+		//System.out.println("Gen Utils copy constructor");
 		setMinimumConfidenceLevel(genUtils.getMinimumConfidenceLevel());
 		setMinimumSupportLevel(genUtils.getMinimumSupportLevel());
 		setFilepath(genUtils.getFilepath());
@@ -103,10 +99,10 @@ public class GeneratorUtilities implements Serializable{
    	 * */
        public boolean validateRuleSet(RuleSet ruleSet){
        	if(ruleSet.getRuleSet().size()>0){
-       		System.out.println("Valid RuleSet");
+       		//System.out.println("Valid RuleSet");
        		return true;
        	}else{
-       		System.out.println("Invalid RuleSet");
+       		//System.out.println("Invalid RuleSet");
        		return false;
        	}
        }
@@ -298,7 +294,7 @@ public class GeneratorUtilities implements Serializable{
 		
 		currKItemSubSet.clear();
 		//Generate 2-item subsets
-		System.out.println("candidates size: " + candidates.getTransactionSet().size());
+		//System.out.println("candidates size: " + candidates.getTransactionSet().size());
 		for(int i = 0; i<candidates.getTransactionSet().size(); i++){
 			Item currItem = candidates.getTransactionSet().get(i).getItemSet().getItems().get(0);
 			for(int j = i+1; j<candidates.getTransactionSet().size(); j++){
@@ -331,10 +327,10 @@ public class GeneratorUtilities implements Serializable{
 		while(kthSizeItemSets.size() !=0){
 			for(int i = 0; i < kthSizeItemSets.size(); i++){
 				ItemSet currItemSet = kthSizeItemSets.get(i);
-				System.out.println("Current Item Set: " + currItemSet);
+				//System.out.println("Current Item Set: " + currItemSet);
 				currSubsets = findSubsets(currItemSet, currSubsets, k-1);
 				for(int j = 0; j<currSubsets.size(); j++){
-					System.out.println("Subsets with size " + (k-2) + kSizeItemSet.get(k-2));
+					//System.out.println("Subsets with size " + (k-2) + kSizeItemSet.get(k-2));
 					//System.out.println(k);
 					if(!kSizeItemSet.get(k-2).contains(currSubsets.get(j))){
 						freqItem = false;
@@ -456,25 +452,7 @@ public class GeneratorUtilities implements Serializable{
 			ReadFile file = new ReadFile(fileName);
 			String[] transactionSetLines = file.openFile();
 			
-			/*If we need to use a FileReader
 			
-			FileReader filereader = new FileReader(fileName);
-			Scanner fileScanner = new Scanner(filereader);
-			
-			ArrayList<String> transactionLines = new ArrayList<String>();
-			while(fileScanner.hasNextLine()){
-				transactionLines.add(fileScanner.nextLine());
-				
-			}
-			
-			for(String insideBracket : transactionLines){
-				//no leading brace
-				validateBraces(insideBracket);
-				//no closing brace
-			}
-			*/
-			//System.out.println("transactionSetLines" + transactionSetLines);
-			//Get the Date
 			
 			Pattern pattern = null;
 			Matcher matcher = null;

@@ -13,7 +13,7 @@ public class TransactionPersistenceController {
 	// methods
 	// persistTransaction - overall method to persist a single Transaction object
 	public void persistTransaction(Transaction transaction) {
-		System.out.println("PersistTransaction() Started");
+		//System.out.println("PersistTransaction() Started");
 		String sqlStatement;		// SQL statement to persist the Transaction
 		
 			// could pass a Transaction object in as parameter to this method
@@ -21,7 +21,7 @@ public class TransactionPersistenceController {
 		dao.connect();
 		dao.executeUpdate(sqlStatement);
 		dao.disconnect();
-		System.out.println("PersistTransaction() Done");
+		//System.out.println("PersistTransaction() Done");
 	}
 
 	// setDAO - set the controller DAO to a given DAO
@@ -50,7 +50,6 @@ public class TransactionPersistenceController {
 		int transactionSetID = dao.execute(queryTranSetID);
 		int vendorID = dao.execute(queryVendorID);
 		dao.disconnect();
-		System.out.println("FINAL INSERT");
 		result = "INSERT INTO Transaction (TransactionDate, TransactionItemSet, TransactionSet_ID, Vendor_ID) Values("+date+",\""+itemSet+"\","+transactionSetID+", "+vendorID+")";
 		return result;
 	}

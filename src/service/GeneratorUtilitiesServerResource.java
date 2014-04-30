@@ -24,38 +24,39 @@ public class GeneratorUtilitiesServerResource extends ServerResource implements
 	// methods
 	public GeneratorUtilitiesServerResource() {
 		// TODO Auto-generated constructor stub
-		System.out.println("GeneratorUtilitiesServerResource constructor");
+		//System.out.println("GeneratorUtilitiesServerResource constructor");
 	}
 
 	public RuleSet retrieve() {
-		System.out.println("GeneratorUtilities retrieve called");
+		System.out.println("retrieve called");
 		System.out.println(ruleset);
+		System.out.println("retrieve finished");
 		return ruleset;
 	}
 
 	public void store(GeneratorUtilities genUtils) {
-		System.out.println("GeneratorUtilities store called");
-		System.out.println("GEN UTILS: " + genUtils);
+		System.out.println("store called");
 		GeneratorUtilitiesServerResource.genUtils = new GeneratorUtilities(genUtils);
 		//set the parameters
 		double minimumSupportLevel = GeneratorUtilitiesServerResource.genUtils.getMinimumSupportLevel();
 		double minimumConfidenceLevel = GeneratorUtilitiesServerResource.genUtils.getMinimumConfidenceLevel();
 		String filepath = GeneratorUtilitiesServerResource.genUtils.getFilepath();
-		System.out.println("MSL: "+ GeneratorUtilitiesServerResource.genUtils.getMinimumSupportLevel());
-		System.out.println("MCL: "+ GeneratorUtilitiesServerResource.genUtils.getMinimumConfidenceLevel());
-		System.out.println("filepath: "+ GeneratorUtilitiesServerResource.genUtils.getFilepath());
+//		System.out.println("MSL: "+ GeneratorUtilitiesServerResource.genUtils.getMinimumSupportLevel());
+//		System.out.println("MCL: "+ GeneratorUtilitiesServerResource.genUtils.getMinimumConfidenceLevel());
+//		System.out.println("filepath: "+ GeneratorUtilitiesServerResource.genUtils.getFilepath());
 		//read from the filepath
 		TransactionSet textFileTranSet = GeneratorUtilitiesServerResource.genUtils.getTransactionSetFromFile(filepath);
 		//do A Priori
-		Timer timer = new Timer();
-		timer.startTimer();
+		Timer timer2 = new Timer();
+		timer2.startTimer();
 		TransactionSet apriori = GeneratorUtilitiesServerResource.genUtils.doApriori(textFileTranSet, minimumSupportLevel);
-		timer.stopTimer();
-		System.out.println("A Priori: elapsed time in msec.: " + timer.getTotal() );
+		timer2.stopTimer();
+		System.out.println("A Priori: elapsed time in msec.: " + timer2.getTotal() );
 		//generate the rules
 		ruleset = GeneratorUtilitiesServerResource.genUtils.generateRuleSet(textFileTranSet, apriori, minimumConfidenceLevel);
 		//store a generator in the database
-		persistAllDAOControllers(GeneratorUtilitiesServerResource.genUtils , textFileTranSet,ruleset);		
+		persistAllDAOControllers(GeneratorUtilitiesServerResource.genUtils , textFileTranSet,ruleset);
+		System.out.println("store finished");
 		
 	
 	}

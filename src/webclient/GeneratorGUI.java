@@ -152,26 +152,21 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 			double minimumConfidenceLevel = this.getMC();
 			//System.out.println(minimumConfidenceLevel);
 			if(this.valid){
-				Timer timer = new Timer();
-				timer.startTimer();
 				
 				/*Code to try with client*/
 				ClientResource clientResource = new ClientResource("http://localhost:8111/");
 				GeneratorUtilitiesResource proxy = clientResource.wrap(GeneratorUtilitiesResource.class);
 				GeneratorUtilities generator = new GeneratorUtilities(minimumSupportLevel, minimumConfidenceLevel, filepath);
+				Timer timer = new Timer();
+				timer.startTimer();
 				proxy.store(generator);
+				timer.stopTimer();
+				System.out.println("elapsed time in msec.: " + timer.getTotal() );
 				
 				//get the rule set
 				RuleSet ruleset = null;
 				ruleset = proxy.retrieve();
 				
-				
-				
-				
-
-				
-				timer.stopTimer();
-				System.out.println("elapsed time in msec.: " + timer.getTotal() );
 				if(!generator.validateRuleSet(ruleset)){
 					//System.out.println("No ruleset generated");
 					ruleSetText.setText("No \"Rule Set\" generated");
@@ -187,7 +182,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 						writer = new PrintWriter(outFile);
 						System.out.println(outFile);
 						writer.println(ruleset);
-						System.out.println("wrote: " + ruleset);
+						System.out.println(ruleset);
 						if(!generator.validateRuleSet(ruleset)){
 							//System.out.println("No ruleset generated");
 							ruleSetText.setText("No ruleset generated");
@@ -361,25 +356,6 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 			ReadFile file = new ReadFile(fileName);
 			String[] transactionSetLines = file.openFile();
 			
-			/*If we need to use a FileReader
-			
-			FileReader filereader = new FileReader(fileName);
-			Scanner fileScanner = new Scanner(filereader);
-			
-			ArrayList<String> transactionLines = new ArrayList<String>();
-			while(fileScanner.hasNextLine()){
-				transactionLines.add(fileScanner.nextLine());
-				
-			}
-			
-			for(String insideBracket : transactionLines){
-				//no leading brace
-				validateBraces(insideBracket);
-				//no closing brace
-			}
-			*/
-			//System.out.println("transactionSetLines" + transactionSetLines);
-			//Get the Date
 			
 			Pattern pattern = null;
 			Matcher matcher = null;
@@ -402,9 +378,9 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 					matcher = pattern.matcher(transactionSetLines[i]);	
 					String date = "";
 					if(matcher.find()&& !matcher.group(0).isEmpty()){
+						//found a date in transaction
 						date = matcher.group(0);
 						transactionDate = date;
-						System.out.println("FOUND A NEW DATE");
 						transactionSetLines[i]  = transactionSetLines[i].replaceAll(datetimeRegex, "");
 						
 					}
@@ -462,8 +438,8 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 						matcher = pattern.matcher(transactionSetLines[i]);	
 						String group = "";
 						if(matcher.find()&& !matcher.group(0).isEmpty()){
-							System.out.println("VALID CONTENTS");
-							//System.out.println(matcher.group(0));
+							//System.out.println("VALID CONTENTS");
+			
 							group = matcher.group(0);
 							//get rid of extra whitespace
 							group =group.replaceAll(" {1,}", " ");
@@ -497,7 +473,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 						
 						
 						
-						System.out.println("SET DATE: " + transactionDate);
+						//System.out.println("SET DATE: " + transactionDate);
 						nextTransaction.setDate(transactionDate);
 		
 						// add the finished transaction to the total TransactionSet
@@ -536,7 +512,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 			this.valid=false;
 			//System.out.println("Bad brace format");
 			//return an empty transaction set
-			//return new TransactionSet();
+			
 			validLine = false;
 		}
 			
@@ -562,7 +538,6 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 			
 			
 		
-		System.out.println("Invalid line");
 		return validLine;
 		
 		
@@ -571,75 +546,6 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 		
 	}
 
-	public static void DAOController(GeneratorUtilities generator, TransactionSet transactionSet, RuleSet ruleSet){
-		
-		
-		/*DAO MAIN*/
-		
-		GeneratorUtilitiesPersistenceController generatorPC = new GeneratorUtilitiesPersistenceController();
-		
-		
-		
-		VendorPersistenceController vendorPC = new VendorPersistenceController();		// controller for delegating vendor persistence
-		RulePersistenceController rulePC = new RulePersistenceController();		// controller for delegating rule persistence
-		RuleSetPersistenceController ruleSetPC = new RuleSetPersistenceController();		// controller for delegating ruleSet persistence
-		TransactionPersistenceController tranPC = new TransactionPersistenceController();		// controller for delegating transaction persistence
-		TransactionSetPersistenceController tranSetPC = new TransactionSetPersistenceController();		// controller for delegating transactionSet persistence
-
-		String daoString = "MySQL";
-		/*
-	    InputStreamReader unbuffered = new InputStreamReader( System.in );
-	    BufferedReader keyboard = new BufferedReader( unbuffered );
-		try {
-			System.out.println("Use (Mock) DAO or (MySQL) DAO? Mock");
-			daoString = keyboard.readLine();
-			daoString = "MySQL";
-		}
-		catch (IOException error) {
-			System.err.println("Error reading input");
-		}
-		*/
-		//set the daoStrings
-		generatorPC.setDAO(daoString);
-		vendorPC.setDAO(daoString);
-		rulePC.setDAO(daoString);
-		ruleSetPC.setDAO(daoString);
-		tranPC.setDAO(daoString);
-		tranSetPC.setDAO(daoString);
-		
-		
-		//persist Vendor
-		for(Vendor vendor: transactionSet.getVendorSet()){
-			vendorPC.persistVendor(vendor);
-		}
-		
-		
-		//System.out.println(transactionSet.getVendorSet());
-		
-		//persist TransactionSet
-		tranSetPC.persistTransactionSet(transactionSet);
-		
-		
-		//iterate through each transaction in transactionSet and persist
-		for(Transaction transaction: transactionSet.getTransactionSet()){
-			//System.out.println("persisting transaction");
-			tranPC.persistTransaction(transaction);
-			
-		}
-		//persist GeneratorUtilities
-		generatorPC.persistGeneratorUtilities(generator);
-		//persist RuleSet
-		ruleSetPC.persistRuleSet(ruleSet);
-		
-		
-		//iterate through each rule in ruleSet and persist
-		for(Rule rule: ruleSet.getRuleSet()){
-			//System.out.println("persisting rule");
-			rulePC.persistRule(rule);
-		}
-		
-		
-		
-	}
+	
 
 }

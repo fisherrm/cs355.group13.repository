@@ -38,7 +38,7 @@ public class MySQLDAO implements DAOInterface {
 		   try
 		   {
 			  Class.forName ("com.mysql.jdbc.Driver");
-			  System.out.println("Found/loaded MySQL Connector JDBC driver");	   
+			  //System.out.println("Found/loaded MySQL Connector JDBC driver");	   
 		   }
 		   catch (ClassNotFoundException e)
 		   {
@@ -96,7 +96,7 @@ public class MySQLDAO implements DAOInterface {
 			   System.out.println("Insert Failed");
 			   errorList.add("Insert Failed");
 		   }else{
-			   System.out.println("Insert statement Succeeded");
+			   //System.out.println("Insert statement Succeeded");
 		   }
 
 		  
@@ -144,7 +144,7 @@ public class MySQLDAO implements DAOInterface {
 			   if(errorCode ==0){
 				   while (rset.next()) {
 					   id = rset.getInt(1);
-					 System.out.println("ID: " + id);
+					 //System.out.println("ID: " + id);
 				   }     // --- end - while
 			   }
 		   }
@@ -159,10 +159,10 @@ public class MySQLDAO implements DAOInterface {
 		   
 	  
 		   if(errorCode == 0){
-			   System.out.println("SELECT Succeeded");
+			   //System.out.println("SELECT Succeeded");
 			   return id;
 		   }else{
-			   System.out.println("SELECT Failed");
+			   //System.out.println("SELECT Failed");
 			   errorList.add("SELECT statement Failed");
 		   }
 		

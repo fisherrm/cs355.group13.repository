@@ -13,7 +13,7 @@ public class VendorPersistenceController {
 	// methods
 	// persistVendor - overall method to persist a single Vendor object
 	public void persistVendor(Vendor Vendor) {
-		System.out.println("PersistVendor() Started");
+		//System.out.println("PersistVendor() Started");
 		String sqlStatement;		// SQL statement to persist the Vendor
 		
 			// could pass a Vendor object in as parameter to this method
@@ -21,7 +21,7 @@ public class VendorPersistenceController {
 		dao.connect();
 		dao.executeUpdate(sqlStatement);
 		dao.disconnect();
-		System.out.println("PersistVendor() Done");
+		//System.out.println("PersistVendor() Done");
 	}
 
 	// setDAO - set the controller DAO to a given DAO

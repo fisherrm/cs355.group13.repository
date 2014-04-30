@@ -42,7 +42,6 @@ public class RuleSetPersistenceController {
 		//String queryTranSetID = "SELECT MAX(TransactionSet_ID) FROM TransactionSet";
 		String queryGenUtilitiesID = "SELECT MAX(GeneratorUtilities_ID) FROM GeneratorUtilities";
 		String date = aRuleSet.getDate();
-		System.out.println("RULE SET Date: " + date);
 		
 		//? Does a  date become generated right after I make a rule set or when I insert into the database
 		

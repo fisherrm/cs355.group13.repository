@@ -37,11 +37,6 @@ public class TransactionSet implements Serializable{
 
 	public TransactionSet(TransactionSet aTranSet) {
 		// TODO Auto-generated constructor stub
-//		TransactionSet copy = new TransactionSet();
-//		copy.setTransactionSet(aTranSet.getTransactionSet());
-//		copy.setStartDate(aTranSet.getStartDate());
-//		copy.setEndDate(aTranSet.getEndDate());
-//		copy.setVendorSet(aTranSet.getVendorSet());
 		setStartDate(aTranSet.getStartDate());
 		setEndDate(aTranSet.getEndDate());
 		setVendorSet(aTranSet.getVendorSet());
@@ -84,11 +79,7 @@ public class TransactionSet implements Serializable{
 		return str;
 	}
 	
-	/*
-	 * 
-	 * GetUniqueItems O(n^2)
-	 * 
-	 */
+	
 	
 	
 	
@@ -118,54 +109,7 @@ public class TransactionSet implements Serializable{
 		//System.out.println("GET UNIQUE ITEMS elapsed time in msec.: " + timer.getTotal() );
 		return itemSet;
 	}
-/*
-	
-	public ItemSet getUniqueItemsSET(){
-		Timer timer = new Timer();
-		timer.startTimer();
-		ArrayList<Item> total = new ArrayList<>();
-		for(int i = 0; i < this.transactionSet.size();i++){
-			ArrayList<Item> items= this.transactionSet.get(i).getItemSet().getItems();
-			total.addAll(items);
-			
-		}
-		ItemSet totalItemSet = new ItemSet(total);
-	
-		System.out.println(totalItemSet);
-		/*
-		ItemSet itemSet = new ItemSet();
-		//look in the current transaction set and search for unique items in each transaction
-		for(int i = 0; i < this.transactionSet.size();i++){
-			
-			for(int j = 0; j < this.transactionSet.get(i).getItemSet().getItems().size();j++){
-				//get the current item
-				Item currentItem = this.transactionSet.get(i).getItemSet().getItems().get(j);
-				
-				//if you find an item that is unique to the list, then add it, else don't
-				//override the equalsMethod
-				if(!itemSet.containsItem(currentItem)){
-					
-					itemSet.add(currentItem);
-				}
-			}
-			
-		}
-		
-		 timer.stopTimer();
-		 System.out.println("GET UNIQUE ITEMS elapsed time in msec.: " + timer.getTotal() );
-		return totalItemSet;
-	}
-	
-	
-	*/
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	

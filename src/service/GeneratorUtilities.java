@@ -228,7 +228,6 @@ public class GeneratorUtilities implements Serializable {
 		
 		ItemSet uniqueItems = tranSet.getUniqueItems();
 		
-		 System.out.println("UNIQUE:" +uniqueItems);
 
 		TransactionSet large = new TransactionSet(); // resultant large ItemSets
 		TransactionSet iterations = new TransactionSet(); // large ItemSet in
@@ -345,78 +344,7 @@ public class GeneratorUtilities implements Serializable {
 	 * This is will need to have validation methods later
 	 * */
 
-public TransactionSet doAprioriPCY(TransactionSet tranSet,	double minimumSupportLevel) {
-		
-	
-		/*part 1*/
-		//set all buckets of hash for 2 items to be 0 ;
-	
-	//http://user.it.uu.se/~kostis/Teaching/DM-01/Handouts/PCY.pdf
-		
-		ItemSet uniqueItems = tranSet.getUniqueItems();
-		
-		TreeMap<ItemSet, Integer> hash = new TreeMap<ItemSet, Integer>();
-		hash.put(uniqueItems, 0);
-		
-		
-		 System.out.println("UNIQUE:" +uniqueItems);
 
-		TransactionSet large = new TransactionSet(); // resultant large ItemSets
-		TransactionSet iterations = new TransactionSet(); // large ItemSet in
-															// each iteration
-		TransactionSet candidates = new TransactionSet(); // candidate ItemSet
-															// in each iteration
-
-		// Part 1: Generate all candidate single-item sets
-		// first iteration (1-item ItemSets)
-		for (int i = 0; i < uniqueItems.getItems().size(); i++) {
-			Item candidate = uniqueItems.getItems().get(i);
-			ItemSet itemSet = new ItemSet();
-			itemSet.add(candidate);
-			candidates.add(new Transaction(itemSet));
-
-		}
-		//System.out.println("candidates: " + candidates);
-		
-		
-		// next iterations
-		int k = 2;
-		while (candidates.getTransactionSet().size() != 0) {
-			//System.out.println("CANDIDATES");
-			//System.out.println(candidates);
-			// set iterations from candidates (pruning)
-			iterations.getTransactionSet().clear();
-			// look at each transaction from the candidates
-			for (Transaction transaction : candidates.getTransactionSet()) {
-				double supportLevel = tranSet.findSupportLevel(transaction.getItemSet());
-				//System.out.println("SL: " + supportLevel);
-				//System.out.println("support level: " + supportLevel/tranSet.getTransactionSet().size() + " MSL: " + minimumSupportLevel);
-				transaction.getItemSet().setSupportLevel(supportLevel/tranSet.getTransactionSet().size());
-
-				if (transaction.getItemSet().getSupportLevel() >= minimumSupportLevel) {
-					iterations.add(transaction);
-					
-					if (transaction.getItemSet().getItems().size() > 1) {
-						large.add(transaction);
-
-					}
-
-				}
-			}
-
-			// set candidates for next iteration (find supersets of iterations)
-			candidates.getTransactionSet().clear();
-			//System.out.println("making new candidates k-item: " + k);
-			candidates.setTransactionSet(findSubsetsApriori(iterations.getUniqueItems(), k));// get k-item subsets
-			//System.out.println("done making candidates");
-			k += 1;
-
-		}
-		// System.out.println("LARGE:" +large);
-		return large;
-
-	}
-	
 	
 	
 	
@@ -428,25 +356,7 @@ public TransactionSet doAprioriPCY(TransactionSet tranSet,	double minimumSupport
 			ReadFile file = new ReadFile(fileName);
 			String[] transactionSetLines = file.openFile();
 			
-			/*If we need to use a FileReader
 			
-			FileReader filereader = new FileReader(fileName);
-			Scanner fileScanner = new Scanner(filereader);
-			
-			ArrayList<String> transactionLines = new ArrayList<String>();
-			while(fileScanner.hasNextLine()){
-				transactionLines.add(fileScanner.nextLine());
-				
-			}
-			
-			for(String insideBracket : transactionLines){
-				//no leading brace
-				validateBraces(insideBracket);
-				//no closing brace
-			}
-			*/
-			//System.out.println("transactionSetLines" + transactionSetLines);
-			//Get the Date
 			
 			Pattern pattern = null;
 			Matcher matcher = null;
