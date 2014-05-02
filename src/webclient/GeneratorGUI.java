@@ -402,11 +402,11 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 				
 			
 				
-				pattern = Pattern.compile(dateRegex);
-				matcher = pattern.matcher(endDate);
 			
 				
 			}
+			pattern = Pattern.compile(dateRegex);
+			matcher = pattern.matcher(endDate);
 				
 			if(!matcher.find()){
 			
@@ -415,7 +415,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 				this.errorMsg += "Error: END DATE in Transaction Set not found or not in correct format (YYYY-MM-DD)\n";
 				
 			}
-			if(!validStartDate || validEndDate || validVendor){
+			if(!validStartDate || !validEndDate || !validVendor){
 				return null;
 			}
 				
@@ -454,9 +454,9 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 					
 					
 					
-					
+					//System.out.println("validating line....?");
 					if(!validateLine(transactionSetLines[i], i)){
-						
+						this.valid = false;
 						return null;
 					}
 					
@@ -517,13 +517,22 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 				//}//end of brace regex
 			}//end of > length 0
 			System.out.println("NUMBER OF LINES: " + numberOfLines);
-
+			
 			allTransactions.add(vendor);
 			allTransactions.setStartDate(startDate);
 			allTransactions.setEndDate(endDate);
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
+		
+		
+		System.out.println("TOTAL ITEMS:" +  allTransactions.getUniqueItems().getItems().size() );
+		if(allTransactions.getUniqueItems().getItems().size() >1000){
+			this.valid = false;
+			this.errorMsg += "Error: Cannot process over 1000 unique items in Transaction Set";
+			return null;
+		}
+		
 		return allTransactions;
 
 	}
@@ -536,6 +545,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 	
 	
 	private boolean validateLine(String line, int linenumber) {
+		System.out.println("validateLine starting");
 		boolean validLine = true;
 		//check for a only 1 left brace at beginning and look ahead to see there is no other left braces
 		Pattern pattern = null;
@@ -575,7 +585,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 			
 			
 			
-		
+		System.out.println("validLine: " + validLine);
 		return validLine;
 		
 		
