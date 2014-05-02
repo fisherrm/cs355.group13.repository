@@ -167,15 +167,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 				RuleSet ruleset = null;
 				ruleset = proxy.retrieve();
 				
-//				if(!generator.validateRuleSet(ruleset)){
-//					//System.out.println("No ruleset generated");
-//					ruleSetText.setText("No \"Rule Set\" generated");
-//				}
-//				
-//				
-//				else{
-//					ruleSetText.setText(ruleset.toString());
-//				}
+
 					
 					outFile = this.getOutPath();
 					//System.out.println(ruleset);
@@ -221,6 +213,10 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 	}
 	
 	
+	/*
+	 * Use this method to get the name of the transaction set file and to check if the path exists
+	 */
+	
 	public String getInPath()
 	{
 		String filePath = "";
@@ -242,6 +238,10 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 		}
 		return filePath;
 	}
+	
+	/*
+	 * Use this method to retreive the name of the output text file. Use "defaultOutput.txt" if none is provided in the GUI
+	 */
 	
 	public String getOutPath()
 	{
@@ -265,7 +265,12 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 		}
 		outPath.setText(filePath);
 		return filePath;
+	
 	}
+	
+	/*
+	 * Use this method to validate the Minimum Confidence Level or MinimumSupportLevel
+	 */
 	
 	public boolean validateMinLevel(double level) {
 		// TODO Auto-generated method stub
@@ -279,10 +284,13 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 		
 	}
 	
+	/*
+	 * Use this method to get the Minimum Support Level in the GUI
+	 */
 	
 	public double getMS()
 	{
-		Double minSup = 0.0;
+		Double minSupport = 0.0;
 		if(this.msParam.getText().trim().length() == 0)
 		{
 			this.errorMsg += "No minimum support level indicated...\n";
@@ -291,7 +299,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 		else
 		{
 			try{
-				minSup = Double.parseDouble(this.msParam.getText());
+				minSupport = Double.parseDouble(this.msParam.getText());
 			} catch(NumberFormatException nfe){
 				
 					
@@ -299,19 +307,23 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 					this.valid = false;
 				
 			}
-			if(!validateMinLevel(minSup)){
+			if(!validateMinLevel(minSupport)){
 				
 				this.errorMsg += "Minimum Support must be ranging from 0.0 to 1.0...\n";
 				this.valid = false;
 			}
 			
 		}
-		return minSup;
+		return minSupport;
 	}
+	
+	/*
+	 * Use this method to get the minimum Confidence level from the GUI
+	 */
 	
 	public double getMC()
 	{
-		Double minCon = 0.0;
+		Double minConfidence = 0.0;
 		if(this.mcParam.getText().trim().length() == 0)
 		{
 			this.errorMsg += "No minimum confidence level indicated...\n";
@@ -320,30 +332,23 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 		else
 		{
 			try{
-				minCon = Double.parseDouble(this.mcParam.getText());
+				minConfidence = Double.parseDouble(this.mcParam.getText());
 			} catch(NumberFormatException nfe){
 				
 					this.errorMsg += "Minimum Confidence must be ranging from 0.0 to 1.0...\n";
 					this.valid = false;
 				
 			}
-			if(!validateMinLevel(minCon)){
+			if(!validateMinLevel(minConfidence)){
 				this.errorMsg += "Minimum Confidence must be ranging from 0.0 to 1.0...\n";
 				this.valid = false;
 			}
 		}
-		return minCon;
+		return minConfidence;
 	}
 	
 	
-	public boolean validateTransactionSet(TransactionSet tranSet){
-		if(tranSet.getTransactionSet()==null){
-			System.out.println("Transaction Set is NULL");
-			return false;
-		}else{
-			return true;
-		}
-	}
+	
 	
 
 	/* METHOD NOTES: 
@@ -361,12 +366,6 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 			
 			
 			//validate the size of transaction file
-		
-			
-			
-			
-			
-			
 			Pattern pattern = null;
 			Matcher matcher = null;
 			Vendor vendor = new Vendor(transactionSetLines[0]);
@@ -374,11 +373,12 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 			pattern = Pattern.compile(vendorRegex);
 			matcher = pattern.matcher(transactionSetLines[0]);	
 			//validate a vendor
+			boolean validVendor = true;
 			if(!matcher.find()){
 				System.out.println("No vendor name in Transaction Set");
 				this.valid = false;
 				this.errorMsg += "Error: No vendor name is provided\n";
-				return null;
+				validVendor = false;
 			}
 			
 			String startDate = transactionSetLines[1];//for TransactionSet
@@ -387,33 +387,39 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 			
 			String dateRegex = "\\d{4}-\\d{2}-\\d{2}";
 			pattern = Pattern.compile(dateRegex);
-			matcher = pattern.matcher(transactionSetLines[1]);	
-			
+			matcher = pattern.matcher(startDate);	
+			System.out.println("START DATE: " +startDate);
+			System.out.println("END DATE: " + endDate);
+
 			//validate if both dates exist
+			boolean validStartDate = true;
+			boolean validEndDate = true;
 			if(!matcher.find()){
+			
 				this.valid = false;
 				this.errorMsg += "Error: START DATE in Transaction Set not found or not in correct format (YYYY-MM-DD)\n";
-
+				validStartDate = false;
 				
 			
-				System.out.println("START DATE NOT FOUND");
-				matcher = pattern.matcher(transactionSetLines[2]);
+				
+				pattern = Pattern.compile(dateRegex);
+				matcher = pattern.matcher(endDate);
 			
-				if(!matcher.find()){
-					System.out.println("END DATE NOT FOUND");
-					this.valid=false;
-					this.errorMsg += "Error: END DATE in Transaction Set not found or not in correct format (YYYY-MM-DD)\n";
-					return null;
-				}
+				
+			}
+				
+			if(!matcher.find()){
+			
+				this.valid=false;
+				validEndDate = false;
+				this.errorMsg += "Error: END DATE in Transaction Set not found or not in correct format (YYYY-MM-DD)\n";
+				
+			}
+			if(!validStartDate || validEndDate || validVendor){
 				return null;
 			}
 				
 				
-				
-			
-			
-			
-			
 			
 			
 			//start the transaction set processing
@@ -424,7 +430,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 				
 				if(numberOfLines>10000){
 					this.valid = false;
-					this.errorMsg = "Error: Cannot process over 10000 transactions in file\n";
+					this.errorMsg += "Error: Cannot process over 10000 transactions in file\n";
 					return null;
 				}
 				//Scanner scanner = new Scanner(transactionSetLines[i]);
@@ -446,7 +452,6 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 						
 					}
 					
-				
 					
 					
 					
@@ -455,45 +460,10 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 						return null;
 					}
 					
-					/*
-				
-				//check for a only 1 left brace at beginning and look ahead to see there is no other left braces
-				
-				String bracesRegex =  "\\{{2,}|\\}{2,}|\\{\\s*\\}";//look for multiple left braces, right braces, or no contents
-				pattern = Pattern.compile(bracesRegex);
-				
-				matcher = pattern.matcher(transactionSetLines[i]);
-				if(matcher.find()&& !matcher.group(0).isEmpty()){
-					this.errorMsg+="Error: in transaction \""+transactionSetLines[i]+ "\" at transaction " + (i-2)+" (line "+(i+1)+")...\n"; 
-					this.errorMsg+="	Improper bracketing: no item contents, or extra/missing left and right braces...\n";
-					this.valid=false;
-					//System.out.println("Bad brace format");
-					//return an empty transaction set
-					//return new TransactionSet();
-					return null;
-				}
-					
-					System.out.println("VALID BRACKETS");
-					
-					
-					String validCharacters ="[^\\sA-Za-z0-9,\\{\\}]+";
-					
-					pattern = Pattern.compile(validCharacters);
-					matcher = pattern.matcher(transactionSetLines[i]);	
-					if(matcher.find()){
-						
-						this.errorMsg+="Error: in transaction \""+transactionSetLines[i]+ "\" at transaction " + (i-2)+" (line "+(i+1)+")...\n"; 
-						this.errorMsg+="	Invalid characters: Valid characters include alphanumeric, commas, whitespace and brackets\n";
-						this.valid=false;
-						return null;
-					}
-						System.out.println("VALID CHARACTERS");
-					*/
 					
 					
 					
-					
-					
+					//get the contents in teh brackets
 						String regex =	"(?<=\\{)(.*)(?=\\})";
 						pattern = Pattern.compile(regex);
 						matcher = pattern.matcher(transactionSetLines[i]);	
@@ -511,7 +481,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 							this.errorMsg+="Error: in transaction \""+transactionSetLines[i]+ "\" at transaction " + (i-2)+"...\n"; 
 							this.errorMsg+="	No content in brackets\n";
 							this.valid=false;
-							return null;
+							//return null;
 						}
 						//separate by commas
 						String[] candidates = group.split(",");
@@ -521,7 +491,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 						if(candidates.length > 25){
 							this.valid = false;
 							this.errorMsg += "Error: Cannot process more than 25 items in a transaction\n";
-							return null;
+							//return null;
 						}
 						for(int k = 0; k<candidates.length; k++)
 						{
@@ -536,8 +506,6 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 		
 						// create a new transaction from the itemSet
 						Transaction nextTransaction = new Transaction(itemset);
-						
-						
 						
 						
 						//System.out.println("SET DATE: " + transactionDate);
@@ -561,7 +529,9 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 	}
 	
 	
-	
+	/*
+	 * validateLine is used to parse the transactions in the correct format 
+	 */
 	
 	
 	
@@ -610,7 +580,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 		
 		
 		
-		// TODO Auto-generated method stub
+
 		
 	}
 

@@ -1,6 +1,3 @@
-Paul Mart
-2014-10-12
-2014-10-12
 { apples, beer, Cheese, Diapers, Eggs }
 {beer, cheese }
 { apples, Beer, Cheese, Diapers, Juice}
