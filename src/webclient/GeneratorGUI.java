@@ -161,7 +161,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 				timer.startTimer();
 				proxy.store(generator);
 				timer.stopTimer();
-				System.out.println("elapsed time in msec.: " + timer.getTotal() );
+				System.out.println("Total elapsed time in msec.: " + timer.getTotal() );
 				
 				//get the rule set
 				RuleSet ruleset = null;
@@ -484,7 +484,19 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 							//return null;
 						}
 						//separate by commas
+						
+						
+						//
+						
+						
+						
 						String[] candidates = group.split(",");
+						
+						
+						
+						
+						
+						
 						// make a new ItemSet to store
 						ItemSet itemset = new ItemSet();
 						System.out.println("Number of Items: " + candidates.length);
@@ -496,6 +508,22 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 						for(int k = 0; k<candidates.length; k++)
 						{
 							candidates[k] = candidates[k].trim();
+							
+							
+							String validCharacters ="\\w+";
+							
+							pattern = Pattern.compile(validCharacters);
+							matcher = pattern.matcher(candidates[k]);	
+							if(!matcher.find()){
+								
+								this.errorMsg+="Error: in transaction \""+candidates[k]+ "\" at transaction " + (i-2)+" (line "+(i+1)+")...\n"; 
+								this.errorMsg+="	Invalid characters: Valid characters include alphanumeric, commas, whitespace and brackets\n";
+								this.valid=false;
+								
+							}
+							
+							
+							
 							
 							//System.out.println("Candidate " + k + ": " + candidates[k]);
 							Item nextItem = new Item(candidates[k].toUpperCase());
@@ -516,7 +544,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 					}//
 				//}//end of brace regex
 			}//end of > length 0
-			System.out.println("NUMBER OF LINES: " + numberOfLines);
+			System.out.println("NUMBER OF Transactions: " + numberOfLines);
 			
 			allTransactions.add(vendor);
 			allTransactions.setStartDate(startDate);
@@ -545,7 +573,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 	
 	
 	private boolean validateLine(String line, int linenumber) {
-		System.out.println("validateLine starting");
+		
 		boolean validLine = true;
 		//check for a only 1 left brace at beginning and look ahead to see there is no other left braces
 		Pattern pattern = null;
@@ -585,7 +613,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 			
 			
 			
-		System.out.println("validLine: " + validLine);
+		
 		return validLine;
 		
 		

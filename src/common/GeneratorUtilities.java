@@ -234,7 +234,7 @@ public class GeneratorUtilities implements Serializable{
 		
 		ArrayList<ItemSet> powerSet = ps;
 		if(candidates.getItems().size() >= size){
-			if(!powerSet.contains(candidates))	{
+			if(!powerSet.contains(candidates) && candidates.getItems().size()==size)	{
 				powerSet.add(candidates);	
 			}
 			
@@ -244,7 +244,7 @@ public class GeneratorUtilities implements Serializable{
 				ArrayList<Item> subset = new ArrayList<Item>(candidates.getItems());
 				subset.remove(i);
 				ItemSet itemSubset = new ItemSet(subset);			
-				findSubsets(itemSubset, powerSet);
+				findSubsets(itemSubset, powerSet, size);
 			}
 		}
 		
@@ -292,7 +292,7 @@ public class GeneratorUtilities implements Serializable{
 		kSizeItemSet.add(currKItemSubSet);
 		//System.out.println("candidates: " + candidates);
 		
-		currKItemSubSet.clear();
+		currKItemSubSet = new ArrayList<ItemSet>();
 		//Generate 2-item subsets
 		//System.out.println("candidates size: " + candidates.getTransactionSet().size());
 		for(int i = 0; i<candidates.getTransactionSet().size(); i++){
@@ -313,7 +313,7 @@ public class GeneratorUtilities implements Serializable{
 			}
 		}
 		kSizeItemSet.add(currKItemSubSet);
-		currKItemSubSet.clear();
+		currKItemSubSet = new ArrayList<ItemSet>();
 		ItemSet filteredCandidates  = currKItemTrans.getUniqueItems();
 		currKItemTrans.getTransactionSet().clear();
 		// next iterations
@@ -356,7 +356,7 @@ public class GeneratorUtilities implements Serializable{
 			filteredCandidates = currKItemTrans.getUniqueItems();
 			currKItemTrans.getTransactionSet().clear();
 			kSizeItemSet.add(currKItemSubSet);
-			currKItemSubSet.clear();
+			currKItemSubSet = new ArrayList<ItemSet>();
 			kthSizeItemSets.clear();
 			kthSizeItemSets = findSubsets(filteredCandidates, kthSizeItemSets, k);
 			

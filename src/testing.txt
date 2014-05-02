@@ -1,9 +1,4 @@
-{ apples, beer, Cheese, Diapers, Eggs }
-{beer, cheese }
-{ apples, Beer, Cheese, Diapers, Juice}
-{ Cheese, Apples}
-{ Apples, Beer, Cheese, Diapers, Artichokes}
-{Apples}
-{ Apples, Beer, Diapers }
-{ Beer, Diapers}
-{ Apples, Beer, Cheese, Diapers }
+a
+2014-03-15
+2014-03-16
+{a,,,,b}
