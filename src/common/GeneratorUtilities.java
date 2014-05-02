@@ -505,7 +505,7 @@ public class GeneratorUtilities implements Serializable{
 							candidates[k] = candidates[k].trim();
 							
 							//System.out.println("Candidate " + k + ": " + candidates[k]);
-							Item nextItem = new Item(candidates[k]);
+							Item nextItem = new Item(candidates[k].toUpperCase());
 		
 							itemset.add(nextItem);
 						}

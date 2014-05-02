@@ -1,0 +1,12 @@
+Paul Mart
+2014-10-12
+2014-10-12
+{ apples, beer, Cheese, Diapers, Eggs }
+{beer, cheese }
+{ apples, Beer, Cheese, Diapers, Juice}
+{ Cheese, Apples}
+{ Apples, Beer, Cheese, Diapers, Artichokes}
+{Apples}
+{ Apples, Beer, Diapers }
+{ Beer, Diapers}
+{ Apples, Beer, Cheese, Diapers }

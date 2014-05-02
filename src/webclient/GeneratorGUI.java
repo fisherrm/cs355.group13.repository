@@ -360,15 +360,73 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 			String[] transactionSetLines = file.openFile();
 			
 			
+			//validate the size of transaction file
+		
+			
+			
+			
+			
+			
 			Pattern pattern = null;
 			Matcher matcher = null;
 			Vendor vendor = new Vendor(transactionSetLines[0]);
+			String vendorRegex = "\\w+";
+			pattern = Pattern.compile(vendorRegex);
+			matcher = pattern.matcher(transactionSetLines[0]);	
+			//validate a vendor
+			if(!matcher.find()){
+				System.out.println("No vendor name in Transaction Set");
+				this.valid = false;
+				this.errorMsg += "Error: No vendor name is provided\n";
+				return null;
+			}
+			
 			String startDate = transactionSetLines[1];//for TransactionSet
 			String endDate = transactionSetLines[2];//for TransactionSet
 			String transactionDate = "2014-04-04 12:00:00";//default date
 			
-			for (int i = 3; i < transactionSetLines.length; i++) {
+			String dateRegex = "\\d{4}-\\d{2}-\\d{2}";
+			pattern = Pattern.compile(dateRegex);
+			matcher = pattern.matcher(transactionSetLines[1]);	
+			
+			//validate if both dates exist
+			if(!matcher.find()){
+				this.valid = false;
+				this.errorMsg += "Error: START DATE in Transaction Set not found or not in correct format (YYYY-MM-DD)\n";
+
 				
+			
+				System.out.println("START DATE NOT FOUND");
+				matcher = pattern.matcher(transactionSetLines[2]);
+			
+				if(!matcher.find()){
+					System.out.println("END DATE NOT FOUND");
+					this.valid=false;
+					this.errorMsg += "Error: END DATE in Transaction Set not found or not in correct format (YYYY-MM-DD)\n";
+					return null;
+				}
+				return null;
+			}
+				
+				
+				
+			
+			
+			
+			
+			
+			
+			//start the transaction set processing
+			int numberOfLines = 0;
+			for (int i = 3; i < transactionSetLines.length; i++) {
+				numberOfLines++;
+				
+				
+				if(numberOfLines>10000){
+					this.valid = false;
+					this.errorMsg = "Error: Cannot process over 10000 transactions in file\n";
+					return null;
+				}
 				//Scanner scanner = new Scanner(transactionSetLines[i]);
 				//continue if the length of the line is greater than 0
 				if(transactionSetLines[i].length()>0){
@@ -459,12 +517,18 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 						String[] candidates = group.split(",");
 						// make a new ItemSet to store
 						ItemSet itemset = new ItemSet();
+						System.out.println("Number of Items: " + candidates.length);
+						if(candidates.length > 25){
+							this.valid = false;
+							this.errorMsg += "Error: Cannot process more than 25 items in a transaction\n";
+							return null;
+						}
 						for(int k = 0; k<candidates.length; k++)
 						{
 							candidates[k] = candidates[k].trim();
 							
 							//System.out.println("Candidate " + k + ": " + candidates[k]);
-							Item nextItem = new Item(candidates[k]);
+							Item nextItem = new Item(candidates[k].toUpperCase());
 		
 							itemset.add(nextItem);
 						}
@@ -484,6 +548,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 					}//
 				//}//end of brace regex
 			}//end of > length 0
+			System.out.println("NUMBER OF LINES: " + numberOfLines);
 
 			allTransactions.add(vendor);
 			allTransactions.setStartDate(startDate);
