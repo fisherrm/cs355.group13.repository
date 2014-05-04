@@ -1,18 +1,16 @@
 package edu.uwec.cs355.group13.junit;
 
 
-import junit.framework.TestCase;
-
-
 import java.util.ArrayList;
 
-import service.Item;
-import service.ItemSet;
-import service.Rule;
-import service.Transaction;
+import junit.framework.TestCase;
 import edu.uwec.cs355.group13.common.GeneratorUtilities;
 import edu.uwec.cs355.group13.common.RuleSet;
 import edu.uwec.cs355.group13.common.TransactionSet;
+import edu.uwec.cs355.group13.service.Item;
+import edu.uwec.cs355.group13.service.ItemSet;
+import edu.uwec.cs355.group13.service.Rule;
+import edu.uwec.cs355.group13.service.Transaction;
 
 
 /*

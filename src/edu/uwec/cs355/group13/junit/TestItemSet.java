@@ -4,11 +4,9 @@ package edu.uwec.cs355.group13.junit;
 
 import java.util.ArrayList;
 
-import service.Item;
-import service.ItemSet;
-
-
 import junit.framework.TestCase;
+import edu.uwec.cs355.group13.service.Item;
+import edu.uwec.cs355.group13.service.ItemSet;
 
 
 /*

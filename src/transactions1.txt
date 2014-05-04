@@ -1,7 +1,7 @@
 PaulMart
 2014-03-15
 2014-03-16
-{ Apples, Beer, Cheese } 2014-03-16 12:34:56
-{Beer, Cheese } 2014-03-16 15:39:99
-{ Cheese, Apples} 2014-03-16 12:45:90
+{ Apples, Beer, Cheese }
+{Beer, Cheese }
+{ Cheese, Apples}
 {Apples}

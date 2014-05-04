@@ -21,27 +21,18 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import org.restlet.Request;
-import org.restlet.data.MediaType;
 import org.restlet.resource.ClientResource;
 
-import service.GeneratorUtilitiesPersistenceController;
-import service.GeneratorUtilitiesResource;
-import service.Item;
-import service.ItemSet;
-import service.ReadFile;
-import service.Rule;
-import service.RulePersistenceController;
-import service.RuleSetPersistenceController;
-import service.Timer;
-import service.Transaction;
-import service.TransactionPersistenceController;
 import edu.uwec.cs355.group13.common.GeneratorUtilities;
 import edu.uwec.cs355.group13.common.RuleSet;
 import edu.uwec.cs355.group13.common.TransactionSet;
-import service.TransactionSetPersistenceController;
-import service.Vendor;
-import service.VendorPersistenceController;
+import edu.uwec.cs355.group13.service.GeneratorUtilitiesResource;
+import edu.uwec.cs355.group13.service.Item;
+import edu.uwec.cs355.group13.service.ItemSet;
+import edu.uwec.cs355.group13.service.ReadFile;
+import edu.uwec.cs355.group13.service.Timer;
+import edu.uwec.cs355.group13.service.Transaction;
+import edu.uwec.cs355.group13.service.Vendor;
 
 @SuppressWarnings("serial")
 public class GeneratorGUI extends JFrame implements ActionListener{
@@ -499,7 +490,7 @@ public class GeneratorGUI extends JFrame implements ActionListener{
 						
 						// make a new ItemSet to store
 						ItemSet itemset = new ItemSet();
-						System.out.println("Number of Items: " + candidates.length);
+						//System.out.println("Number of Items: " + candidates.length);
 						if(candidates.length > 25){
 							this.valid = false;
 							this.errorMsg += "Error: Cannot process more than 25 items in a transaction\n";

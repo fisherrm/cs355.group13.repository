@@ -2,8 +2,8 @@ package edu.uwec.cs355.group13.junit;
 
 
 
-import service.MySQLDAO;
 import junit.framework.TestCase;
+import edu.uwec.cs355.group13.service.MySQLDAO;
 
 
 /*

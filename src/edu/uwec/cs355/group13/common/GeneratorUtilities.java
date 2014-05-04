@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import service.Item;
-import service.ItemSet;
-import service.ReadFile;
-import service.Rule;
-import service.Transaction;
-import service.Vendor;
+import edu.uwec.cs355.group13.service.Item;
+import edu.uwec.cs355.group13.service.ItemSet;
+import edu.uwec.cs355.group13.service.ReadFile;
+import edu.uwec.cs355.group13.service.Rule;
+import edu.uwec.cs355.group13.service.Transaction;
+import edu.uwec.cs355.group13.service.Vendor;
 
 public class GeneratorUtilities implements Serializable{
 	

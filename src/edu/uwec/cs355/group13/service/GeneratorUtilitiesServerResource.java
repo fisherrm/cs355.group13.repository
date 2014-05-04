@@ -2,18 +2,9 @@ package edu.uwec.cs355.group13.service;
 
 import org.restlet.resource.ServerResource;
 
-import service.GeneratorUtilitiesPersistenceController;
-import service.Rule;
-import service.RulePersistenceController;
-import service.RuleSetPersistenceController;
-import service.Transaction;
-import service.TransactionPersistenceController;
 import edu.uwec.cs355.group13.common.GeneratorUtilities;
 import edu.uwec.cs355.group13.common.RuleSet;
 import edu.uwec.cs355.group13.common.TransactionSet;
-import service.TransactionSetPersistenceController;
-import service.Vendor;
-import service.VendorPersistenceController;
 
 public class GeneratorUtilitiesServerResource extends ServerResource implements
 		GeneratorUtilitiesResource {
@@ -75,7 +66,7 @@ public static void persistAllDAOControllers(GeneratorUtilities generator, Transa
 		TransactionSetPersistenceController tranSetPC = new TransactionSetPersistenceController();		// controller for delegating transactionSet persistence
 
 		String
-		daoString = "Mock";
+		daoString = "MySQL";
 		/*
 	    InputStreamReader unbuffered = new InputStreamReader( System.in );
 	    BufferedReader keyboard = new BufferedReader( unbuffered );

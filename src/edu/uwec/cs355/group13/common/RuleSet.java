@@ -3,8 +3,7 @@ package edu.uwec.cs355.group13.common;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import service.Rule;
-import service.Transaction;
+import edu.uwec.cs355.group13.service.Rule;
 
 public class RuleSet implements Serializable{
 	

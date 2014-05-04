@@ -2,9 +2,9 @@ package edu.uwec.cs355.group13.junit;
 
 
 
-import service.ItemSet;
-import service.Rule;
 import junit.framework.TestCase;
+import edu.uwec.cs355.group13.service.ItemSet;
+import edu.uwec.cs355.group13.service.Rule;
 
 
 /*

@@ -70,7 +70,7 @@ public class MySQLDAO implements DAOInterface {
 	public int executeUpdate(String query) {
 		
 		int resultCode = 0 ;
-		System.out.println("MySQL DAO executeUpdate");
+		//System.out.println("MySQL DAO executeUpdate");
 		// use connection to execute update,
 		
 		// set resutCode
@@ -116,7 +116,7 @@ public class MySQLDAO implements DAOInterface {
 	public int execute(String query) {
 		int errorCode = 0;
 		int id = 0;
-		System.out.println("MySQL DAO execute");
+		//System.out.println("MySQL DAO execute");
 		// use connection to execute query,
 		//    get resultset
 		// process resultset
@@ -159,7 +159,7 @@ public class MySQLDAO implements DAOInterface {
 		   
 	  
 		   if(errorCode == 0){
-			   //System.out.println("SELECT Succeeded");
+			  // System.out.println("SELECT Succeeded");
 			   return id;
 		   }else{
 			   //System.out.println("SELECT Failed");
@@ -187,7 +187,7 @@ public class MySQLDAO implements DAOInterface {
 			   if(stmt!=null){
 				   
 				   stmt.close();
-				  // System.out.println("Successfully closed statement");
+				   //System.out.println("Successfully closed statement");
 			   }
 			   conn.close();
 			   //System.out.println("Successfully closed connection");

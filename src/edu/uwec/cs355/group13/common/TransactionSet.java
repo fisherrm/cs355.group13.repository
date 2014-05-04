@@ -3,11 +3,11 @@ package edu.uwec.cs355.group13.common;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import service.Item;
-import service.ItemSet;
-import service.Timer;
-import service.Transaction;
-import service.Vendor;
+import edu.uwec.cs355.group13.service.Item;
+import edu.uwec.cs355.group13.service.ItemSet;
+import edu.uwec.cs355.group13.service.Timer;
+import edu.uwec.cs355.group13.service.Transaction;
+import edu.uwec.cs355.group13.service.Vendor;
 
 
 public class TransactionSet implements Serializable{
