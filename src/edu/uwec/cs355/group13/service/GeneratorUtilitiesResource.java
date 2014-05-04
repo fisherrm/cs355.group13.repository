@@ -1,4 +1,4 @@
-package service;
+package edu.uwec.cs355.group13.service;
 
 import org.restlet.resource.Get;
 import org.restlet.resource.Put;

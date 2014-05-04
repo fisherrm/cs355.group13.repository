@@ -3,7 +3,7 @@
  * 
  * Created by Paul J. Wagner, 2/28/2013
  */
-package service;
+package edu.uwec.cs355.group13.service;
 import edu.uwec.cs355.group13.common.TransactionSet;
 public class TransactionSetPersistenceController {
 	// data

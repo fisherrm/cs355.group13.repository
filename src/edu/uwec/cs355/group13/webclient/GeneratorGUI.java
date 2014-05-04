@@ -1,4 +1,4 @@
-package webclient;
+package edu.uwec.cs355.group13.webclient;
 
 
 import java.awt.FlowLayout;

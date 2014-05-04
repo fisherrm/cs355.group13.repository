@@ -1,4 +1,4 @@
-package junit.tests;
+package edu.uwec.cs355.group13.junit;
 
 
 

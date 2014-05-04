@@ -1,4 +1,4 @@
-package common;
+package edu.uwec.cs355.group13.common;
 
 import java.io.Serializable;
 import java.util.ArrayList;

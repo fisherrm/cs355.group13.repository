@@ -1,4 +1,4 @@
-package service;
+package edu.uwec.cs355.group13.service;
 import edu.uwec.cs355.group13.common.GeneratorUtilities;
 
 public class GeneratorUtilitiesPersistenceController {

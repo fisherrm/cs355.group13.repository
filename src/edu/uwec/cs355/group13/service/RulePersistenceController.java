@@ -3,21 +3,22 @@
  * 
  * Created by Paul J. Wagner, 2/28/2013
  */
-package service;
-import edu.uwec.cs355.group13.common.RuleSet;
+package edu.uwec.cs355.group13.service;
 
-public class RuleSetPersistenceController {
+
+
+public class RulePersistenceController {
 	// data
-	//private  RuleSet ruleset;		// Rule being worked with
+	//private  Rule rule;		// Rule being worked with
 	private DAOInterface dao;		// the Data Access Object (DAO) being used
 	
 	// methods
 	// persistRule - overall method to persist a single Rule object
-	public void persistRuleSet(RuleSet ruleset) {
+	public void persistRule(Rule rule) {
 		String sqlStatement;		// SQL statement to persist the Rule
 		
 		// could pass a Rule object in as parameter to this method
-		sqlStatement = generateInsertStmt(ruleset);
+		sqlStatement = generateInsertStmt(rule);
 		dao.connect();
 		dao.executeUpdate(sqlStatement);
 		dao.disconnect();
@@ -34,22 +35,22 @@ public class RuleSetPersistenceController {
 	}
 	
 	// generateInsertStmt - generate an SQL insert statement for a particular Rule object
-	public String generateInsertStmt(RuleSet aRuleSet) {
+	public String generateInsertStmt(Rule aRule) {
 		String result = null;
 		// TODO: code to convert Rule object to SQL insert statement string for that Rule
-		//String queryTranSetID = "SELECT MAX(TransactionSet_ID) FROM TransactionSet";
-		String queryGenUtilitiesID = "SELECT MAX(GeneratorUtilities_ID) FROM GeneratorUtilities";
-		String date = aRuleSet.getDate();
+		String query = "SELECT MAX(RuleSet_ID) FROM RuleSet";
 		
-		//? Does a  date become generated right after I make a rule set or when I insert into the database
-		
+		double actualCL = aRule.getActualConfidenceLevel();
+		String antecedent = aRule.getAntecedent().toString();
+		String consequent = aRule.getConsequent().toString();
 		dao.connect();
-		//int transactionSetID = dao.execute(queryTranSetID);
-		int genUtitliesID = dao.execute(queryGenUtilitiesID);
+		int ruleSetID = dao.execute(query);
 		dao.disconnect();
-		date = "STR_TO_DATE(\""+date+"\",\"%Y-%m-%d %H:%i:%S\")"; 
-		result = "INSERT INTO RuleSet (RuleSetDate, GeneratorUtilities_ID) Values("+date+","+genUtitliesID+")";
-
+		result = "INSERT INTO Rule (RuleAntecedent, RuleConsequent, RuleActualConfidenceLevel, RuleSet_ID) "
+				+ "Values(\""+antecedent+"\",\""+consequent+"\", "+actualCL+", "+ruleSetID+")";
 		return result;
 	}
+	
+	
+	
 }

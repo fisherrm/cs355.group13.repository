@@ -1,4 +1,4 @@
-package junit.tests;
+package edu.uwec.cs355.group13.junit;
 
 
 import junit.framework.TestCase;
@@ -6,13 +6,13 @@ import junit.framework.TestCase;
 
 import java.util.ArrayList;
 
-import common.GeneratorUtilities;
 import service.Item;
 import service.ItemSet;
 import service.Rule;
-import common.RuleSet;
 import service.Transaction;
-import common.TransactionSet;
+import edu.uwec.cs355.group13.common.GeneratorUtilities;
+import edu.uwec.cs355.group13.common.RuleSet;
+import edu.uwec.cs355.group13.common.TransactionSet;
 
 
 /*
